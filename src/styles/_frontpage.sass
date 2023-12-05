@@ -1,0 +1,180 @@
+
+body
+    background: $bg-color
+    color: $fg-color
+
+
+
+main
+    display: flex
+    flex-direction: column
+    align-items: center
+    width: 100%
+
+    &>header
+        padding-top: 10vh
+        width: 80%
+        max-width: 1200px
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+
+
+    figure
+        border: 1px solid white
+        width: 500px
+        margin: 0
+
+    aside
+        max-width: 50%
+
+    aside h1
+        font-size: 48pt
+        line-height: 1
+
+    aside p
+        margin-top: 2rem
+        line-height: 1.5
+        font-size: 18pt
+
+    aside p.small
+        font-size: 14pt
+        columns: 2
+
+    .socials
+        margin-top: 100px
+        font-size: 32pt
+        display: flex
+
+        a
+            color: $fg-color-3
+            transition: 200ms steps(2, end)
+
+        a:not(:last-child)
+            margin-right: 1rem
+
+        a:hover
+            color: $fg-color
+            transform: translateY(-5px)
+
+    a
+        color: $accent-color
+        text-decoration: none
+        transition: 200ms color
+
+        &:hover
+            color: $accent-color-1
+
+    h1, p
+        margin: 0
+
+
+
+article
+    margin-top: 15vh
+    width: 80%
+    max-width: 1200px
+    
+    header
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        align-items: flex-start
+
+    header.f-start
+        justify-content: flex-start
+
+    header h1
+        font-size: 30pt
+        letter-spacing: 0
+        font-weight: 750
+        width: 30%
+
+    aside
+        font-size: 18pt
+        line-height: 1.25
+
+    header
+        flex: 1
+
+
+button
+    border: 1px solid $fg-color-3
+    background: transparent
+    cursor: pointer
+    font-weight: 600
+    padding: 0.65rem 0.85rem
+    color: $fg-color
+    font-size: 12pt
+    font-family: Inter, sans-serif
+    transition: 200ms steps(2, end)
+
+    svg
+        margin-left: 1rem
+
+    &:hover
+        background-color: $accent-color-2
+        border-color: $accent-color-2
+
+.picture-grid
+    margin-top: 5vh
+    display: grid
+    grid-template-columns: repeat(3, minmax(150px, 1fr))
+    grid-template-rows: masonry
+    grid-gap: 2rem
+    row-gap: 10vh
+
+    .cell
+        overflow: hidden
+        // position:
+
+        img
+            width: 100%
+            height: 400px
+            object-fit: cover
+            background: $fg-color-3
+
+        h1
+            margin-top: 1.5rem
+            margin-bottom: 1rem
+            line-height: 1
+            letter-spacing: -1px
+
+        p
+            font-size: 12pt
+
+
+        .tags
+            margin-top: 1rem
+            padding-top: 1rem
+
+            span
+                background-color: $accent-color-3
+                padding: 3px 5px
+                display: inline-block
+
+            span:not(:first-child)
+                margin-left: 10px
+
+
+.references
+    font-size: 14pt
+    line-height: 1.5
+    padding-top: 5vh
+
+    display: grid
+    grid-template-columns: 1fr 1fr
+    grid-gap: 2rem
+
+    &>div
+        border-top: 1px solid $fg-color-3
+
+    h2
+        letter-spacing: -1px
+
+    .reference
+        font-weight: 300
+        color: $fg-color-1
+
+    .reference:not(:last-child)
+        padding-bottom: 1rem
