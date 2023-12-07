@@ -3,7 +3,8 @@ import '@/styles/index.sass'
 
 //Import components
 import { Frontpage } from "@/pages/Frontpage.jsx";
-import { Projects } from "@/pages/Projects.jsx"
+import { Projects } from "@/pages/Projects.jsx";
+import Project from "@/pages/Project.jsx";
 
 //Import react
 import React from 'react';
@@ -22,11 +23,14 @@ async function main()
 
     root.render(
         <HashRouter>
-            <Route exact path="/">
-                <Frontpage/>
-            </Route>
             <Route exact path="/projects">
-                <Projects/>
+                <Projects />
+            </Route>
+            <Route path="/project/:slug">
+                <Project/>
+            </Route>
+            <Route exact path="/">
+                <Frontpage />
             </Route>
         </HashRouter>);
 }
