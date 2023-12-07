@@ -3,13 +3,22 @@
     display: grid
     // grid-template-columns: repeat(3, minmax(150px, 1fr))
     grid-template-columns: repeat(auto-fill, 325px)
-    grid-template-rows: masonry
+    grid-template-rows: masonry 
     grid-gap: 2rem
     row-gap: 10vh
 
     .cell
         overflow: hidden
         // position:
+        cursor: pointer
+        transition: 200ms
+
+
+        &:hover
+            transform: translateY(-5px)
+
+            img
+                filter: saturate(110%) contrast(1.2)
 
         img
             width: 100%
