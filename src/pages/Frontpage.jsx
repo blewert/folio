@@ -34,14 +34,16 @@ export class Frontpage extends Page
 
         return this.state.projects.filter(x => x.showOnFrontpage).map((x, i) =>
         {
-            return <div className="cell" key={i}>
-                <img src="https://picsum.photos/400/300?1" />
-                <h1>{x.name}</h1>
-                <p>{x.description}</p>
-                <div className="tags">
-                    {x.tags.map((y, j) => <span key={i + "-" + y}>{y}</span>)}
+            return <Link to={"/project/" + x.slug}>
+                <div className="cell" key={i}>
+                    <img src="https://picsum.photos/400/300?1" />
+                    <h1>{x.name}</h1>
+                    <p>{x.description}</p>
+                    <div className="tags">
+                        {x.tags.map((y, j) => <span key={i + "-" + y}>{y}</span>)}
+                    </div>
                 </div>
-            </div>
+            </Link>
         });
     }
 
