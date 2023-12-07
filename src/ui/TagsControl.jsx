@@ -123,7 +123,7 @@ export class TagsControl extends React.Component
             return null;
 
         return <div className="popout">
-            <h3>Filters</h3>
+            <h3>Filters ({this.state.filters.length})</h3>
             <div className="tags">
                 {this.getAllFilters()}
             </div>
