@@ -1,0 +1,10 @@
+[
+    {
+        "name": "AR/VR Robotics Teleoperation Demo",
+        "description": "A something",
+        "date": "2021",
+        "tags": [ "Unity", "XR", "C++", "ROS" ],
+        "mdFile": "projects/ncnr.md",
+        "showOnFrontpage": true
+    }
+]
