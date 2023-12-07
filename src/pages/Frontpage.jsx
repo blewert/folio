@@ -3,9 +3,10 @@ import React from "react";
 import { DataContext } from "@/js/DataContext.js";
 import { Page } from './Page.jsx';
 
-import { PiArrowRightBold, PiLinkedinLogoBold, PiGithubLogoBold, PiEnvelopeBold } from "react-icons/pi";
+import { PiArrowRightBold, PiLinkedinLogoBold, PiGithubLogoBold, PiEnvelopeBold, PiGraduationCapBold, PiBookBold } from "react-icons/pi";
 import { FaOrcid, FaEnvelope, FaLinkedin, FaGithub } from "react-icons/fa";
 import _ from "lodash";
+import { Link } from "react-router-dom";
 
 export class Frontpage extends Page
 {
@@ -60,7 +61,9 @@ export class Frontpage extends Page
 
             elements.push(<div>
                 <h2>{key}</h2>
-                {items.map((x, i) => <div className="reference" key={key + "-" + i}>{x}</div>)}
+                {items.map((x, i) => <div className="reference" key={key + "-" + i}>
+                    <PiBookBold/> {x}
+                </div>)}
             </div>)
         }
 
@@ -114,9 +117,11 @@ export class Frontpage extends Page
                     <aside>
 
                     </aside>
-                    <button>
-                        Show all {this.state.projects.length} projects <PiArrowRightBold />
-                    </button>
+                    <Link to="/projects">
+                        <button>
+                            Show all {this.state.projects.length} projects <PiArrowRightBold />
+                        </button>
+                    </Link>
                 </header>
                 <div className="picture-grid">
                     {this.getProjectGridItems()}

@@ -7,5 +7,57 @@
         "tags": [ "Unity", "XR", "C++", "ROS" ],
         "mdFile": "projects/ncnr.md",
         "showOnFrontpage": true
+    },
+
+    {
+        "name": "Unity XR",
+        "description": "A something",
+        "date": "2021",
+        "slug": "ncnr",
+        "tags": [
+            "Unity",
+            "XR"
+        ],
+        "mdFile": "projects/ncnr.md",
+        "showOnFrontpage": false
+    },
+
+    {
+        "name": "C++",
+        "description": "A something",
+        "date": "2021",
+        "slug": "ncnr",
+        "tags": [
+            "C++"
+        ],
+        "mdFile": "projects/ncnr.md",
+        "showOnFrontpage": false
+    },
+
+    {
+        "name": "ROS",
+        "description": "A something",
+        "date": "2021",
+        "slug": "ncnr",
+        "tags": [
+            "ROS"
+        ],
+        "mdFile": "projects/ncnr.md",
+        "showOnFrontpage": false
+    },
+
+    {
+        "name": "AR/VR Robotics Teleoperation Demo 5",
+        "description": "A something",
+        "date": "2021",
+        "slug": "ncnr",
+        "tags": [
+            "Unity",
+            "XR",
+            "C++",
+            "ROS"
+        ],
+        "mdFile": "projects/ncnr.md",
+        "showOnFrontpage": false
     }
 ]

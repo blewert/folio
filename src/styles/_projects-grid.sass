@@ -1,7 +1,8 @@
 .picture-grid
     margin-top: 5vh
     display: grid
-    grid-template-columns: repeat(3, minmax(150px, 1fr))
+    // grid-template-columns: repeat(3, minmax(150px, 1fr))
+    grid-template-columns: repeat(auto-fill, 325px)
     grid-template-rows: masonry
     grid-gap: 2rem
     row-gap: 10vh
@@ -22,18 +23,19 @@
             line-height: 1
             letter-spacing: -1px
 
+
         p
             font-size: 12pt
 
 
-        .tags
-            margin-top: 1rem
-            padding-top: 1rem
+.tags
+    margin-top: 1rem
+    padding-top: 1rem
 
-            span
-                background-color: $accent-color-3
-                padding: 3px 5px
-                display: inline-block
+    span, .tag
+        background-color: $accent-color-3
+        padding: 3px 5px
+        display: inline-block
 
-            span:not(:first-child)
-                margin-left: 10px
+    span:not(:first-child), .tag:not(:first-child)
+        margin-left: 10px

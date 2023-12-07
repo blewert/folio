@@ -6,6 +6,12 @@ main.projects
         width: 80%
         max-width: 1200px
 
+    .content .picture-grid
+        position: relative
+        grid-template-columns: repeat(auto-fit, 325px)
+        // grid-auto-flow: column
+        // grid-auto-rows: 100px
+
     header
         display: flex
         justify-content: flex-start
@@ -14,9 +20,11 @@ main.projects
     header h1
         font-size: 48pt
         flex: 1
+    
 
     button
         font-size: 24pt
+        height: 100%
         padding: 0 1rem
         display: flex
         justify-content: center
@@ -30,3 +38,12 @@ main.projects
 main.projects .content
     h1
         font-size: 18pt
+        margin-top: 1rem
+        margin-bottom: 0
+
+    h2
+        font-size: 14pt
+        margin-top: 0.5rem
+        font-weight: 400
+        margin-bottom: 1rem
+        color: $fg-color-3
