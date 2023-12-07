@@ -1,5 +1,6 @@
 import React from "react";
 
+import { DataContext } from "@/js/DataContext.js";
 import { Page } from './Page.jsx';
 
 import { PiArrowRightBold, PiLinkedinLogoBold, PiGithubLogoBold, PiEnvelopeBold } from "react-icons/pi";
@@ -94,7 +95,8 @@ export class Frontpage extends Page
             publications: this.state.publications
         };
 
-        return <main>
+        return <DataContext.Provider value={data}>
+            <main>
             {this.getHeader()}
 
             <article>
@@ -138,5 +140,6 @@ export class Frontpage extends Page
                 </div>
             </article>
         </main>
+        </DataContext.Provider>
     }
 }
