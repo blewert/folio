@@ -3,6 +3,7 @@
         "name": "AR/VR Robotics Teleoperation Demo",
         "description": "A something",
         "date": "2021",
+        "slug": "ncnr",
         "tags": [ "Unity", "XR", "C++", "ROS" ],
         "mdFile": "projects/ncnr.md",
         "showOnFrontpage": true

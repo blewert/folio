@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Page, DataContext } from './Page.jsx';
+import { Page } from './Page.jsx';
 
 import { PiArrowRightBold, PiLinkedinLogoBold, PiGithubLogoBold, PiEnvelopeBold } from "react-icons/pi";
 import { FaOrcid, FaEnvelope, FaLinkedin, FaGithub } from "react-icons/fa";
@@ -94,8 +94,7 @@ export class Frontpage extends Page
             publications: this.state.publications
         };
 
-        return <DataContext.Provider value={data}>
-            <main>
+        return <main>
             {this.getHeader()}
 
             <article>
@@ -139,6 +138,5 @@ export class Frontpage extends Page
                 </div>
             </article>
         </main>
-        </DataContext.Provider>
     }
 }

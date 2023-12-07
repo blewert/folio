@@ -1,7 +1,5 @@
 import React from "react"
 
-export const DataContext = React.createContext({});
-
 export class Page extends React.Component
 {
     constructor(props)
