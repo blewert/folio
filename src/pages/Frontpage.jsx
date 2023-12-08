@@ -17,7 +17,8 @@ export class Frontpage extends Page
         this.state = {
             ...this.state,
             projects: [],
-            publications: []
+            publications: [],
+            posts: []
         }
     }
     
@@ -25,16 +26,17 @@ export class Frontpage extends Page
     {
         this.getJson("projects", "projects/projects.json");
         this.getJson("publications", "publications.json");
+        this.getJson("posts", "posts/posts.json");
     }
 
-    getProjectGridItems()
+    getPictureGrid(data, path)
     {
-        if(!this.state.loaded || !this.state.projects.length)
+        if(!this.state.loaded || !data.length)
             return <div className="loader"></div>
 
-        return this.state.projects.filter(x => x.showOnFrontpage).map((x, i) =>
+        return data.filter(x => x.showOnFrontpage).map((x, i) =>
         {
-            return <Link to={"/project/" + x.slug}>
+            return <Link to={`/${path}/` + x.slug}>
                 <div className="cell" key={i}>
                     <img src="https://picsum.photos/400/300?1" />
                     <h1>{x.name}</h1>
@@ -44,7 +46,17 @@ export class Frontpage extends Page
                     </div>
                 </div>
             </Link>
-        });
+        })
+    }
+
+    getBlogPostItems()
+    {
+        return this.getPictureGrid(this.state.posts, "posts");
+    }
+
+    getProjectGridItems()
+    {
+        return this.getPictureGrid(this.state.projects, "projects");
     }
 
     getPublicationsList()
@@ -128,6 +140,23 @@ export class Frontpage extends Page
                 <div className="picture-grid">
                     {this.getProjectGridItems()}
 
+                </div>
+            </article>
+
+            <article>
+                <header>
+                    <h1 className="title-font">Ramblings</h1>
+                    <aside>
+
+                    </aside>
+                    <Link to="/blog">
+                        <button>
+                            Show all {this.state.posts.length} posts <PiArrowRightBold/>
+                        </button>
+                    </Link>
+                </header>
+                <div className="picture-grid">
+                    {this.getBlogPostItems()}
                 </div>
             </article>
 

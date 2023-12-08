@@ -1,0 +1,13 @@
+[
+    {
+        "name": "Patching APKs for free coffee",
+        "description": "Ever wondered how to get a free coffee?",
+        "date": "2023",
+        "slug": "patching-apks",
+        "tags": [
+            "Hacking"
+        ],
+        "mdFile": "posts/patching-apks.md",
+        "showOnFrontpage": true
+    }
+]
