@@ -10,36 +10,39 @@ class Project extends Page
     {
         super(props);
 
+        this.dataKey = this.props?.dataKey || "projects";
+        this.dataPath = this.props?.dataPath || "projects/projects.json";
+
         this.state = {
             ...this.state,
-            projects: [],
-            project: null,
+            [this.dataKey]: [],
+            data: null,
             mdText: null
         }
     }
 
     async componentDidMount()
     {
-        await this.getJson("projects", "projects/projects.json");
+        await this.getJson(this.dataKey, this.dataPath);
 
         if(this.state.loadFailed)
             return null;
 
         const slug = this.props.match?.params?.slug;
-        const project = this.state.projects.filter(x => x.slug == slug)?.[0];
+        const data = this.state[this.dataKey].filter(x => x.slug == slug)?.[0];
 
-        if(!slug || !project)
+        if(!slug || !data)
             return this.setState({ loadFailed: true });
 
-        await this.getText("mdText", project.mdFile);
+        await this.getText("mdText", data.mdFile);
 
-        this.setState({ project: project });
+        this.setState({ data });
     }
 
     failedLoadScreen()
     {
         return <main className="failed-project-load">
-            <h1>Couldn't load this project</h1>
+            <h1>Couldn't load this item</h1>
             <p>Something went wrong. Click <Link to="/">here</Link> to return to the front page, or press the back button in your browser</p>
         </main>
     }
@@ -50,10 +53,10 @@ class Project extends Page
         if(this.state.loadFailed)
             return this.failedLoadScreen();
 
-        if(!this.state.project || !this.state.loaded)
+        if(!this.state.data || !this.state.loaded)
             return null;
 
-        const project = this.state.project;
+        const data = this.state.data;
 
         return <main className="project-post">
             <header>
@@ -63,10 +66,10 @@ class Project extends Page
                         <span>
                             <button onClick={window.history.back}><PiArrowLeftBold/></button>
                         </span>
-                        <h1>{project.name}</h1>
-                        <h2>{project.date}</h2>
+                        <h1>{data.name}</h1>
+                        <h2>{data.date}</h2>
                     </div>
-                    <p>{project.description}</p>
+                    <p>{data.description}</p>
                 </div>
             </header>
             <div className="gallery">
