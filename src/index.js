@@ -26,6 +26,9 @@ async function main()
             <Route exact path="/projects">
                 <Projects />
             </Route>
+            <Route exact path="/blog">
+                <Projects title="Posts" dataKey="posts" dataPath="posts/posts.json" />
+            </Route>
             <Route path="/project/:slug">
                 <Project/>
             </Route>

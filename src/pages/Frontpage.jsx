@@ -145,7 +145,7 @@ export class Frontpage extends Page
 
             <article>
                 <header>
-                    <h1 className="title-font">Ramblings</h1>
+                    <h1 className="title-font">Posts</h1>
                     <aside>
 
                     </aside>

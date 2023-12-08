@@ -65,10 +65,12 @@ export class TagsControl extends React.Component
 
     componentDidUpdate()
     {
-        if(!this.context.projects.length)
+        // console.log(this.context);
+
+        if(!this.context[this.context.dataKey].length)
             return null;
 
-        const tags = this.context.projects.map(x => x.tags);
+        const tags = this.context[this.context.dataKey].map(x => x.tags);
 
         this.allTags = [ ...new Set(tags.flat()) ];
     }

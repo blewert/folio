@@ -21,18 +21,20 @@ export class Page extends React.Component
 
     async getJson(saveKey, url)
     {
+        console.log("make request to " + url + " with " + saveKey);
         this.setState({ loadExpected: this.state.loadExpected + 1 });
         
         const resp = await fetch(url);
-        
+
         if (resp.status != 200)
-        return this.failFast();
+            return this.failFast();
         
         const json = await resp.json();
-        
-        this.setState({
+
+        await new Promise((res) => this.setState({
             [saveKey]: json
-        });
+        }, res));
+
 
         const loaded = (this.state.loadCounter + 1) >= this.state.loadExpected;
 

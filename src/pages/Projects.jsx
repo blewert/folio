@@ -11,16 +11,24 @@ export class Projects extends Page
     {
         super(props);
 
+        this.dataKey = this.props?.dataKey || "projects";
+        this.dataPath = this.props?.dataPath || "projects/projects.json";
+
         this.state = {
             ...this.state,
             projects: [],
-            filters: []
+            filters: [],
+            [this.dataKey]: []            
         }
+
+        // this.dataKey = "projects";
+        // this.dataPath = "projects/projects.json";
     }
 
     async componentDidMount()
     {
-        this.getJson("projects", "projects/projects.json");
+        // console.log("send " + this.dataPath + " into " + this.dataKey);
+        this.getJson(this.dataKey, this.dataPath);
     }
 
     filterFunc(x)
@@ -33,10 +41,12 @@ export class Projects extends Page
 
     getProjectGridItems()
     {
-        if (!this.state.loaded || !this.state.projects.length)
+        // console.log(this.state);
+
+        if (!this.state.loaded || !this.state[this.dataKey]?.length)
             return <div className="loader"></div>
 
-        return this.state.projects.filter(this.filterFunc.bind(this)).map((x, i) =>
+        return this.state[this.dataKey].filter(this.filterFunc.bind(this)).map((x, i) =>
         {
             return <div className="cell" key={i}>
                 <img src="https://picsum.photos/400/300?1" />
@@ -58,8 +68,11 @@ export class Projects extends Page
     render()
     {
         const data = {
-            projects: this.state.projects
+            [this.dataKey]: this.state[this.dataKey],
+            dataKey: this.dataKey
         };
+
+        // console.log(this.state);
 
         return <DataContext.Provider value={data}>
             <main className="projects">
@@ -67,7 +80,7 @@ export class Projects extends Page
                 <Link to="/">
                     <button><PiArrowLeftBold/></button>
                 </Link>
-                <h1 className="title-font">Projects</h1>
+                <h1 className="title-font">{this.props.title || "Projects"}</h1>
                 <aside>
                     <TagsControl onFiltersChanged={this.onFiltersChanged.bind(this)} />
                 </aside>
