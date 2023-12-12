@@ -100,7 +100,8 @@ export class Frontpage extends Page
                 </div>
             </aside>
             <figure>
-                <img src="2039944.png" />
+                <img className="bio-img" src="ben.png" />
+                {/* <img className="other-img" src="coffee.png" /> */}
             </figure>
         </header>
     }
@@ -114,6 +115,10 @@ export class Frontpage extends Page
 
         return <DataContext.Provider value={data}>
             <main>
+                {/* <div className="upper">
+                    <img className="avatar" src="ben.png" />
+                </div> */}
+
             {this.getHeader()}
 
             <article>
