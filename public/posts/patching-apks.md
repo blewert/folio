@@ -249,6 +249,58 @@ The `onStamp` function is pretty straight forward; it eventually calls the `proc
 - Then determines if a voucher should be given or just another stamp.
 - Plays success sound.
 
-Through spooling through the code, there also appears to be no check which determines if the sent data (`t`, from earlier) matches the current stampcard. You would imagine something like `getKeyFromBlock(t.block) == r.key` then `addStamp` otherwise `rejectStamp`. This seems to imply that as long as a valid stamp press is detected, regardless of what number is spat out, it will add a new stamp. So, it looks like all we have to do is just call `sendSimulatedBlock` and it will work as expected!
+Through spooling through the code, there seems to be some checks for detecting if the correct code has been inputted. Essentially, the app loops through all outlets saved on the phone, and sees if the code matches the stampcard code of one of these outlets. Stampcards and outlets are fundamentally independent, so it would be great if we could look up the current outlet given the current stampcard. But for now, it just means that we have to find the correct stampcard code for the outlet we want. 
+
+In this case, it's my local on-campus coffee shop. But where can we find this code? Well, we can look at what is saved on disk by the app!
+
+## Digging deeper with adb
+It turns out the codes we're looking for are in the localStorage database of the application. To access this, we can simply use `adb shell` whilst the emulator is running. Then, you can type:
+
+```sh
+# Replace with whatever your app name is
+run-as com.somepackage.app
+
+# Navigate to the folder
+cd data/data/com.somepackage.app
+
+# Open up sqlite3 on localStorage
+sqlite3 RKStorage
+```
+
+Once inside, you can see all the tables with `.schema`. In my case, there was only one: `catalystLocalStorage`. To get all the keys, its as easy as:
+
+```sql
+SELECT key FROM catalystLocalStorage;
+```
+
+This returned a number of keys, but one which was very interesting: `outlets-storage`. I simply wrote a query to get the JSON object associated with this keys:
+
+```sql
+SELECT * FROM catalystLocalStorage WHERE key="outlets-storage" LIMIT 1;
+```
+
+And then I had all the outlets, along with their stampcard codes in a giant JSON object file. I could then put one of these codes into `sendSimulatedBlock` and try run it.
 
 # Putting it all together
+
+Patch
+
+```js
+return this.props.debug&&this.props.isEmulator&&2==e.touches.length?(this._locked=!0,void this._sendSimulatedBlock(e)):void(e.touches.length>=5&&(this._locked=!0,this._validate(e)))
+```
+
+to
+
+```js
+return true&&2==e.touches.length?(this._locked=!0,void this._sendSimulatedBlock(e)):void(e.touches.length>=5&&(this._locked=!0,this._validate(e)))
+```
+
+Set `android:debuggable="true"` in `AndroidManifest.xml`.
+
+Run `apktool -b -o patchedApk.apk`.
+
+Run `keytool -genkey -v -keystore patchedKey.keystore -alias patchedKey -keyalg RSA -keysize 2048 -validity 10000`.
+
+Run `zipalign.exe -v 4 patchedApk.apk patchedAlignedApk.apk`.
+
+Run `apksigner sign --ks-key-alias patchedKey --ks patchedKey.keystore patchedAlignedApk.apk`.
