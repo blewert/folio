@@ -61,10 +61,10 @@ class Project extends Page
         return <main className="project-post">
             <header>
                 <div className="content">
-                    <img src="https://picsum.photos/1920/1080?1"/>
+                    <img src={data.headerImage}/>
                     <div className="top">
                         <span>
-                            <button onClick={window.history.back}><PiArrowLeftBold/></button>
+                            <button onClick={() => window.history.back()}><PiArrowLeftBold/></button>
                         </span>
                         <h1>{data.name}</h1>
                         <h2>{data.date}</h2>

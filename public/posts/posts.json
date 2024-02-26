@@ -7,6 +7,7 @@
         "tags": [
             "Hacking"
         ],
+        "headerImage": "coffee.png",
         "mdFile": "posts/patching-apks.md",
         "showOnFrontpage": true
     }
