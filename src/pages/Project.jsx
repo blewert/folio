@@ -3,6 +3,8 @@ import { Page } from "./Page.jsx";
 import { Link, withRouter } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { PiArrowLeftBold } from "react-icons/pi";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 class Project extends Page
 {
@@ -17,7 +19,8 @@ class Project extends Page
             ...this.state,
             [this.dataKey]: [],
             data: null,
-            mdText: null
+            mdText: null,
+            galleryIndex: -1
         }
     }
 
@@ -47,6 +50,26 @@ class Project extends Page
         </main>
     }
 
+    getGalleryData()
+    {
+        return this.state.data.gallery?.map(x => {
+            return {
+                src: x.image
+            }
+        });
+    }
+
+    galleryClose()
+    {
+        this.setState({ galleryIndex: -1 });
+    }
+
+    getGalleryItems()
+    {
+        return this.state.data.gallery?.map((x, i) => {
+            return <img key={i} onClick={x => this.setState({galleryIndex: i})} src={x.image} title={x.title}/>
+        });
+    }
 
     render()
     {
@@ -73,7 +96,10 @@ class Project extends Page
                 </div>
             </header>
             <div className="gallery">
-                gallery here
+                <div className="photos">
+                {this.getGalleryItems()}
+                </div>
+                <Lightbox index={this.state.galleryIndex} open={this.state.galleryIndex > -1} close={this.galleryClose.bind(this)} slides={this.getGalleryData()}/>
             </div>
             <article>
                 <ReactMarkdown>{this.state.mdText}</ReactMarkdown>

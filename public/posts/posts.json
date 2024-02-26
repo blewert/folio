@@ -8,6 +8,38 @@
             "Hacking"
         ],
         "headerImage": "blueprint.png",
+        "gallery": [
+            {
+                "image": "coffee.png",
+                "title": "Americano",
+                "desc": "A coffee"
+            },
+            {
+                "image": "json-codes.png",
+                "title": "Americano",
+                "desc": "A coffee"
+            },
+            {
+                "image": "blueprint.png",
+                "title": "Americano",
+                "desc": "A coffee"
+            },
+            {
+                "image": "blueprint.png",
+                "title": "Americano",
+                "desc": "A coffee"
+            },
+            {
+                "image": "blueprint.png",
+                "title": "Americano",
+                "desc": "A coffee"
+            },
+            {
+                "image": "blueprint.png",
+                "title": "Americano",
+                "desc": "A coffee"
+            }
+        ],
         "mdFile": "posts/patching-apks.md",
         "showOnFrontpage": true
     }

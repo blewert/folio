@@ -41,10 +41,20 @@
             top: 0
             left: 0
             width: 100%
-            height: 100%
+            height: 150%
             z-index: -1
             object-fit: cover
             filter: brightness(75%) contrast(75%)
+
+        &::after
+            content: " "
+            position: absolute
+            top: 0
+            left: 0
+            width: 100%
+            height: 100%
+            z-index: -1
+            background: linear-gradient(0deg, black, transparent 60%)
 
         h1
             font-size: 32pt
@@ -79,6 +89,27 @@
             padding: 0
 
 
+    .gallery
+        .photos
+            margin-top: 5vh
+            display: grid
+            grid-template-columns: repeat(auto-fit, minmax(250px,1fr))
+            grid-template-rows: masonry
+            grid-gap: 1rem
+            padding: 0
+            width: 850px
+
+            img
+                cursor: pointer
+                display: block
+                object-fit: cover
+                width: 100%
+                height: 100%
+                filter: grayscale(75%)
+                transition: 0.2s
+
+                &:hover
+                    filter: grayscale(0%)
 
     article
         margin-top: 5vh
