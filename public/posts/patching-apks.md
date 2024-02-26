@@ -145,7 +145,7 @@ The last line is interesting; there is a `this.props.onIncompleteStamp` function
 
 Before we examine the `t.props.onStamp(...)` method, we must first figure out what needs to be passed to the function in order for it to work correctly. Earlier we saw that it was invoked and `c` was passed with `onStamp(c)`. But what is `c`? Well, the function says that `c` is actually just `u[0]` (the first recognised block). But we still have no idea of what this is -- is it another array? or an object? or just a string?
 
-## The sendSimulatedBlock() function
+## The `sendSimulatedBlock()` function
 To figure this out we must look at the `sendSimulatedBlock` function, which also calls `this.props.onStamp`:
 
 ```js
@@ -222,7 +222,7 @@ These appear to be relative values to some kind of reference frame, as it would 
 
 So, we know what needs to be passed to `onStamp` for it to work: an object like `t`, the one we saw earlier. This function seems to be pivotal in determining whether a stampcard has been correctly stamped by one of the devices. So, lets look into it. 
 
-## The onStamp() function
+## The `onStamp()` function
 
 ```js
 {
@@ -253,8 +253,8 @@ Through spooling through the code, there seems to be some checks for detecting i
 
 In this case, it's my local on-campus coffee shop. But where can we find this code? Well, we can look at what is saved on disk by the app!
 
-## Digging deeper with adb
-It turns out the codes we're looking for are in the localStorage database of the application. To access this, we can simply use `adb shell` whilst the emulator is running. Then, you can type:
+## Digging deeper with `adb`
+It turns out the codes we're looking for are in the localStorage database of the application; I figured this out as the local state of the root component is initialised from localStorage. But how can we access this? Well, we can simply use `adb shell` whilst the emulator is running. The `adb` process is a bridge between your host machine and your emulator or physical device. Here `adb shell` fires up a terminal session and lets you interact with the phone via command line. With `adb shell` fired up, you can type:
 
 ```sh
 # Replace with whatever your app name is
@@ -267,33 +267,60 @@ cd data/data/com.somepackage.app
 sqlite3 RKStorage
 ```
 
-Once inside, you can see all the tables with `.schema`. In my case, there was only one: `catalystLocalStorage`. To get all the keys, its as easy as:
+Once inside, you can see all the tables with `.schema`. In my case, there was only one: `catalystLocalStorage`. To get all the keys, its as easy as finding what keys are in local storage. Local storage is a key-value map, which is sometimes also called a dictionary. There are two columns: `key` and `value`. So, a query can be built to show just the keys:
 
 ```sql
-SELECT key FROM catalystLocalStorage;
+SELECT `key` FROM `catalystLocalStorage`;
 ```
 
-This returned a number of keys, but one which was very interesting: `outlets-storage`. I simply wrote a query to get the JSON object associated with this keys:
+This returned a number of keys. Revealing them would give too much away about what app I broke. I did however, find one which was very interesting: `outlets-storage`. I simply wrote a SQL query to get the JSON object associated with this key:
 
 ```sql
-SELECT * FROM catalystLocalStorage WHERE key="outlets-storage" LIMIT 1;
+SELECT * FROM `catalystLocalStorage` WHERE key="outlets-storage" LIMIT 1;
 ```
 
-And then I had all the outlets, along with their stampcard codes in a giant JSON object file. I could then put one of these codes into `sendSimulatedBlock` and try run it.
+And then I had all the outlets, along with their stampcard codes in a giant JSON object. Some of these are shown visually below.
 
-# Putting it all together
+![JSON codes](json-codes.png)
 
-Patch
+With the JSON saved out to a file, it's just a matter of looking up the correct outlet and gathering what stampcodes are valid. A correct code could then be swapped out in the `t` object of `sendSimulatedBlock`; to fool the app into thinking we stamping a valid card for this outlet. Well, that's the theory anyways.  
+
+# Patching the app
+Lets summarise the changes we need to make before we start on the process of modifying the app itself. There are a few failsafes put in place inside the app to keep out prying eyes, which we can circumvent. To summarise:
+
+- We need to firstly remove the "You've received too many stamps today!" warning by removing the call to `incrementNumberOfStampsToday()` on the stamp event.
+- We need to patch out the debug-only condition, and call `sendSimulatedBlock()` to trick the app into thinking we are actually stamping the screen.
+
+## Patching stamp count increment
+We need to patch the part of the code which deals with incrementing the number of stamps given today, to circumvent the daily limit. We looked at achieving this earlier, and it turns out its quite easy. All we have to do is open `processStamp()` and comment out the line which invokes `incrementNumberOfStampsToday()`.
+
+## Patching the condition
+Patching the condition such that `sendSimulatedBlock` is called instead of `validate()` is also pretty easy. The developers left a debug-only condition in the minified code. If the `props.debug` flag is true, the device is an emulator (`props.isEmulator`), and the screen is touched with two fingers, `sendSimulatedBlock` is called. So all we have to, really, is to just change the compound condition to `true`. This means that the app will always call the debug method when two fingers touch the screen!
+
+To illustrate this, here's the line of code for when the screen is touched:
 
 ```js
 return this.props.debug&&this.props.isEmulator&&2==e.touches.length?(this._locked=!0,void this._sendSimulatedBlock(e)):void(e.touches.length>=5&&(this._locked=!0,this._validate(e)))
 ```
 
-to
+This can simple be patched to:
 
 ```js
 return true&&2==e.touches.length?(this._locked=!0,void this._sendSimulatedBlock(e)):void(e.touches.length>=5&&(this._locked=!0,this._validate(e)))
 ```
+
+Or, even neater:
+
+```js
+return 2==e.touches.length?(this._locked=!0,void this._sendSimulatedBlock(e)):void(e.touches.length>=5&&(this._locked=!0,this._validate(e)))
+```
+
+Now the code will always run the `sendSimulatedBlock` function rather than the `validate` function! This means we are one step closer to free coffee!
+
+# Putting it all together
+
+
+
 
 Set `android:debuggable="true"` in `AndroidManifest.xml`.
 

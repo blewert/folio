@@ -87,6 +87,7 @@ export class Frontpage extends Page
     getHeader()
     {
         return <header>
+            <div className="banner"></div>
             <aside>
                 <h1 className="title-font">Hi there, I'm Ben</h1>
                 <p>I'm a Senior Lecturer at <a href="https://staffs.ac.uk/">Staffordshire University</a>, interested in Full-Stack Applications, Node, Unity, Games Development and Virtual Reality.
@@ -101,7 +102,6 @@ export class Frontpage extends Page
             </aside>
             <figure>
                 <img className="bio-img" src="ben.png" />
-                {/* <img className="other-img" src="coffee.png" /> */}
             </figure>
         </header>
     }
