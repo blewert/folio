@@ -303,7 +303,7 @@ To illustrate this, here's the line of code for when the screen is touched:
 return this.props.debug&&this.props.isEmulator&&2==e.touches.length?(this._locked=!0,void this._sendSimulatedBlock(e)):void(e.touches.length>=5&&(this._locked=!0,this._validate(e)))
 ```
 
-This can simple be patched to:
+This can simply be patched to:
 
 ```js
 return true&&2==e.touches.length?(this._locked=!0,void this._sendSimulatedBlock(e)):void(e.touches.length>=5&&(this._locked=!0,this._validate(e)))
@@ -315,19 +315,102 @@ Or, even neater:
 return 2==e.touches.length?(this._locked=!0,void this._sendSimulatedBlock(e)):void(e.touches.length>=5&&(this._locked=!0,this._validate(e)))
 ```
 
-Now the code will always run the `sendSimulatedBlock` function rather than the `validate` function! This means we are one step closer to free coffee!
+Now the code will always run the `sendSimulatedBlock` function rather than the `validate` function! After we build the APK, you'll notice that no matter where you press the screen with two fingers, it will add a stamp to the current stampcard. However, how do we build the APK to test if it works?
+
 
 # Putting it all together
+The last thing to do is to put everything together, now that we have modified the code. To do this, there are a few things we need to do:
 
+- We need to set the APK to debuggable by changing `AndroidManifest.xml`, prior to rebuilding.
+- We need to build the APK via the `apktool`, to create an APK which can be installed via `adb`.
+- The APK needs to be signed with a key and finally zip-aligned.
 
+Let's look at each step one-by-one. 
 
+## Setting the APK to debuggable
+One thing we need to do, especially if we are poking around the local database of an app, is to set it as debuggable. This doesn't change much about the app, but it will allow us to us `run-as` when we `adh sh` into it. It also means we'll be able to build our app to a device and test it out.
 
-Set `android:debuggable="true"` in `AndroidManifest.xml`.
+To do this, all you need to do is open up `AndroidManifest.xml` in the decompiled source. Then, add or modify the `<application ...>` node to include the attribute `android:debuggable="true"`:
 
-Run `apktool -b -o patchedApk.apk`.
+```xml
+<application android:debuggable="true" ...>
+    ...
+</application>
+```
 
-Run `keytool -genkey -v -keystore patchedKey.keystore -alias patchedKey -keyalg RSA -keysize 2048 -validity 10000`.
+More information about this tag can be found [here](https://developer.android.com/privacy-and-security/risks/android-debuggable).
 
-Run `zipalign.exe -v 4 patchedApk.apk patchedAlignedApk.apk`.
+## Creating a key 
+Next up, we need to create a key (unless one is already made). To do this, we have to use the `keytool` application which comes with a standard JDK / JRE distribution. If you have Java installed you should find it under `%JAVA_HOME%/bin`. If you don't, you need to install the JDK. You probably should also install Android Studio for the following steps, which comes with a JDK for you!
 
-Run `apksigner sign --ks-key-alias patchedKey --ks patchedKey.keystore patchedAlignedApk.apk`.
+Android Studio also comes with some device emulators which you'll be able to use to install and test out your built app. If you haven't already, download it from [here](https://developer.android.com/studio).
+
+Once you have Android Studio and a distribution of Java installed, it's pretty easy to make a key. Just use the `keytool` application to generate a key:
+
+```sh
+keytool -genkey -v -keystore patchedKey.keystore -alias patchedKey -keyalg RSA -keysize 2048 -validity 10000
+```
+
+Here the "patchedKey" alias is used to refer to the key. Later, when we sign the APK with this key, we can use this alias. If you already have a generated key, you don't need to generate a key with `-genkey`; just use the alias in the APK signing process later on.
+
+## Building the APK & zip-aligning it
+With all that done, we can finally build the APK! We do this with the `apktool` that we used earlier. Earlier, we decompiled an APK with the `d` flag for decompiling. Building uses, you guessed it, the `b` flag. To build out an APK, you simply need to call `apktool` from the folder where you decompiled your APK. The `apktool` utility will try to bundle all of the sources into an APK and produce it for you. For example, if you wanted to build to a file called `patchedApk.apk`, you could use:
+
+```sh
+apktool -b -o patchedApk.apk
+```
+
+Once you have a built APK, you then need to zip-align it. The `zipalign` utility that comes with the Android SDK and is used for this purpose. Zip-aligning basically ensures that files within the APK are aligned relative to the start of the APK file. This helps with memory management -- everything is loaded in contiguously. This is a very similar idea to struct packing in shaders.
+
+To zip-align something, you simply give the input and output file names, along with the alignment size. For example, a alignment value of 4 will provide 32-bit alignment. If you're unsure, just use 4. 🙂
+
+If you are also having issues finding `zipalign`, it is in the `build-tools` folder of your Android SDK installation. For me, that is `C:\Users\<name>\Appdata\Local\Android\Sdk\build-tools\<version>`. Once located, simply run it on the APK with:
+
+```sh
+zipalign.exe -v 4 patchedApk.apk patchedAlignedApk.apk
+```
+
+This should produce another file called `patchedAlignedApk.apk`, which has been zip-aligned. The `-v` flag just spits out verbose output. 
+
+## Signing the APK
+Finally, we need to sign the zip-aligned APK with the key we made earlier. We can do this with the `apksigner` utility, which is also in your `build-tools` folder (the same as zipalign). The `apksigner` utility takes:
+
+- The alias of the key to sign the APK with
+- A path to the key's location (just alias + .keystore)
+- And finally, the APK to sign. The changes will be applied to the APK
+
+With that in mind, all you have to do is call it like so:
+
+```sh
+apksigner sign --ks-key-alias patchedKey --ks patchedKey.keystore patchedAlignedApk.apk
+```
+
+And finally, after all that work, we have a built, zip-aligned and signed APK that we can install to a device! I would highly recommend building your own command-line utility script to automate this process if you are going to do this a lot. Doing it by hand can be very tedious. This is especially true if you are making small changes to the APK via test-driven development. 
+
+# Installing and testing it out
+Finally, with the APK built and signed, we can install it to a device. You have two options here, you can either a) use an emulator or b) install it to a physical device. To install it to a physical device you will need to enable USB debugging and developer mode. A guide on how to do this can be found [here](https://developer.android.com/studio/debug/dev-options).
+
+To install your APK, regardless of your device, you can run `adb install patchedAlignedApk.apk`. This will install it on the first device it finds. You can also drag-and-drop the APK onto an emulator to do the same thing. If you want to fire up an emulator via the command-line, navigate to the `emulator` folder of your Android SDK. For me this is `C:\Users\<name>\AppData\Local\Android\SDK\emulator`. Then, run `emulator.exe` with the flag `-list-avds` to see what virtual devices are available:
+
+```sh
+emulator.exe -list-avds
+```
+
+This should return a list of AVDs you can run. To run one, just run `emulator.exe` again with the `-avd` flag to specify which AVD to run:
+
+```sh
+emulator.exe -avd Pixel_3a_API_33_x86_64
+```
+
+With either your emulator or physical device connected via USB, install the APK with `adb install <apkPathHere>`. Then, check on your device and try it out! You should have something working.
+
+## Testing it out
+To test it out, you simply need to run the app on your device or emulator. For me, it ended up working! Here's a little video of the patched app running. The two circles shown is when you hold `Ctrl` in the emulator: it will simulate two fingers pressing on the screen. Here I'm just spamming `Ctrl + Click` to give myself stamps for a free drink!
+
+(I've blurred out details of the app)
+
+![Result](img/patching-apks/result.gif)
+
+As you can see, it ended up working! I got a free coffee with this method but ended up feeling too guilty about getting more. After figuring out how it works I was happy! 🙂
+
+Stay tuned for future posts on breaking apps for fun!

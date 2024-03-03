@@ -1,11 +1,11 @@
 [
     {
         "name": "Breaking React Native apps for fun",
-        "description": "Free coffee? Don't mind if I do!",
+        "description": "Or how I spent two weeks of my spare time for the promise of free coffee",
         "date": "2023",
         "slug": "patching-apks",
         "tags": [
-            "Hacking"
+            "Hacking", "React Native", "Low Level"
         ],
         "headerImage": "blueprint.png",
         "gallery": [
@@ -20,24 +20,9 @@
                 "desc": "A coffee"
             },
             {
-                "image": "blueprint.png",
-                "title": "Americano",
-                "desc": "A coffee"
-            },
-            {
-                "image": "blueprint.png",
-                "title": "Americano",
-                "desc": "A coffee"
-            },
-            {
-                "image": "blueprint.png",
-                "title": "Americano",
-                "desc": "A coffee"
-            },
-            {
-                "image": "blueprint.png",
-                "title": "Americano",
-                "desc": "A coffee"
+                "image": "img/patching-apks/result.gif",
+                "title": "Free coffee stamps!",
+                "desc": "The end result"
             }
         ],
         "mdFile": "posts/patching-apks.md",
