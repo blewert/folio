@@ -1,0 +1,3 @@
+Adi's Maze Unlimited is a 2D, 2 player 8-bit pacman clone, built specifically for the Research Arcade project with phaser.js. The design and development of this particular video game was centered around collecting gameplay data of users, for research purposes. Whilst players play the game, playstyle data is recorded throughout their session and saved into an online database for further analysis.
+
+Adi's maze features an 8-bit aesthetic, reminiscent of retro arcade cabinets and video games of the 80s. I designed and developed everything about this game -- from the sprites, to the code.

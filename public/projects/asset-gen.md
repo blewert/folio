@@ -1,0 +1,1 @@
+The procedural asset generator was a tool developed to assist in the rapid development of games, by generating 3D assets using WebGL. Within the tool, users can currently generate and download a variety of foliage assets -- such as trees, rocks and so forth. Users can also tweak the appearance by modifying parameters of the procedural algorithm on-the-fly.

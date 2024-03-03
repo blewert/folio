@@ -201,5 +201,140 @@
                 "desc": "A screenshot in-game"
             }
         ]
+    },
+
+    {
+        "name": "Adi's Maze Unlimited",
+        "description": "A retro 2D 8-bit pacman-like puzzle game",
+        "date": "2018",
+        "slug": "adis-maze",
+        "tags": [
+            "Web",
+            "Games",
+            "2D"
+        ],
+        "mdFile": "projects/adis-maze.md",
+        "showOnFrontpage": true,
+        "headerImage": "img/adis-maze/adis-maze3.png",
+        "gallery": [
+            {
+                "image": "img/adis-maze/adis-maze1.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/adis-maze/adis-maze2.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/adis-maze/adis-maze3.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/adis-maze/adis-maze4.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
+    },
+
+    {
+        "name": "Qong",
+        "description": "A retro 2D one-player pong clone I whipped up in a night",
+        "date": "2018",
+        "slug": "qong",
+        "tags": [
+            "Unity",
+            "Games",
+            "2D"
+        ],
+        "mdFile": "projects/qong.md",
+        "showOnFrontpage": true,
+        "headerImage": "img/qong/qong3.png",
+        "gallery": [
+            {
+                "image": "img/qong/qong1.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/qong/qong2.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/qong/qong3.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/qong/qong4.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
+    },
+
+    {
+        "name": "PCG Model Generator",
+        "description": "An online low-poly asset generator in Three.js",
+        "date": "2019",
+        "slug": "asset-gen",
+        "tags": [
+            "Web",
+            "Tools",
+            "Games",
+            "PCG"
+        ],
+        "mdFile": "projects/asset-gen.md",
+        "showOnFrontpage": true,
+        "headerImage": "img/web/pine.png",
+        "gallery": [
+            {
+                "image": "img/web/pine.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/web/rock.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/web/bush.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
+    },
+
+    {
+        "name": "Enki",
+        "description": "A virtual learning environment for students",
+        "date": "2018",
+        "slug": "enki",
+        "tags": [
+            "Web",
+            "Frontend",
+            "Backend",
+            "Tools"
+        ],
+        "mdFile": "projects/asset-gen.md",
+        "showOnFrontpage": true,
+        "headerImage": "img/web/login.jpg",
+        "gallery": [
+            {
+                "image": "img/web/enki.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/web/login.jpg",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
     }
 ]
