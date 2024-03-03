@@ -49,7 +49,7 @@ export class Projects extends Page
         return this.state[this.dataKey].filter(this.filterFunc.bind(this)).map((x, i) =>
         {
             return <div className="cell" key={i}>
-                <img src="https://picsum.photos/400/300?1" />
+                <img src={x.headerImage} />
                 <h1>{x.name}</h1>
                 <h2>{x.date}</h2>
                 <p>{x.description}</p>

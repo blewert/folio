@@ -6,58 +6,127 @@
         "slug": "ncnr",
         "tags": [ "Unity", "XR", "C++", "ROS" ],
         "mdFile": "projects/ncnr.md",
-        "showOnFrontpage": true
+        "showOnFrontpage": true,
+        "headerImage": "blueprint.png",
+        "gallery": [
+            {
+                "image": "coffee.png",
+                "title": "Americano",
+                "desc": "A coffee"
+            }
+        ]
     },
 
     {
-        "name": "Unity XR",
-        "description": "A something",
-        "date": "2021",
-        "slug": "ncnr",
-        "tags": [
-            "Unity",
-            "XR"
-        ],
-        "mdFile": "projects/ncnr.md",
-        "showOnFrontpage": false
-    },
-
-    {
-        "name": "C++",
-        "description": "A something",
-        "date": "2021",
-        "slug": "ncnr",
-        "tags": [
-            "C++"
-        ],
-        "mdFile": "projects/ncnr.md",
-        "showOnFrontpage": false
-    },
-
-    {
-        "name": "ROS",
-        "description": "A something",
-        "date": "2021",
-        "slug": "ncnr",
-        "tags": [
-            "ROS"
-        ],
-        "mdFile": "projects/ncnr.md",
-        "showOnFrontpage": false
-    },
-
-    {
-        "name": "AR/VR Robotics Teleoperation Demo 5",
-        "description": "A something",
-        "date": "2021",
-        "slug": "ncnr",
+        "name": "RHIB Training Simulator",
+        "description": "A VR-based RHIB training simulator",
+        "date": "2018",
+        "slug": "rhib-sim",
         "tags": [
             "Unity",
             "XR",
-            "C++",
-            "ROS"
+            "Simulation",
+            "Games",
+            "PCG"
         ],
-        "mdFile": "projects/ncnr.md",
-        "showOnFrontpage": false
+        "mdFile": "projects/rhib.md",
+        "showOnFrontpage": true,
+        "headerImage": "img/rhib-sim/rhib1.png",
+        "gallery": [
+            {
+                "image": "img/rhib-sim/rhib1.png",
+                "title": "RHIB Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/rhib-sim/rhib2.png",
+                "title": "RHIB Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/rhib-sim/sea.gif",
+                "title": "RHIB Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
+    },
+
+    {
+        "name": "PCG Galaxy Generator",
+        "description": "A procedurally generation approach for galaxies",
+        "date": "2018",
+        "slug": "galaxy-gen",
+        "tags": [
+            "Unity",
+            "Games",
+            "PCG"
+        ],
+        "mdFile": "projects/galaxy-gen.md",
+        "showOnFrontpage": true,
+        "headerImage": "img/galaxies/galaxy1.png",
+        "gallery": [
+            {
+                "image": "img/galaxies/galaxy1.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/galaxies/galaxy2.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/galaxies/galaxy3.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
+    },
+
+    {
+        "name": "Procedural Settlement Generator",
+        "description": "A novel time-line based approach for settlement generation",
+        "date": "2019",
+        "slug": "settlement-gen",
+        "tags": [
+            "Unity",
+            "Games",
+            "PCG"
+        ],
+        "mdFile": "projects/settlement-gen.md",
+        "showOnFrontpage": true,
+        "headerImage": "img/settlement-generator/sett1.jpg",
+        "gallery": [
+            {
+                "image": "img/settlement-generator/sett1.jpg",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/settlement-generator/sett2.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/settlement-generator/sett5.jpg",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/settlement-generator/sett6.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/settlement-generator/sett8.jpg",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/settlement-generator/sett9.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
     }
 ]
