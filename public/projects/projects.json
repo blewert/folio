@@ -26,8 +26,7 @@
             "Unity",
             "XR",
             "Simulation",
-            "Games",
-            "PCG"
+            "Games"
         ],
         "mdFile": "projects/rhib.md",
         "showOnFrontpage": true,
@@ -91,7 +90,8 @@
         "tags": [
             "Unity",
             "Games",
-            "PCG"
+            "PCG",
+            "Research"
         ],
         "mdFile": "projects/settlement-gen.md",
         "showOnFrontpage": true,
@@ -124,6 +124,79 @@
             },
             {
                 "image": "img/settlement-generator/sett9.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
+    },
+
+    {
+        "name": "Elemental Assault: The Boulder Wars",
+        "description": "A low-poly VR tower defence game",
+        "date": "2017",
+        "slug": "elemental",
+        "tags": [
+            "Unity",
+            "Games"
+        ],
+        "mdFile": "projects/elemental.md",
+        "showOnFrontpage": true,
+        "headerImage": "img/elemental/elemental1.png",
+        "gallery": [
+            {
+                "image": "img/elemental/elemental1.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/elemental/elemental2.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/elemental/elemental3.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/elemental/elemental4.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
+    },
+
+    {
+        "name": "The Research Arcade",
+        "description": "An research project using student-developed WebGL games",
+        "date": "2018",
+        "slug": "research-arcade",
+        "tags": [
+            "Software",
+            "Games",
+            "Research"
+        ],
+        "mdFile": "projects/arcade.md",
+        "showOnFrontpage": true,
+        "headerImage": "img/research-arcade/arcade.png",
+        "gallery": [
+            {
+                "image": "img/research-arcade/arcade.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/research-arcade/arcade2.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/research-arcade/arcade3.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/research-arcade/arcade4.png",
                 "title": "A Screenshot",
                 "desc": "A screenshot in-game"
             }

@@ -48,15 +48,17 @@ export class Projects extends Page
 
         return this.state[this.dataKey].filter(this.filterFunc.bind(this)).map((x, i) =>
         {
-            return <div className="cell" key={i}>
-                <img src={x.headerImage} />
-                <h1>{x.name}</h1>
-                <h2>{x.date}</h2>
-                <p>{x.description}</p>
-                <div className="tags">
-                    {x.tags.map((y, j) => <span key={i + "-" + y}>{y}</span>)}
+            return <Link to={`/projects/` + x.slug} key={i}>
+                <div className="cell" key={i}>
+                    <img src={x.headerImage} />
+                    <h1>{x.name}</h1>
+                    <h2>{x.date}</h2>
+                    <p>{x.description}</p>
+                    <div className="tags">
+                        {x.tags.map((y, j) => <span key={i + "-" + y}>{y}</span>)}
+                    </div>
                 </div>
-            </div>
+            </Link>
         });
     }
 
