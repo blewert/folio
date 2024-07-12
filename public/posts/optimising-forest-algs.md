@@ -11,25 +11,36 @@ Generating a virtual forest is actually quite easy. The easiest approach is to s
 std::random_device device;
 std::mt19937 randomGenerator(device());
 
-/// <summary>
-/// Returns a random float between {min} and {max}
-/// </summary>
-/// <param name="min">The minimum value</param>
-/// <param name="max">The maximum value</param>
-/// <returns>A random number</returns>
-float random(const float min, const float max)
+class Random
 {
-    //We have to do this because if the ranges aren't
-    //ordered then C++ will throw an error
-    float trueMin = std::min(min, max);
-    float trueMax = std::max(max, min);
+public:
+    /// <summary>
+    /// Returns a random float between {min} and {max}
+    /// </summary>
+    template <typename T> requires std::is_floating_point_v<T>
+    static T Range(const T& min, const T& max)
+    {
+        //We have to do this because if the ranges aren't
+        //ordered then C++ will throw an error
+        float trueMin = std::min(min, max);
+        float trueMax = std::max(max, min);
 
-    //Build a uniform distribution
-    std::uniform_real_distribution<float> udist(trueMin, trueMax);
+        //Build a uniform distribution
+        std::uniform_real_distribution<T> udist(trueMin, trueMax);
 
-    //Sample the distribution using the generator
-    return udist(randomGenerator);
-}
+        //Sample the distribution using the generator
+        return (T)udist(randomGenerator);
+    }
+
+    /// <summary>
+    /// Returns a random integer between {min} and {max}
+    /// </summary>
+    template <typename T> requires std::is_integral_v<T>
+    static T Range(const T& min, const T& max)
+    {
+        return (T)Random::Range((float)min, (float)max);
+    }
+};
 ```
 
 We can then use this to produce random coordinates:
@@ -51,8 +62,8 @@ Vector2 RandomPointInUnitSquare()
 {
     return Vector2 
     { 
-        random(0.0f, 1.0f),
-        random(0.0f, 1.0f)
+        Random::Range(0.0f, 1.0f),
+        Random::Range(0.0f, 1.0f)
     };
 }
 ```
@@ -79,4 +90,98 @@ Plant competition models are slow, but that is fine for ecologists and those int
 
 It is with this motivation in mind that my latest paper, submitted to CGVC'24, covers an optimisation strategy in a popular games engine to make this process blisteringly fast.
 
-# Abc
+# Optimisation strategy
+In our recent paper, we looked at optimising an asymmetric plant competition model typically used in generating virtual forestry. Our optimisation strategy focused primarily on two things:
+
+- The utilisation of an Entity-Component System (ECS), a data-oriented approach for vectorising computation and parallelising it easily.
+- A uniform spatial hashing method, in tandem with the ECS.
+
+We chose the popular Unity games engine to implement our approach as it has a fully-fledged ECS built into it, and offers native unmanaged containers (like `NativeParalellMultiMashMap<T, U>` for easy spatial hashing.
+
+## Burstifying everything
+Unity's ECS works well with Burst, and the Unity C# job scheduling system. Burst is a way of compiling C# down to native instructions, rather than Intermediary Language (IL) bytecode. Why? Put simple, native instructions are *quick*. IL bytecode in comparison requires a run-time or service which interpret the IL code down to native instructions for your particular platform. For example, if your C# code is:
+
+```cs
+int result = add(10, 15);
+```
+
+It's CIL (Common Intermediate Language) would be:
+
+```cil
+ldc.i4.10                       # Pushes 10 onto the stack as a 4 byte int (i4)
+ldc.i4.15                       # Pushes 15 onto the stack as a 4 byte int (i4)
+
+call int32 add(int32, int32)    # Calls the add function on the two args passed
+
+stloc.0                         # Pop stack (result) into variable result 
+
+```
+
+Which could be compiled down to the following x86 instructions:
+
+```asm
+add(int, int):
+    push rbp                    # Save where we need to pop back to on stack
+    mov rbp, rsp                # Set new base address for frame
+    mov DWORD PTR [rbp-4], edi  # Allocate 4 bytes of stack mem for arg1, move EDI into it
+    mov DWORD PTR [rbp-8], esi  # Do the same but for second arg, move ESI
+    mov edx, DWORD PTR [rbp-4]  # Move first arg into EDX
+    mov eax, DWORD PTR [rbp-8]  # Move second arg into EAX
+    add eax, edx                # Add EDX to EAX, EAX will contain result
+    pop rbp                     # Pop back to where we were on the stack
+    ret                         # Return: jumps back to where we were
+
+mov esi, 15                     # Load ESI with 15
+mov edi, 10                     # Load EDI with 10
+call add(int, int)              # Call add function
+mov DWORD PTR[rbp-4], eax       # Move result (in EAX) to new space in stack mem
+```
+
+Burst enables us to skip the IL step, meaning that an intermediary format is not used. Instead, native instructions are generated for the underlying C# code, which makes it blazingly fast. Burst is also very easy to use. You simply use attributes to mark constructs to be compiled down to native x86 with `[BurstCompile]`. For example, here is a C# job that we compile with Burst to cull trees who are marked as dead:
+
+```cs
+[BurstCompile]
+public partial struct CullDeadTreesJob : IJobEntity
+{
+    public EntityCommandBuffer.ParallelWriter ecb;
+
+    public void Execute([ChunkIndexInQuery] int chunkIndex, in TreeComponent tree, in Entity entity)
+    {
+        //This culls trees whose m_needsCull member is set to true
+        if(tree.m_needsCull)
+            ecb.DestroyEntity(chunkIndex, entity);
+    }
+}
+```
+
+
+## Jobifying everything
+One crucial component of building efficient approaches with ECS is Unity's C# job system. Unity's C# job system (referred to herein as "the job system") enables computational tasks to be distributed amongst several threads for parallelisation. You must be thinking *"hmm Ben, that sounds an awful lot like a thread pool"* -- and you'd be right. The job system is similar to a thread pool in the sense that:
+
+- Computation is distributed amongst a collection of *n* threads.
+- Interaction with the system is abstracted away from the nitty-gritty: you simply *schedule* a job and it magically gets distributed, in the same way that a thread pool assigns worker threads.
+- Computation can be parallelised, or optionally, serialised.
+- Jobs are described with an `Execute()` method which is parallelised across many threads, similar to an indirect callback being passed via a thread pool execution request.
+
+The job system does a good job (pun intended) of abstracting away from the details of how computation is distributed, whilst offering a friendly interface to programmers. When working with Unity's ECS, you can have several job types. Here are a few:
+
+- `IJob`: The base interface for jobs, not specific to any ECS parallelisation.
+- `IJobEntity`: The job is parallelised across all entities in the world, e.g. all 10,000 entities are distributed amongst *n* threads, each of which process a batch of entities via iteration.
+- `IJobParallelFor`: A generalised job for performing the same operation for each element of a container (a parallelised `foreach`) or for a fixed number of iterations (a parallelised `for`).
+
+In our approach we largely utilise `IJobEntity` as we perform most of our calculations on a per-entity basis. For example, aging trees requires iteration over all entities and adding one to their age variable. This can be achieved by using `IJobEntity`.
+
+## Job structure
+We have several jobs which enables the super fast simulation of virtual forestry by leveraging the ECS and spatial hashing. Although jobs are parallelised, their order and execution is synchronised carefully to ensure the correct functioning of our approach. For example, the spatial hashing job runs before most of the jobs which simulate individual trees. If this order was negated, things would go drastically wrong. 
+
+These are the steps we took, and the order in which they are executed for each iteration of the overarching `ISystem` instance:
+
+- **On the first step of the simulation**: A `SpawnTreesJob` instance is initialised and executed in parallel. This job spawns an initial number of trees randomly into the environment, for further simulation. This is because forestry simulation algorithms are predicated on the existence of trees initially in the world.
+- **Build entity queries & frame Entity-Command Buffer (ECB)**: Before any jobs are run, we build queries for calculating what tree entities are in the world. We also create an ECB to perform parallelised structural changes (such as adding/removing trees) at a later point. Here we also create the frame's `NativeParallelMultiHashMap<int, int>` which will be used in spatial hashing.
+- **AssignSpatialIndexJob**: Tree entities are iterated over via an `IJobEntity` job and assigned a spatial hash according to a uniform grid. Details on this later.
+- **CullDeadTreesJob**: Tree entities are iterated over in a similar fashion. The job removes dead trees if they were flagged as dead in the last frame.
+- **UpdateTreesJob**: Each tree is aged, and flagged for removal if their age > a certain value. 
+- **SpawnTreesJob**: Each tree in the simulation is considered for propogating new trees if their age > a certain value. If this condition is met, a random chance `c < t` is considered. If true, the tree creates a new tree entity randomly around its position.
+- **FONCompetitionJob**: For each entity, uses the hashmap for neighbourhood lookups to see what trees are nearby this one. From this it then determines plant competition, thereby removing younger plants occluded from canopy cover.
+
+## Spatial hashing
