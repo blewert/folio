@@ -1,4 +1,25 @@
 [
+    
+    {
+        "name": "Optimising virtual forestry algorithms",
+        "description": "Making forestry algorithms run in real-time for video games",
+        "date": "2024",
+        "slug": "optimising-forest-algs",
+        "tags": [
+            "Unity", "ECS", "Games", "PCG"
+        ],
+        "headerImage": "coffee.png",
+        "gallery": [
+            {
+                "image": "coffee.png",
+                "title": "Americano",
+                "desc": "A coffee"
+            }
+        ],
+        "mdFile": "posts/optimising-forest-algs.md",
+        "showOnFrontpage": true
+    },
+
     {
         "name": "Breaking React Native apps for fun",
         "description": "Or how I spent two weeks of my spare time for the promise of free coffee",
