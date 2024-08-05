@@ -6,6 +6,11 @@ import { PiArrowLeftBold } from "react-icons/pi";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+
+import "katex/dist/katex.min.css";
+
 class Project extends Page
 {
     constructor(props)
@@ -102,7 +107,7 @@ class Project extends Page
                 <Lightbox index={this.state.galleryIndex} open={this.state.galleryIndex > -1} close={this.galleryClose.bind(this)} slides={this.getGalleryData()}/>
             </div>
             <article>
-                <ReactMarkdown>{this.state.mdText}</ReactMarkdown>
+                <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{this.state.mdText}</ReactMarkdown>
             </article>
         </main>
     }

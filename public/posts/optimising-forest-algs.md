@@ -185,7 +185,15 @@ These are the steps we took, and the order in which they are executed for each i
 - **FONCompetitionJob**: For each entity, uses the hashmap for neighbourhood lookups to see what trees are nearby this one. From this it then determines plant competition, thereby removing younger plants occluded from canopy cover.
 
 ## Spatial hashing
-We also leverage spatial hashing, which is an obvious choice for optimising any type of agent-oriented simulation. Spatial hashing reduces the number of entities considered when calculating some metric. A classic application of this is in the boids algorithm to simulate flocking behaviour. As part of this algorithm, every entity in a boids algorithm has to look at the average heading of other entities in its neighbourhood. For this, it potentially needs to look at every other entity in the simulation. This grows exponentially as more and more agents are considered, with a time complexity of *O(n^2)*.
+We also leverage spatial hashing, which is an obvious choice for optimising any type of agent-oriented simulation. Spatial hashing reduces the number of entities considered when calculating some metric. A classic application of this is in the boids algorithm to simulate flocking behaviour. As part of this algorithm, every entity in a boids algorithm has to look at the average heading of other entities in its neighbourhood. For this, it potentially needs to look at every other entity in the simulation. This grows exponentially as more and more agents are considered, with a time complexity of $\mathcal{O}(n^2)$.
 
-We can reduce this though, by only considering entities which are *approximate* to the entity in consideration. One way of doing this is cutting the world up into grid cells, and assigning each entity an cell index. They can then use this cell index to look up which other entities are in the same cell. This can be done with *O(1)* access time with a hashmap, with the hash being the assigned grid cell. This method of quantising a space into grid cells of the same size is known as *uniform* spatial hashing, as subdivision results in grid cells of a uniform length. A general formula for quantising space uniformly in 2D space can be seen below:
+We can reduce this though, by only considering entities which are *approximate* to the entity in consideration. One way of doing this is cutting the world up into grid cells, and assigning each entity an cell index. They can then use this cell index to look up which other entities are in the same cell. This can be done with $\mathcal{O}(1)$ access time with a hashmap, with the hash being the assigned grid cell. This method of quantising a space into grid cells of the same size is known as *uniform* spatial hashing, as subdivision results in grid cells of a uniform length. A general formula for quantising space uniformly in 2D space can be seen below:
 
+$$
+\begin{align}
+a = 1,2 \\
+bc = 3,4
+\end{align}
+$$
+
+def
