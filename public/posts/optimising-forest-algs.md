@@ -185,22 +185,254 @@ These are the steps we took, and the order in which they are executed for each i
 
 - **On the first step of the simulation**: A `SpawnTreesJob` instance is initialised and executed in parallel. This job spawns an initial number of trees randomly into the environment, for further simulation. This is because forestry simulation algorithms are predicated on the existence of trees initially in the world.
 - **Build entity queries & frame Entity-Command Buffer (ECB)**: Before any jobs are run, we build queries for calculating what tree entities are in the world. We also create an ECB to perform parallelised structural changes (such as adding/removing trees) at a later point. Here we also create the frame's `NativeParallelMultiHashMap<int, int>` which will be used in spatial hashing.
-- **AssignSpatialIndexJob**: Tree entities are iterated over via an `IJobEntity` job and assigned a spatial hash according to a uniform grid. Details on this later.
+- **AssignIndexToTreeJob**: Tree entities are iterated over via an `IJobEntity` job and assigned a spatial hash according to a uniform grid. Details on this later.
 - **CullDeadTreesJob**: Tree entities are iterated over in a similar fashion. The job removes dead trees if they were flagged as dead in the last frame.
 - **UpdateTreesJob**: Each tree is aged, and flagged for removal if their age > a certain value. 
-- **SpawnTreesJob**: Each tree in the simulation is considered for propogating new trees if their age > a certain value. If this condition is met, a random chance `c < t` is considered. If true, the tree creates a new tree entity randomly around its position.
+- **SpawnTreesJob**: Each tree in the simulation is considered for propogating new trees if their age > a certain value. If this condition is met, a random chance $p$ is considered as $c < t$. If true, the tree creates a new tree entity randomly around its position.
 - **FONCompetitionJob**: For each entity, uses the hashmap for neighbourhood lookups to see what trees are nearby this one. From this it then determines plant competition, thereby removing younger plants occluded from canopy cover.
 
 ## Spatial hashing
 We also leverage spatial hashing, which is an obvious choice for optimising any type of agent-oriented simulation. Spatial hashing reduces the number of entities considered when calculating some metric. A classic application of this is in the boids algorithm to simulate flocking behaviour. As part of this algorithm, every entity in a boids algorithm has to look at the average heading of other entities in its neighbourhood. For this, it potentially needs to look at every other entity in the simulation. This grows exponentially as more and more agents are considered, with a time complexity of $\mathcal{O}(n^2)$.
 
-We can reduce this though, by only considering entities which are *approximate* to the entity in consideration. One way of doing this is cutting the world up into grid cells, and assigning each entity an cell index. They can then use this cell index to look up which other entities are in the same cell. This can be done with $\mathcal{O}(1)$ access time with a hashmap, with the hash being the assigned grid cell. This method of quantising a space into grid cells of the same size is known as *uniform* spatial hashing, as subdivision results in grid cells of a uniform length. A general formula for quantising space uniformly in 2D space can be seen below:
+We can reduce this though, by only considering entities which are *approximate* to the entity in consideration. One way of doing this is cutting the world up into grid cells, and assigning each entity an cell index. They can then use this cell index to look up which other entities are in the same cell. This can be done with $\mathcal{O}(1)$ access time with a hashmap, with the hash being the assigned grid cell. This method of quantising a space into grid cells of the same size is known as *uniform* spatial hashing, as subdivision results in grid cells of a uniform length. 
+
+We hash an entity's position $\mathbf{p} \in \mathbb{R}^2$ (trees are simulated on the $xy$ plane) by firstly computing the grid delta value $\mathbf{g}$ as $\mathbf{g} = \mathbf{w} / n$ where $\mathbf{w}$ is a 2D vector containing the world boundaries. For example, you may have the vector $\mathbf{w} = \left[ 100, 100 \right]^T$ which defines a world size of $100 \times 100$ in-game units. Here $n$ is the number of subdivisions of the uniform grid. For example, in this case, $\mathbf{w} / n$ when $n = 20$ would result in the vector $\mathbf{g} = \left[ 5, 5 \right]^T$ defining the uniform cell size as $5 \times 5$ in-game units.
+
+Then, using the tree's position $\mathbf{p}$, it can be hashed with a function $I(\mathbf{p})$ giving us the 2D spatial index (hence $I$) for this particular tree. This can be seen below: 
+
 
 $$
-\begin{align}
-a = 1,2 \\
-bc = 3,4
-\end{align}
+I(\mathbf{p}) = \begin{pmatrix} 
+    \left\lfloor \frac{\mathbf{p}_x}{\mathbf{g}_x} \right\rfloor & 
+    \left\lfloor \frac{\mathbf{p}_y}{\mathbf{g}_y} \right\rfloor
+    \end{pmatrix}
 $$
 
-def
+We finally hash the 2D index $I(\mathbf{p})$ of the position $\mathbf{p}$ to a 1D hashed index $\mathcal{H}(\mathbf{p})$ (hence $\mathcal{H}$) as:
+
+$$
+    \mathcal{H}(\mathbf{p}) = I(\mathbf{p})_x + n \cdot I(\mathbf{p})_y
+$$
+
+Where $n$ is the number of grid subdivisions, as discussed earlier. 
+
+### The code
+We assign spatial indices every frame, before any jobs run. Future work could perhaps look at optimising this further, as the task of generating a new spatial map every frame can be expensive. The 1D index, $\mathcal{H}(\mathbf{p})$ of a tree's position $\mathbf{p}$ is assigned to the `TreeComponent` attached to each tree entity. This can then be used later to access its local neighbourhood.
+
+The assigning of spatial indexing is done in a separate job prior to the simulation of an individual tree. The `AssignIndexToTreeJob` job can be seen below.
+
+```cs
+
+[BurstCompile]
+public partial struct AssignIndexToTreeJob : IJobEntity
+{
+    public NativeParallelMultiHashMap<int, TreeComponent>.ParallelWriter parallelHashMap;
+    public ForestComponent forest;
+
+    public void Execute([EntityIndexInQuery] int entityIndex, ref TreeComponent tree)
+    {
+        //Not in this forest? Get out of here
+        if (tree.m_forestIndex != forest.m_forestIndex)
+            return;
+
+        var hash = forest.m_spatialHasher.Hash(tree.m_position);
+        tree.m_hash = hash;
+        parallelHashMap.Add(hash, tree);
+    }
+}
+```
+
+There are a few things to note here regarding our approach:
+
+1) Each forest (which contains many trees) has its own spatial hasher instance, i.e. `forest.m_spatialHasher`.
+2) The spatial hasher has a `Hash(float3)` method which returns a `int`, which is assigned to the individual tree with `tree.m_hash = hash`.
+3) We use Unity's `NativeParallelMultiHashMap<T, U>` where `T = int` and `U = TreeComponent` to index with an `int` and get out an array of `TreeComponent` instances.
+    1) Notice that this is a `NativeParallelMultiHashMap` and not a `NativeParallelHashMap`. The `Multi` version returns an array of everything for a given index, which allows for $\mathcal{O}(1)$ access time. 
+
+The spatial hasher instance (`forest.m_spatialHasher`) is a bespoke class with one purpose: to hash `float2` positions to `int` hashes. The code for this can be seen [here](https://github.com/StaffsUniGames/pcg-forests-ecs/blob/main/Assets/ecs/common/SpatialHasher.cs); it largely embodies the process of calculating $\mathbf{g} = \mathbf{w}/n$, $I(\mathbf{p})$ and $\mathcal{H}(\mathbf{p})$.
+
+## Simulation details
+Each tree is simulated individually in our approach. There are a number of steps which are used in the updating of each tree. We largely take inspiration from asymmetric plant competition models (discussed in the paper), which focus on interplant competition for resources. For example, if one plant grows in proximity to another and it is larger, it will kill the younger plant. This provides a model similar to real-life -- where larger plants with larger canopy cover occlude younger plants from the sun, resulting in the death of the younger plant. 
+
+We break down the competition into three parts: culling, spawning and competition. There is another step too to spawn an initial amount of trees into the simulation.
+
+In culling, a separate job `CullDeadTreesJob` simply iterates over each tree entity and checks if it is dead. Each tree component has a `bool` member `m_needsCull` which is set to true if the tree dies. If it is true, the `CullDeadTreesJob` actually removes the entity from the simulation by writing to the ECB (Entity Command Buffer). The reason this is done in a separate job is because providing structural changes within ECS is not good: you're always trying to fight doing so. So, if we can play back structural changes at a well-defined point (e.g. removing all entities at a single point in time), then we can help reduce any weird race conditions. Remember, this code is parallelised; many threads are running versions of it all at the same time.
+
+Secondly, the `SpawnTreesJob` does a few things:
+
+- It ages the tree by calling `tree.m_age++`. 
+- It flags the tree for culling by `CullDeadTreesJob` if `tree.m_age > tree.m_deathAge`. This represents the natural death of trees by simply dying of old age.
+- Spawns sapling trees local to the tree in consideration, if `tree.m_age >= tree.m_matureAge`.
+
+For each iteration where a tree's age $a$, new sapling trees are added near the tree if $a > m$ where $m$ is the "mature" age of the tree and a random probability $p$ is satisfied (see earlier). The position of a new tree $\mathbf{p'}$ from the tree's position $\mathbf{p}$ is selected randomly as:
+
+$$
+\mathbf{p'} = \mathbf{p} + \mathbf{\hat{w}} \cdot d_s
+$$
+
+Where $\mathbf{\hat{w}}$ is the uniform wind vector of the simulation and $d_s$ is the randomised forest-wide spread distance for new plants. The job also wraps trees around the world boundaries if $\mathbf{p}'$ exceeds it. The bulk of this job can be seen below.
+
+```cs
+
+public void Execute([ChunkIndexInQuery] int chunkIndex, ref TreeComponent tree, in Entity entity)
+{
+    //Omitted a few lines [...]
+
+    //TreeComponent modifiedTree = tree;
+    tree.m_age++;
+
+    //Set to needing cull
+    if (tree.m_age > tree.m_deathAge)
+        tree.m_needsCull = true;
+
+    //Check if mature or not
+    if (tree.m_age < tree.m_matureAge)
+        return;
+
+    float randChance = forest.m_rng.NextFloat(forest.m_spreadChance.min, forest.m_spreadChance.max);
+
+    if (forest.m_rng.NextFloat() > randChance)
+        return;
+
+    //----
+
+    //Omitted a few lines [...]
+
+    //Use NextFloat because NextFloat2 doesn't do what you'd expect
+    float a = forest.m_windDirection;
+    float d = forest.m_rng.NextFloat(forest.m_spreadDistance.min, forest.m_spreadDistance.max);
+
+    float randX = tree.m_position.x + math.sin(a) * d;
+    float randY = tree.m_position.y + math.cos(a) * d;
+
+    //Wrap around if x/y limits exceeded
+    if (randX > forest.m_cullRegionX.max) randX %= forest.m_cullRegionX.max;
+    if (randY > forest.m_cullRegionY.max) randY %= forest.m_cullRegionY.max;
+    //--
+    if (randX < forest.m_cullRegionX.min) randX = forest.m_cullRegionX.max - math.abs(randX);
+    if (randY < forest.m_cullRegionY.min) randY = forest.m_cullRegionY.max - math.abs(randY);
+
+    //No swizzling, they are spawned on XY plane
+    float3 randPos3 = new float3(randX, randY, 0);
+    float2 randPos2 = new float2(randX, randY);
+
+    //Instantiate the new tree
+    Entity newEntity = ecb.Instantiate(chunkIndex, randomPrefab);
+
+    //Build local transform
+    float scale = 1;
+
+    //Scale needs randomising?
+    if (forest.m_randomiseScale)
+        scale = forest.m_rng.NextFloat(0.85f, 1.0f);
+
+    if (forest.m_alignTreesAlongXZ)
+        randPos3 = new float3(randPos3.x, 0, randPos3.y);
+
+    //Build T*R*S from what we have so far
+    LocalTransform trans = LocalTransform.FromPositionRotationScale(randPos3, quaternion.identity, scale);
+
+    //Omitted a few lines [...]
+
+    //Set the position of the entity
+    ecb.SetComponent(chunkIndex, newEntity, trans);
+
+    //Add a tree component: make this entity a tree
+    ecb.AddComponent(chunkIndex, newEntity, new TreeComponent
+    {
+        m_age = 0,
+        m_deathAge = forest.m_rng.NextUInt(forest.m_deathAge.min, forest.m_deathAge.max),
+        m_matureAge = forest.m_rng.NextUInt(forest.m_matureAge.min, forest.m_matureAge.max),
+        m_position = randPos2,
+        m_needsCull = false,
+        m_forestIndex = forest.m_forestIndex,
+    });
+}
+```
+
+Plant competition is implemented via a FON-based approach, which represents a tree's age with its degree of influence with other plants. Basically, trees are represented as circles, called their Field-of-Neighbourhood (FON). The FON grows with age, e.g. older plants have a larger FON. If two FONs overlap, the two trees are considered to be competing for the same resources. The larger, older plant dominates the younger plant, resulting its eventual death.
+
+We embody this principle via the `FONCompetitionJob`. The job runs per tree entity, and looks up other trees within the same grid cell, using the hashmap discussed earlier. This is done quite easily with:
+
+```cs
+
+//Get all other entities in this cell
+var entities = hashMap.GetValuesForKey(tree.m_hash);
+```
+
+The process can be seen below.
+
+```cs
+
+//Get all other entities in this cell
+var entities = hashMap.GetValuesForKey(tree.m_hash);
+
+foreach(var other in entities)
+{
+    //What's the distance to the other tree?
+    var dist = math.distance(other.m_position, tree.m_position);
+
+    //They're the same
+    if (dist <= math.EPSILON)
+        continue;
+
+    //Get percent of life and calculate fon from this
+    float lifeP = tree.m_age / (float)forest.m_deathAge.max;
+    float fon = math.max(lifeP * MAX_TREE_RADII, MIN_TREE_RADII);
+
+    //Not in competition? skip
+    if (math.distance(other.m_position, tree.m_position) > fon)
+        continue;
+
+    //Cull if needed
+    if (tree.m_age > other.m_age)
+        tree.m_needsCull = true;
+}
+```
+
+You can take a look at the job [here](https://github.com/StaffsUniGames/pcg-forests-ecs/blob/main/Assets/ecs/systems/ForestUpdateSystem.cs), namely line 96 onwards. The line above finds all entities local to the tree, by indexing into the hashmap with the tree's hashed 1D index. This results in an array of entities which can be iterated over.
+
+The loop then does a few things:
+
+- Checks if the iterated entity is this tree, and if so, ignore it.
+- Calculates if the FON of the other tree overlaps this tree's position $\mathbf{p}$.
+- If this is the case, compare the age of the two plants -- the younger one should be removed from the simulation.
+
+Finally, a separate job named `SpawnInitialTreesJob` runs once before the simulation starts, and seeds the forest with some trees at uniform randomly sampled positions. This is because plant competitions are hinged on the existence of trees initially. It does this with a simple for loop:
+
+```cs
+
+public void Execute([ChunkIndexInQuery] int chunkIndex, ref ForestComponent forest, in Entity entity)
+{
+    DynamicBuffer<TreePrefabItem> prefabBuf = prefabLookup[entity];
+
+    for (int i = 0; i < forest.m_initialTreeAmount; i++)
+    {
+        Entity newEntity = ecb.Instantiate(chunkIndex, prefabBuf.SelectRandom(forest.m_rng).prefab);
+
+        //Use NextFloat because NextFloat2 doesn't do what you'd expect
+        float randX = forest.m_rng.NextFloat(forest.m_cullRegionX.min, forest.m_cullRegionX.max);
+        float randY = forest.m_rng.NextFloat(forest.m_cullRegionY.min, forest.m_cullRegionY.max);
+
+        //No swizzling, they are spawned on XY plane
+        float3 randPos3 = new float3(randX, randY, 0);
+        float2 randPos2 = new float2(randX, randY);
+
+        //Add a tree component: make this entity a tree
+        ecb.AddComponent(chunkIndex, newEntity, new TreeComponent
+        {
+            m_age = 0,
+            m_deathAge = forest.m_rng.NextUInt(forest.m_deathAge.min, forest.m_deathAge.max),
+            m_matureAge = forest.m_rng.NextUInt(forest.m_matureAge.min, forest.m_matureAge.max),
+            m_position = randPos2,
+            m_needsCull = false,
+            m_forestIndex = forest.m_forestIndex
+        });
+
+        //Set the position of the entity
+        ecb.SetComponent<LocalTransform>(chunkIndex, newEntity, LocalTransform.FromPosition(randPos3));
+    }
+}
+```
+
+# Our results
