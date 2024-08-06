@@ -90,7 +90,12 @@ The issue with this is the complexity of simulating forests with software:
 
 Plant competition models are slow, but that is fine for ecologists and those interested in simulating them for predicting forest growth. They can press "Simulate" and come back after a few hours; offline simulation is fine in this regard. But what if we want to simulate this in real-time? What if we want to simulate forest growth in real-time, to add to immersive virtual worlds? What if we wanted to simulate forest development in games, which are by their design, real-time applications?
 
-It is with this motivation in mind that my latest paper, submitted to CGVC'24, covers an optimisation strategy in a popular games engine to make this process blisteringly fast.
+
+It is with this motivation in mind that my latest paper, submitted to CGVC'24, covers an optimisation strategy in a popular games engine to make this process blisteringly fast. We make the process of simulating forestry possible for real-time applications, which is much needed for not only games, but in ecology research. Gone are the days of waiting hours for a result: we can do it on-the-fly!
+
+![slow computer](https://i.giphy.com/M11UVCRrc0LUk.webp)
+
+*(Above) Moss demonstrating the typical reaction to 4 hours of forest simulation, when suddenly the software dies 26 iterations before completion because it ran out of virtual memory. 💢*
 
 # Optimisation strategy
 In our recent paper, we looked at optimising an asymmetric plant competition model typically used in generating virtual forestry. Our optimisation strategy focused primarily on two things:
@@ -176,7 +181,7 @@ In our approach we largely utilise `IJobEntity` as we perform most of our calcul
 
 ![pc on fire](https://media2.giphy.com/media/CZZFrvvfdaYcsOyyh0/giphy.webp?cid=dda24d502wjxy5goifkxd8jkhvjtyg4zm12fmemlqched3it&ep=v1_internal_gif_by_id&rid=giphy.webp&ct=g)
 
-*(Above) A visual depiction of burst-compiled ECS code parallelised via the job system.*
+*(Above) A visual depiction of burst-compiled ECS code running in parallel, thanks to the job system.*
 
 ## Job structure
 We have several jobs which enables the super fast simulation of virtual forestry by leveraging the ECS and spatial hashing. Although jobs are parallelised, their order and execution is synchronised carefully to ensure the correct functioning of our approach. For example, the spatial hashing job runs before most of the jobs which simulate individual trees. If this order was negated, things would go drastically wrong. 
