@@ -1,12 +1,13 @@
 # Procedural Content Generation
-One area which remains a fascinating research topic to me concerns algorithms for Procedural Content Generation (PCG). PCG largely concerns the automatic and algorithmic generation of content, for games, media, and much more. For example, the procedural generation of 3D buildings would concern how 3D buildings can be automatically generated, as opposed to a manual design approach. PCG has a number of benefits, but the primary motivator for its use in games regards the lack of a manual design approach -- development times are reduced, a large amount of content can be generated in an instant, etc. Lots of examples can be found on the [/r/proceduralgeneration](https://www.reddit.com/r/proceduralgeneration/?rdt=38901) subreddit if you are interested in some more concrete examples.
+One area which remains a fascinating research topic to me concerns algorithms for Procedural Content Generation (PCG). PCG largely focuses on the automatic and algorithmic generation of content, for games, media, and much more. For example, the procedural generation of 3D buildings would concern how 3D buildings can be automatically generated, as opposed to a manual design approach. PCG has a number of benefits, but the primary motivator for its use in games regards the lack of a manual design approach -- development times are reduced, a large amount of content can be generated in an instant, etc. Lots of examples can be found on the [/r/proceduralgeneration](https://www.reddit.com/r/proceduralgeneration/?rdt=38901) subreddit if you are interested in some more concrete examples.
 
-A number of articles I have published throughout my career novel procedural generation approaches. In fact, in my second year of my bachelor's degree, I started work on my first paper -- the procedural generation of virtual forests.
+A number of articles I have published throughout my career focus on novel procedural generation approaches. In fact, in my second year of my bachelor's degree, I started work on my first paper -- the procedural generation of virtual forests. Since then, it has remained an interesting topic to me.
 
 ## Procedural Forestry
-Generating a virtual forest is actually quite easy. The easiest approach is to sample a bunch of random points in some closed space, and then distribute trees according to these sampled points. For example, consider the following C++. This is a simple pseudo-random number generator:
+Generating a virtual forest is actually quite easy. The easiest approach is to sample a bunch of random points in some closed space, and then distribute trees according to these sampled points. The sampling typically has $\mathcal{O}(1)$ time complexity enabling a cheap and fast way of generating forests. For example, consider the following C++. This is a simple pseudo-random number generator:
 
 ```cpp
+
 //Properties for the RNG
 std::random_device device;
 std::mt19937 randomGenerator(device());
@@ -46,6 +47,7 @@ public:
 We can then use this to produce random coordinates:
 
 ```cpp
+
 /// <summary>
 /// Represents a 2-component vector (x, y)
 /// </summary>
@@ -70,13 +72,13 @@ Vector2 RandomPointInUnitSquare()
 
 We could use `RandomPointInUnitSquare()` to generate a number of pseudo-random points and then spawn trees at these sampled positions. This is perhaps the easiest and least-computational method of producing a virtual forest, with respect to the generative process. But does this produce nice, realistic looking forests?
 
-We previous considered this in [our paper](https://www.mdpi.com/2073-431X/9/1/20), and we found that actually it really depends on the perspective you're viewing the forest from. If you're situated within the virtual forest, it doesn't really matter -- pseudo-random uniform distributions produce forests which look believable. However, if you're viewing the distribution from above, it does matter. We found that:
+We previous considered this in [our paper](https://www.mdpi.com/2073-431X/9/1/20), and we found that actually it really depends on the perspective you're viewing the forest from. If you're situated within the virtual forest, it doesn't really matter -- pseudo-random uniform distributions produce forests which look believable. However, if you're viewing the distribution from above, it does matter. We found that (amongst other things):
 
-- Participants seem to like tightly-clustered dense distributions with equidistant spacing between tree instances.
-- Participants consider large open clearings to be a fundamental component of generated forestry.
-- Algorithms which are not pure pseudo-random distributions generally receive a higher degree of perceived believability.
+- Participants seem to like tightly-clustered distributions with equidistant spacing between tree instances. ($\chi^2 (2) = 10.25, p < 0.05$)
+- Participants favoured medium density distributions, regardless of image perspective -- whether that be first-person ($\chi^2 (2) = 10.92, p < 0.05$), 2D aerial ($\chi^2 (2) = 40.92, p < 0.05$) or 3D aerial ($\chi^2 (2) = 15.75, p < 0.05$).
+- Algorithms which are not pure pseudo-random distributions generally receive a higher degree of perceived believability when viewed from an aerial perspective. 
 
-In our paper, we compared three algorithms: a pseudo-random uniform distribution, a bio-inspired plant competition model and a hybrid approach. We found that generally, the plant competition model produced more believable forestry from a top-down perspective. So problem solved right? Plant competition models are the best? Unfortunately not.
+In our paper, we compared three algorithms: a pseudo-random uniform distribution, a bio-inspired plant competition model and a hybrid approach. We found that generally, the plant competition model produced more believable forestry from a top-down perspective. We found these results by conducting user studies with a large and diverse sample of participants $(n = 86)$. So problem solved right? Plant competition models are the best? Unfortunately not.
 
 ## Plant competition models and their problems
 A plant competition model essentially involves the individual simulation of each tree in the forest. Plants can grow, spread their seed, age and die within the forest. There is also a simulated level of competition between plants for resources. We find this in nature; plants in close proximity compete for soil moisture and sunlight. Plants which are larger can occlude sunlight to smaller plants, limiting their growth and potentially killing them off. Plant competition models embody this principle: trees in a forest are individual simulated, and compete for resources with each other.
@@ -84,7 +86,7 @@ A plant competition model essentially involves the individual simulation of each
 The issue with this is the complexity of simulating forests with software:
 
 - Forests potentially have hundreds of thousands of trees in them. Individually simulating this many trees in real-time is a considerable task.
-- For a given tree T, it has to look up potentially every other tree to find trees local to it. This yields a naive time complexity of O(n^2); which is *drastically* slow.
+- For a given tree T, it has to look up potentially every other tree to find trees local to it. This yields a naive time complexity of $\mathcal{O}(n^2)$; which is *painfully* slow.
 
 Plant competition models are slow, but that is fine for ecologists and those interested in simulating them for predicting forest growth. They can press "Simulate" and come back after a few hours; offline simulation is fine in this regard. But what if we want to simulate this in real-time? What if we want to simulate forest growth in real-time, to add to immersive virtual worlds? What if we wanted to simulate forest development in games, which are by their design, real-time applications?
 
@@ -108,33 +110,34 @@ int result = add(10, 15);
 It's CIL (Common Intermediate Language) would be:
 
 ```cil
-ldc.i4.10                       # Pushes 10 onto the stack as a 4 byte int (i4)
-ldc.i4.15                       # Pushes 15 onto the stack as a 4 byte int (i4)
 
-call int32 add(int32, int32)    # Calls the add function on the two args passed
+ldc.i4.10                       // Pushes 10 onto the stack as a 4 byte int (i4)
+ldc.i4.15                       // Pushes 15 onto the stack as a 4 byte int (i4)
 
-stloc.0                         # Pop stack (result) into variable result 
+call int32 add(int32, int32)    // Calls the add function on the two args passed
+
+stloc.0                         // Pop stack (result) into variable result 
 
 ```
 
 Which could be compiled down to the following x86 instructions:
 
-```asm
+```asmatmel
 add(int, int):
-    push rbp                    # Save where we need to pop back to on stack
-    mov rbp, rsp                # Set new base address for frame
-    mov DWORD PTR [rbp-4], edi  # Allocate 4 bytes of stack mem for arg1, move EDI into it
-    mov DWORD PTR [rbp-8], esi  # Do the same but for second arg, move ESI
-    mov edx, DWORD PTR [rbp-4]  # Move first arg into EDX
-    mov eax, DWORD PTR [rbp-8]  # Move second arg into EAX
-    add eax, edx                # Add EDX to EAX, EAX will contain result
-    pop rbp                     # Pop back to where we were on the stack
-    ret                         # Return: jumps back to where we were
+    push rbp                    ; Save where we need to pop back to on stack
+    mov rbp, rsp                ; Set new base address for frame
+    mov DWORD PTR [rbp-4], edi  ; Allocate 4 bytes of stack mem for arg1, move EDI into it
+    mov DWORD PTR [rbp-8], esi  ; Do the same but for second arg, move ESI
+    mov edx, DWORD PTR [rbp-4]  ; Move first arg into EDX
+    mov eax, DWORD PTR [rbp-8]  ; Move second arg into EAX
+    add eax, edx                ; Add EDX to EAX, EAX will contain result
+    pop rbp                     ; Pop back to where we were on the stack
+    ret                         ; Return: jumps back to where we were
 
-mov esi, 15                     # Load ESI with 15
-mov edi, 10                     # Load EDI with 10
-call add(int, int)              # Call add function
-mov DWORD PTR[rbp-4], eax       # Move result (in EAX) to new space in stack mem
+mov esi, 15                     ; Load ESI with 15
+mov edi, 10                     ; Load EDI with 10
+call add(int, int)              ; Call add function
+mov DWORD PTR[rbp-4], eax       ; Move result (in EAX) to new space in stack mem
 ```
 
 Burst enables us to skip the IL step, meaning that an intermediary format is not used. Instead, native instructions are generated for the underlying C# code, which makes it blazingly fast. Burst is also very easy to use. You simply use attributes to mark constructs to be compiled down to native x86 with `[BurstCompile]`. For example, here is a C# job that we compile with Burst to cull trees who are marked as dead:
@@ -170,6 +173,10 @@ The job system does a good job (pun intended) of abstracting away from the detai
 - `IJobParallelFor`: A generalised job for performing the same operation for each element of a container (a parallelised `foreach`) or for a fixed number of iterations (a parallelised `for`).
 
 In our approach we largely utilise `IJobEntity` as we perform most of our calculations on a per-entity basis. For example, aging trees requires iteration over all entities and adding one to their age variable. This can be achieved by using `IJobEntity`.
+
+![pc on fire](https://media2.giphy.com/media/CZZFrvvfdaYcsOyyh0/giphy.webp?cid=dda24d502wjxy5goifkxd8jkhvjtyg4zm12fmemlqched3it&ep=v1_internal_gif_by_id&rid=giphy.webp&ct=g)
+
+*(Above) A visual depiction of burst-compiled ECS code parallelised via the job system.*
 
 ## Job structure
 We have several jobs which enables the super fast simulation of virtual forestry by leveraging the ECS and spatial hashing. Although jobs are parallelised, their order and execution is synchronised carefully to ensure the correct functioning of our approach. For example, the spatial hashing job runs before most of the jobs which simulate individual trees. If this order was negated, things would go drastically wrong. 

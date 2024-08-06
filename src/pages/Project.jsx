@@ -12,6 +12,7 @@ import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
+import {dracula} from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 function code(props)
 {
@@ -23,7 +24,7 @@ function code(props)
             PreTag="div"
             children={String(children).replace(/\n$/, '')}
             language={match[1]}
-            style={dark}
+            style={dracula}
         />
     ) : (
         <code {...rest} className={className}>
@@ -128,7 +129,7 @@ class Project extends Page
                 <Lightbox index={this.state.galleryIndex} open={this.state.galleryIndex > -1} close={this.galleryClose.bind(this)} slides={this.getGalleryData()}/>
             </div>
             <article>
-                <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{this.state.mdText}</ReactMarkdown>
+                <ReactMarkdown components={{code}} remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{this.state.mdText}</ReactMarkdown>
             </article>
         </main>
     }
