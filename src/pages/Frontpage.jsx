@@ -132,6 +132,23 @@ export class Frontpage extends Page
 
             <article>
                 <header>
+                    <h1 className="title-font">Posts</h1>
+                    <aside>
+
+                    </aside>
+                    <Link to="/blog">
+                        <button>
+                            Show all {this.state.posts.length} posts <PiArrowRightBold />
+                        </button>
+                    </Link>
+                </header>
+                <div className="picture-grid">
+                    {this.getBlogPostItems()}
+                </div>
+            </article>
+
+            <article>
+                <header>
                     <h1 className="title-font">Projects</h1>
                     <aside>
 
@@ -148,29 +165,20 @@ export class Frontpage extends Page
                 </div>
             </article>
 
-            <article>
-                <header>
-                    <h1 className="title-font">Posts</h1>
-                    <aside>
 
-                    </aside>
-                    <Link to="/blog">
-                        <button>
-                            Show all {this.state.posts.length} posts <PiArrowRightBold/>
-                        </button>
-                    </Link>
-                </header>
-                <div className="picture-grid">
-                    {this.getBlogPostItems()}
-                </div>
-            </article>
 
             <article>
                 <header>
                     <h1 className="title-font">Publications</h1>
                     <aside>
                     </aside>
-                    <a href="https://scholar.google.com/citations?user=o9LBoXQAAAAJ&hl=en">
+                        <a href="https://orcid.org/0000-0003-4766-9337" target="_blank">
+                        <button>
+                            ORCID <PiArrowRightBold />
+                        </button>
+                    </a>
+
+                    <a href="https://scholar.google.com/citations?user=o9LBoXQAAAAJ&hl=en" target="_blank">
                         <button>
                             Scholar profile <PiArrowRightBold />
                         </button>
@@ -180,6 +188,21 @@ export class Frontpage extends Page
                     {this.getPublicationsList()}
                 </div>
             </article>
+            <footer>
+                <div className="wrap">
+                    <div className="left">
+                        Design &amp; development by Benjamin Williams<br/>
+                        &copy; Benjamin Williams {new Date().getFullYear()}. All rights reserved.<br/>
+                    </div>
+                    <div className="right">
+                        <Link to="/projects">Projects</Link>
+                        <Link to="/blog">Blog</Link>
+                        <a href="https://staffs.ac.uk/" target="_blank">Staffs</a>
+                        <a href="https://benwillia.ms/">Home</a>
+                        <a href="javascript:window.scrollTo(0, 0);void(0);">&uarr; Back to top</a>
+                    </div>
+                </div>
+            </footer>
         </main>
         </DataContext.Provider>
     }

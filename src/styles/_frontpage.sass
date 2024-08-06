@@ -203,3 +203,36 @@ button
     border: 4px solid transparent
     border-top-color: $fg-color
     animation: spin 0.75s linear infinite
+
+
+footer
+    border-top: 1px solid $fg-color-3
+    width: 100%
+    color: $fg-color-3
+
+    .wrap
+        display: flex
+        justify-content: space-between
+        width: 80%
+        margin: 0 auto
+        padding: 5% 0
+
+        &> div
+            flex-grow: 1
+            align-self: flex-end
+
+        .left
+            font-size: 10pt
+            line-height: 2.0
+
+        .right
+            text-align: right
+            
+            a
+                display: block
+                text-decoration: none
+                color: $fg-color-3
+                line-height: 2
+
+                &:hover
+                    color: $fg-color

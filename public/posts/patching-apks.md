@@ -1,6 +1,6 @@
 
 # The backstory
-Like any typical software developer, I have a pretty serious obsession with coffee. I love a super strong black Americano with no sugar, no milk, nothing. One morning this year, I went down to the on-campus coffee shop and bought an Americano, like I do any other day. However, my colleague showed me that the coffee shop uses an app which enables you to collect stamps. You know, kind of like the loyalty cards that get a stamp every time you buy -- but all digital! 
+Like any typical software developer, I have a pretty serious obsession with coffee. I love a super strong black Americano with no sugar, no milk, nothing. One morning this year, I went to a coffee shop and bought an Americano, like I do any other day. However, my colleague showed me that the coffee shop uses an app which enables you to collect stamps. You know, kind of like the loyalty cards that get a stamp every time you buy -- but all digital! 
 
 What was cool about it was that the cashier *actually* stamps your device with a little rubber stamp, rather than scanning a QR code. I loved this idea, and it felt so much more rewarding when buying a coffee. I collected a total of 15 stamps over the next two weeks or so, and got a free coffee. Once you have a free coffee, you can redeem it through the app and show it to the cashier.
 
@@ -69,7 +69,7 @@ The code does the following:
 - If the debug flag is set, and this is an emulator, and there are two touches on the screen:
     - Call a function called `sendSimulatedBlock`, which appears (based on the name) to send a simulated stamp press
 - Otherwise:
-    - If the number of touches is >= 5, call the `validate` function, passing `e`, which appears (based on the name) to validate if the touches on the screen are actually a stamp.
+    - If the number of touches is $\geqslant 5$, call the `validate` function, passing `e`, which appears (based on the name) to validate if the touches on the screen are actually a stamp.
 
 This is very interesting, and from analysing this function we can draw some interesting conclusions about the app:
 
@@ -249,9 +249,7 @@ The `onStamp` function is pretty straight forward; it eventually calls the `proc
 - Then determines if a voucher should be given or just another stamp.
 - Plays success sound.
 
-Through spooling through the code, there seems to be some checks for detecting if the correct code has been inputted. Essentially, the app loops through all outlets saved on the phone, and sees if the code matches the stampcard code of one of these outlets. Stampcards and outlets are fundamentally independent, so it would be great if we could look up the current outlet given the current stampcard. But for now, it just means that we have to find the correct stampcard code for the outlet we want. 
-
-In this case, it's my local on-campus coffee shop. But where can we find this code? Well, we can look at what is saved on disk by the app!
+Through spooling through the code, there seems to be some checks for detecting if the correct code has been inputted. Essentially, the app loops through all outlets saved on the phone, and sees if the code matches the stampcard code of one of these outlets. Stampcards and outlets are fundamentally independent, so it would be great if we could look up the current outlet given the current stampcard. But for now, it just means that we have to find the correct stampcard code for the outlet we want. But where can we find this code? Well, we can look at what is saved on disk by the app!
 
 ## Digging deeper with `adb`
 It turns out the codes we're looking for are in the localStorage database of the application; I figured this out as the local state of the root component is initialised from localStorage. But how can we access this? Well, we can simply use `adb shell` whilst the emulator is running. The `adb` process is a bridge between your host machine and your emulator or physical device. Here `adb shell` fires up a terminal session and lets you interact with the phone via command line. With `adb shell` fired up, you can type:
@@ -283,6 +281,9 @@ And then I had all the outlets, along with their stampcard codes in a giant JSON
 
 ![JSON codes](json-codes.png)
 
+*(Above) The anonimised raw stamp codes*
+
+
 With the JSON saved out to a file, it's just a matter of looking up the correct outlet and gathering what stampcodes are valid. A correct code could then be swapped out in the `t` object of `sendSimulatedBlock`; to fool the app into thinking we stamping a valid card for this outlet. Well, that's the theory anyways.  
 
 # Patching the app
@@ -295,7 +296,7 @@ Lets summarise the changes we need to make before we start on the process of mod
 We need to patch the part of the code which deals with incrementing the number of stamps given today, to circumvent the daily limit. We looked at achieving this earlier, and it turns out its quite easy. All we have to do is open `processStamp()` and comment out the line which invokes `incrementNumberOfStampsToday()`.
 
 ## Patching the condition
-Patching the condition such that `sendSimulatedBlock` is called instead of `validate()` is also pretty easy. The developers left a debug-only condition in the minified code. If the `props.debug` flag is true, the device is an emulator (`props.isEmulator`), and the screen is touched with two fingers, `sendSimulatedBlock` is called. So all we have to, really, is to just change the compound condition to `true`. This means that the app will always call the debug method when two fingers touch the screen!
+Patching the condition such that `sendSimulatedBlock` is called instead of `validate()` is also pretty easy. The developers left a debug-only condition in the minified code. If the `props.debug` flag is true, the device is an emulator (`props.isEmulator`), and the screen is touched with two fingers, `sendSimulatedBlock` is called. So all we have to do, really, is to just change the compound condition to `true`. This means that the app will always call the debug method when two fingers touch the screen!
 
 To illustrate this, here's the line of code for when the screen is touched:
 
@@ -411,6 +412,15 @@ To test it out, you simply need to run the app on your device or emulator. For m
 
 ![Result](img/patching-apks/result.gif)
 
-As you can see, it ended up working! I got a free coffee with this method but ended up feeling too guilty about getting more. After figuring out how it works I was happy! 🙂
+As you can see, it ended up working! I didn't end up getting a free coffee with this method as I felt too guilty about breaking the app. But it was certainly rewarding figuring out how the app works; I ended up being quite happy with the end result. 🙂
 
-Stay tuned for future posts on breaking apps for fun!
+
+# Take home lessons
+From this case study there are a few things to note:
+
+- React Native can be used to quickly build applications, but if your minified JavaScript is somewhat legible, it can be easily abused. Make sure if you build React Native apps to focus on obfuscated code.
+- With that being said, native IL can also be abused, it is just a lot harder and will deter the majority of folks!
+- Server-sided validation can save your bacon in some cases. In this example, if stamp validation was done online we probably wouldn't have got very far in our quest for free coffee. Build dumb apps which relay information from a place you can control: an API.
+- Don't leave debug modes in your production code which can be enabled by flipping a bool value! All it serves to do is make breaking the app easier. 
+
+I hope you enjoyed the read. Check out some other posts or other parts of this site too!
