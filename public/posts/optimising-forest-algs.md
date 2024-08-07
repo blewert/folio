@@ -441,3 +441,30 @@ public void Execute([ChunkIndexInQuery] int chunkIndex, ref ForestComponent fore
 ```
 
 # Our results
+We conducted a thorough analysis of our approach, comparing it to a traditionally serial implementation of the same algorithm. We found three main results:
+
+- Our approach enables a $\approx 48.75$ times speed-up against a naive, serial $\mathcal{O}(n^2)$ algorithm.
+- Parallelisation alone increased performance by $\approx 21.98$ times.
+- Utilising ECS provides most performance benefits at a large-scale, with a large entity count. 
+
+We listed a number of areas which could be explored in the future:
+
+- Providing a more in-depth analysis of performance metrics between ECS and serial implementation could give a better idea, for example, of the optimum uniform grid size given $n$ entities.
+- Investigating the optimum thread pool size would also be an interesting avenue for future work.
+- Other spatial partitioning algorithms, e.g. k-d tree partitioning, would be another interesting aspect to consider -- our approach only uses uniform grid partitioning.
+
+The paper itself provides a much more comprehensive breakdown of the results we found, so please check it out in September! Alternatively, check out our [open-source repository](https://github.com/StaffsUniGames/pcg-forests-ecs) if you want to get involved -- check out our trailer for a good summary of the main contributions our paper brings!
+
+Below are some screenshots of the simulation. First, here's the 2D representation of a forest's growth using our approach:
+
+![screen2](img/ecs-forests/2-screen-2.jpg)
+
+And the same forest, but visualised in 3D:
+![3D forest](img/ecs-forests/screen-1.jpg)
+
+## Conclusion
+To conclude, we provide a novel optimisation strategy for the simulation of virtual forestry in real-time. We primarily use Unity's Entities package (ECS), the parallelisable C# job scheduling system, and uniform spatial partitioning in our approach. The results from validating the approach shows dramatic ($\gt 40 \times$) performance benefits.
+
+One thing we wanted to push in the paper was to introduce the wider field to the concept of ECS and the optimisation benefits it brings agent-oriented simulations. It is typical to see this divide between the commercial games sector and the literature. In our paper we hope to close this slightly, especially in the case of utilising ECS and data-orientation for real-time games. 
+
+We hope to inspire future work which leverages ECS for optimising traditional algorithms. If you want to get in touch for collaboration on a paper or project, please reach out to me! 🙂

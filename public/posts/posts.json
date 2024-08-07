@@ -8,12 +8,30 @@
         "tags": [
             "Unity", "ECS", "Games", "PCG"
         ],
-        "headerImage": "coffee.png",
+        "headerImage": "img/ecs-forests/forests.webp",
         "gallery": [
             {
-                "image": "coffee.png",
-                "title": "Americano",
-                "desc": "A coffee"
+                "image": "img/ecs-forests/2-screen-1.jpg",
+                "title": "At t = 100",
+                "desc": " "
+            },
+
+            {
+                "image": "img/ecs-forests/2-screen-2.jpg",
+                "title": "At t = 200",
+                "desc": " "
+            },
+
+            {
+                "image": "img/ecs-forests/2-screen-3.jpg",
+                "title": "At t = 300",
+                "desc": " "
+            },
+
+            {
+                "image": "img/ecs-forests/screen-1.jpg",
+                "title": "A 3D forest",
+                "desc": "A visualised 3D forest using our approach."
             }
         ],
         "mdFile": "posts/optimising-forest-algs.md",
@@ -28,7 +46,7 @@
         "tags": [
             "Hacking", "React Native", "Low Level"
         ],
-        "headerImage": "blueprint.png",
+        "headerImage": "img/patching-apks/hack.webp",
         "gallery": [
             {
                 "image": "coffee.png",

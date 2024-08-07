@@ -131,6 +131,21 @@ class Project extends Page
             <article>
                 <ReactMarkdown components={{code}} remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{this.state.mdText}</ReactMarkdown>
             </article>
+            <footer>
+                <div className="wrap">
+                    <div className="left">
+                        Design &amp; development by Benjamin Williams<br />
+                        &copy; Benjamin Williams {new Date().getFullYear()}. All rights reserved.<br />
+                    </div>
+                    <div className="right">
+                        <Link to="/projects">Projects</Link>
+                        <Link to="/blog">Blog</Link>
+                        <a href="https://staffs.ac.uk/" target="_blank">Staffs</a>
+                        <a href="https://benwillia.ms/">Home</a>
+                        <a href="javascript:window.scrollTo(0, 0);void(0);">&uarr; Back to top</a>
+                    </div>
+                </div>
+            </footer>
         </main>
     }
 }
