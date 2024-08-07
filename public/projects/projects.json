@@ -4,9 +4,35 @@
         "description": "A something",
         "date": "2021",
         "slug": "ncnr",
-        "tags": [ "Unity", "XR", "C++", "ROS" ],
+        "tags": [
+            "Unity",
+            "XR",
+            "C++",
+            "ROS"
+        ],
         "mdFile": "projects/ncnr.md",
         "showOnFrontpage": false,
+        "headerImage": "blueprint.png",
+        "gallery": [
+            {
+                "image": "coffee.png",
+                "title": "Americano",
+                "desc": "A coffee"
+            }
+        ]
+    },
+
+    {
+        "name": "Offer Holder Day Activity: Staffs Uni",
+        "description": "An online web-based activity for applicants",
+        "date": "2023",
+        "slug": "ohd-staffs",
+        "tags": [
+            "React",
+            "Web"
+        ],
+        "mdFile": "projects/ohd.md",
+        "showOnFrontpage": true,
         "headerImage": "blueprint.png",
         "gallery": [
             {

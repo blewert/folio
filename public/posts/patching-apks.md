@@ -21,6 +21,10 @@ I started by downloading the latest version of the APK from the Google Play stor
 
 For example, disassembling a PE32 Windows application will typically only result in a shedload of x86 disassembly code. This is useful, and you certainly can build a clear picture of what is going on, but it can be limiting. Disassembling an APK with JADX however, gives you the name of the classes used throughout development, along with a good approximation of the original source code. With this, you can blast through the disassembly of an app and pinpoint areas of interest quickly.
 
+![matrix](https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdW5mNzM3Y3B1Y2FzN2lyeWFtYjI0NGhzZ3N3aGhsNnl1Yzk0aDF6OCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/sULKEgDMX8LcI/200.webp)
+
+*(Above) What most disassembled PE32 executables look like.*
+
 ## Initial findings
 After a run of the app through JADX, I found some interesting initial findings. As mentioned earlier, I wanted to figure out how the app figures out whether a human has touched the screen, or if the stamp has. It could be a variety of things; maybe NFC, or maybe there is a ML-based algorithm which can determine if a set of touches are human or not. 
 
@@ -78,7 +82,11 @@ This is very interesting, and from analysing this function we can draw some inte
 - Assuming `this.props.debug` is `false` for production release, the `validate` function is always called.
 - The developers who built this app were using a debug flag (`this.props.debug`) to test the app's functionality. If this flag is set to `true`, and the app is ran using an emulator, it will call the `sendSimulatedBlock` function. Here `2 == e.touches.length` checks if the number of touches pressed is 2; this is likely because it is hard to recreate multiple touches on an emulator. You can however hold CTRL and click on the emulated screen to simulate two simultaneous touch events.
 
-Tricking the app into thinking a stamp has been pressed against the screen might be as easy as hard-replacing the `this.props.debug && this.props.isEmulator` condition with `true`. This would ensure that the `sendSimulatedBlock` function is *always* called instead of the function to validate touches.
+Tricking the app into thinking a stamp has been pressed against the screen might be as easy as hard-replacing the `this.props.debug && this.props.isEmulator` condition with `true`. This would ensure that the `sendSimulatedBlock` function is *always* called instead of the function to validate touches. Very nice indeed.
+
+![marty](https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdjltYnJiaGp1emsxMmpwMGpka2RrZWJ3YTBzenU3dTN6NHFmMHFyZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jP3rv37dSwAKk2v0HO/giphy.webp)
+
+*(Above) Me realising I was one step away from unlimited free coffee because the developers left debug code in a production-ready app.*
 
 ## The validate() function
 Lets examine the `validate` function to see what it does. We currently have two options of tricking the app into giving us free stamps:
@@ -413,6 +421,8 @@ To test it out, you simply need to run the app on your device or emulator. For m
 ![Result](img/patching-apks/result.gif)
 
 As you can see, it ended up working! I didn't end up getting a free coffee with this method as I felt too guilty about breaking the app. But it was certainly rewarding figuring out how the app works; I ended up being quite happy with the end result. 🙂
+
+
 
 
 # Take home lessons

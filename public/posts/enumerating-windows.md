@@ -1,5 +1,5 @@
 # Enumerating all visible desktop windows by z-order
-Do you want to traverse all visible desktop windows, but with respect to z-order? Well, you might be able to do this via `EnumDesktopWindows`, but it is unclear if these are enumerated in a specified z-order. Plus, if you don't want to use a callback, maybe this approach isn't for you. Instead, the Windows API has some functions built into it to iterate over desktop windows with respect to z-order. However, there's not many examples of how to do this online, which has inspired the creation of this post! 🎉 
+Do you want to traverse all visible desktop windows, but with respect to z-order? Using the Windows API? Well, you might be able to do this via `EnumDesktopWindows`, but it is unclear if these are enumerated in a specified z-order. Plus, if you don't want to use a callback, maybe this approach isn't for you. Instead, the Windows API has some functions built into it to iterate over desktop windows with respect to z-order. However, there's not many examples of how to do this online, which has inspired the creation of this post! 🎉 
 
 ## Getting the top-most window
 Getting the top-most window is really easy. First, you can just do something like:
@@ -123,7 +123,7 @@ do
 while (window = GetWindow(window, GW_HWNDPREV));
 ```
 
-## The gist 
+## The gist of it all
 I ended up writing this as a GitHub gist out of frustration because of the lack of documentation on `GetWindow(...)`. Most of time it seems the Windows API is a little scuffed; hopefully this helps you out. You can view the gist [here](https://gist.github.com/blewert/b6e7b11c565cf82e7d700c609f22d023), along with some more in-depth code examples.
 
 I hope it helps and best of luck!
