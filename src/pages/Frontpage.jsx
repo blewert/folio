@@ -200,6 +200,7 @@ export class Frontpage extends Page
             <footer>
                 <div className="wrap">
                     <div className="left">
+                        <img src="bw-02.png"/>
                         Design &amp; development by Benjamin Williams<br/>
                         &copy; Benjamin Williams {new Date().getFullYear()}. All rights reserved.<br/>
                     </div>
