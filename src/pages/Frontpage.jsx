@@ -4,7 +4,7 @@ import { DataContext } from "@/js/DataContext.js";
 import { Page } from './Page.jsx';
 
 import { PiArrowRightBold, PiLinkedinLogoBold, PiGithubLogoBold, PiEnvelopeBold, PiGraduationCapBold, PiBookBold } from "react-icons/pi";
-import { FaOrcid, FaEnvelope, FaLinkedin, FaGithub } from "react-icons/fa";
+import { FaOrcid, FaEnvelope, FaLinkedin, FaGithub, FaThumbtack } from "react-icons/fa";
 import _ from "lodash";
 import { Link } from "react-router-dom";
 
@@ -38,6 +38,7 @@ export class Frontpage extends Page
         {
             return <Link to={`/${path}/` + x.slug}>
                 <div className="cell" key={i}>
+                    <div className="pin"><FaThumbtack/></div>
                     <img src={x.headerImage} />
                     <h1>{x.name}</h1>
                     <p>{x.description}</p>
@@ -130,9 +131,11 @@ export class Frontpage extends Page
                 </header>
             </article>
 
+            <hr/>
+
             <article>
                 <header>
-                    <h1 className="title-font">Posts</h1>
+                    <h1 className="title-font">Pinned Posts</h1>
                     <aside>
 
                     </aside>
@@ -145,11 +148,14 @@ export class Frontpage extends Page
                 <div className="picture-grid">
                     {this.getBlogPostItems()}
                 </div>
+                <Link to="/posts">
+                    <button className="show-all">Show all posts <PiArrowRightBold /></button>
+                </Link>
             </article>
 
             <article>
                 <header>
-                    <h1 className="title-font">Projects</h1>
+                    <h1 className="title-font">Pinned Projects</h1>
                     <aside>
 
                     </aside>
@@ -163,9 +169,12 @@ export class Frontpage extends Page
                     {this.getProjectGridItems()}
 
                 </div>
+                <Link to="/projects">
+                    <button className="show-all">Show all projects<PiArrowRightBold/></button>
+                </Link>
             </article>
 
-
+                <hr />
 
             <article>
                 <header>

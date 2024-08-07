@@ -6,7 +6,7 @@
         "slug": "ncnr",
         "tags": [ "Unity", "XR", "C++", "ROS" ],
         "mdFile": "projects/ncnr.md",
-        "showOnFrontpage": true,
+        "showOnFrontpage": false,
         "headerImage": "blueprint.png",
         "gallery": [
             {
@@ -61,7 +61,7 @@
             "PCG"
         ],
         "mdFile": "projects/galaxy-gen.md",
-        "showOnFrontpage": true,
+        "showOnFrontpage": false,
         "headerImage": "img/galaxies/galaxy1.png",
         "gallery": [
             {
@@ -140,7 +140,7 @@
             "Games"
         ],
         "mdFile": "projects/elemental.md",
-        "showOnFrontpage": true,
+        "showOnFrontpage": false,
         "headerImage": "img/elemental/elemental1.png",
         "gallery": [
             {
@@ -177,7 +177,7 @@
             "Research"
         ],
         "mdFile": "projects/arcade.md",
-        "showOnFrontpage": true,
+        "showOnFrontpage": false,
         "headerImage": "img/research-arcade/arcade.png",
         "gallery": [
             {
@@ -214,7 +214,7 @@
             "2D"
         ],
         "mdFile": "projects/adis-maze.md",
-        "showOnFrontpage": true,
+        "showOnFrontpage": false,
         "headerImage": "img/adis-maze/adis-maze3.png",
         "gallery": [
             {
@@ -251,7 +251,7 @@
             "2D"
         ],
         "mdFile": "projects/qong.md",
-        "showOnFrontpage": true,
+        "showOnFrontpage": false,
         "headerImage": "img/qong/qong3.png",
         "gallery": [
             {
@@ -289,7 +289,7 @@
             "PCG"
         ],
         "mdFile": "projects/asset-gen.md",
-        "showOnFrontpage": true,
+        "showOnFrontpage": false,
         "headerImage": "img/web/pine.png",
         "gallery": [
             {
@@ -322,7 +322,7 @@
             "Tools"
         ],
         "mdFile": "projects/asset-gen.md",
-        "showOnFrontpage": true,
+        "showOnFrontpage": false,
         "headerImage": "img/web/login.jpg",
         "gallery": [
             {
