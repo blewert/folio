@@ -66,5 +66,21 @@
         ],
         "mdFile": "posts/patching-apks.md",
         "showOnFrontpage": true
+    },
+
+    {
+        "name": "Enumerating desktop windows with the Windows API",
+        "description": "A quick guide on iterating desktop windows by z-order",
+        "date": "2021",
+        "slug": "enumerating-windows",
+        "tags": [
+            "C++",
+            "Windows"
+        ],
+        "headerImage": "img/windows/windows.webp",
+        "gallery": [
+        ],
+        "mdFile": "posts/enumerating-windows.md",
+        "showOnFrontpage": true
     }
 ]
