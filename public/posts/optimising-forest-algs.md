@@ -103,7 +103,7 @@ In our recent paper, we looked at optimising an asymmetric plant competition mod
 - The utilisation of an Entity-Component System (ECS), a data-oriented approach for vectorising computation and parallelising it easily.
 - A uniform spatial hashing method, in tandem with the ECS.
 
-We chose the popular Unity games engine to implement our approach as it has a fully-fledged ECS built into it, and offers native unmanaged containers (like `NativeParalellMultiMashMap<T, U>` for easy spatial hashing.
+We chose the popular Unity games engine to implement our approach as it has a fully-fledged ECS built into it, and offers native unmanaged containers (like `NativeParallelMultiMashMap<T, U>` for easy spatial hashing.
 
 ## Burstifying everything
 Unity's ECS works well with Burst, and the Unity C# job scheduling system. Burst is a way of compiling C# down to native instructions, rather than Intermediary Language (IL) bytecode. Why? Put simple, native instructions are *quick*. IL bytecode in comparison requires a run-time or service which interpret the IL code down to native instructions for your particular platform. For example, if your C# code is:

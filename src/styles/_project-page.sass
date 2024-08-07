@@ -18,10 +18,9 @@
 
 
 .project-post
-
+    justify-content: center
+    
     .content
-        // max-width: 850px
-        width: 80%
         max-width: 850px
 
     header
@@ -35,6 +34,9 @@
         display: flex
         justify-content: center
         align-items: center
+
+        .content
+            width: 80%
 
         img
             position: absolute
@@ -90,14 +92,14 @@
 
 
     .gallery
+        width: 80%
         .photos
             margin-top: 5vh
             display: grid
-            grid-template-columns: repeat(auto-fit, minmax(250px,1fr))
+            grid-template-columns: 1fr 1fr 1fr
             grid-template-rows: masonry
             grid-gap: 1rem
             padding: 0
-            width: 850px
 
             img
                 cursor: pointer
@@ -113,7 +115,9 @@
 
     article
         margin-top: 5vh
+        width: 80%
         max-width: 850px
+        // width: 90%
 
         a
             color: $accent-color
@@ -154,7 +158,7 @@
             font-size: 18pt
 
         img
-            max-width: 850px
+            width: 100%
 
         pre
             margin-bottom: 2rem
