@@ -46,9 +46,13 @@ export class Projects extends Page
         if (!this.state.loaded || !this.state[this.dataKey]?.length)
             return <div className="loader"></div>
 
+        const props = this.props;
+
         return this.state[this.dataKey].filter(this.filterFunc.bind(this)).map((x, i) =>
         {
-            return <Link to={`/projects/` + x.slug} key={i}>
+            let dataKey = props.dataKey || "projects";
+
+            return <Link to={`/${dataKey}/` + x.slug} key={i}>
                 <div className="cell" key={i}>
                     <img src={x.headerImage} />
                     <h1>{x.name}</h1>
