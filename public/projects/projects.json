@@ -33,12 +33,24 @@
         ],
         "mdFile": "projects/ohd.md",
         "showOnFrontpage": true,
-        "headerImage": "blueprint.png",
+        "headerImage": "img/ohd/header.gif",
         "gallery": [
             {
-                "image": "coffee.png",
-                "title": "Americano",
-                "desc": "A coffee"
+                "image": "img/ohd/1.png",
+                "title": "The onboarding process",
+                "desc": " "
+            },
+
+            {
+                "image": "img/ohd/2.png",
+                "title": "The web-based IDE",
+                "desc": " "
+            },
+
+            {
+                "image": "img/ohd/3.png",
+                "title": "The finishing up screen",
+                "desc": " "
             }
         ]
     },
