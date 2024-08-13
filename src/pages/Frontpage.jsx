@@ -128,6 +128,9 @@ export class Frontpage extends Page
                     <aside>
                         I'm an academic interested in building software and games. I especially love anything involving computer graphics, full-stack frameworks or low level C++. Building software and fun experiences is my passion.
                     </aside>
+                    <Link to="/posts/ben">
+                        <button className="more-button">More about me <PiArrowRightBold/> </button>
+                    </Link>
                 </header>
             </article>
 
@@ -141,7 +144,7 @@ export class Frontpage extends Page
                     </aside>
                     <Link to="/blog">
                         <button>
-                            Show all {this.state.posts.length} posts <PiArrowRightBold />
+                            Show all {this.state.posts.filter(x => !x?.hide).length} posts <PiArrowRightBold />
                         </button>
                     </Link>
                 </header>

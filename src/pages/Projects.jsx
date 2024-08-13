@@ -33,6 +33,9 @@ export class Projects extends Page
 
     filterFunc(x)
     {
+        if (x?.hide)
+            return false;
+        
         if(!this.state.filters.length)
             return true;
 

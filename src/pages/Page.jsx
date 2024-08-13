@@ -29,7 +29,7 @@ export class Page extends React.Component
         if (resp.status != 200)
             return this.failFast();
         
-        const json = await resp.json();
+        let json = await resp.json();
 
         await new Promise((res) => this.setState({
             [saveKey]: json

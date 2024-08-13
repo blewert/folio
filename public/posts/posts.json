@@ -1,5 +1,18 @@
 [  
     {
+        "name": "About me",
+        "description": "A little bit",
+        "date": " ",
+        "slug": "ben",
+        "tags": [],
+        "headerImage": "img/ecs-forests/forests.webp",
+        "gallery": [],
+        "mdFile": "posts/unity-quaternions.md",
+        "showOnFrontpage": false,
+        "hide": true
+    },
+
+    {
         "name": "Optimising virtual forestry algorithms",
         "description": "Making forestry algorithms run in real-time for video games",
         "date": "2024",
