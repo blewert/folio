@@ -1,5 +1,4 @@
-[
-    
+[  
     {
         "name": "Optimising virtual forestry algorithms",
         "description": "Making forestry algorithms run in real-time for video games",
@@ -35,6 +34,21 @@
             }
         ],
         "mdFile": "posts/optimising-forest-algs.md",
+        "showOnFrontpage": true
+    },
+
+    {
+        "name": "Unity's obscure quaternion functions",
+        "description": "Some fairly unknown (but useful) things in the Quaternion class",
+        "date": "2024",
+        "slug": "unitys-obscure-quaternion-funcs",
+        "tags": [
+            "Unity",
+            "Games"
+        ],
+        "headerImage": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHg3aWRlNm1tcGNtMHl0NTRuNXZmNWliNDM5ajNqZTdnYWE5ejg5eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2CV88JdrUCOYT5Ec8j/giphy.webp",
+        "gallery": [],
+        "mdFile": "posts/unity-quaternions.md",
         "showOnFrontpage": true
     },
 

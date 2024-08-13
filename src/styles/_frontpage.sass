@@ -4,6 +4,22 @@ body
     color: $fg-color
 
 
+@keyframes wave 
+    0%
+        transform:  translateY(5px) translateX(-125%) rotate(0deg)
+
+    50%
+        transform: translateY(-5px) translateX(-125%) rotate(45deg) 
+
+    100%
+        transform: translateY(5px) translateX(-125%)  rotate(0deg)
+
+@keyframes fadeout
+    from
+        opacity: 100%
+
+    to
+        opacity: 0%    
 
 main
     display: flex
@@ -72,9 +88,19 @@ main
             margin-bottom: 5vh
             
 
+
+
     aside h1
         font-size: 48pt
         line-height: 1
+        position: relative
+
+        &::before
+            content: "👋"
+            position: absolute
+            opacity: 0
+            font-size: 100%
+            animation: wave 0.5s ease-in-out infinite, fadeout 2s
 
     aside p
         margin-top: 2rem
@@ -209,6 +235,8 @@ article a
 
     h2
         letter-spacing: -1px
+        font-feature-settings: "ss02"
+        font-size: 250%
 
     .reference
         font-weight: 300
