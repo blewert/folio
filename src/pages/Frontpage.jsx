@@ -21,6 +21,9 @@ export class Frontpage extends Page
             posts: [],
             bgs: []
         }
+
+        this.bgIdx = +window.localStorage["bgIdx"] || 0;
+        window.localStorage["bgIdx"] = `${this.bgIdx + 1}`;
     }
     
     async componentDidMount()
@@ -102,8 +105,11 @@ export class Frontpage extends Page
         if(!this.state.bgs.length)
             return null;
 
+
         const urlWrap = x => `url("${x}")`;
-        const randItem = this.state.bgs[Math.floor(Math.random() * this.state.bgs.length)];
+
+        const itemIdx = this.bgIdx % this.state.bgs.length;
+        const randItem = this.state.bgs[itemIdx];
 
         return { 
             item: randItem,
