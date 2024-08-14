@@ -8,6 +8,8 @@ import "yet-another-react-lightbox/styles.css";
 
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import remarkDirective from "remark-directive";
+import remarkDirectiveRehype from "remark-directive-rehype";
 
 import "katex/dist/katex.min.css";
 
@@ -129,7 +131,7 @@ class Project extends Page
                 <Lightbox index={this.state.galleryIndex} open={this.state.galleryIndex > -1} close={this.galleryClose.bind(this)} slides={this.getGalleryData()}/>
             </div>
             <article>
-                <ReactMarkdown components={{code}} remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{this.state.mdText}</ReactMarkdown>
+                <ReactMarkdown components={{ code }} remarkPlugins={[remarkMath, remarkDirective, remarkDirectiveRehype]} rehypePlugins={[rehypeKatex]}>{this.state.mdText}</ReactMarkdown>
             </article>
             <footer>
                 <div className="wrap">
