@@ -1,26 +1,4 @@
 [
-    {
-        "name": "AR/VR Robotics Teleoperation Demo",
-        "description": "A something",
-        "date": "2021",
-        "slug": "ncnr",
-        "tags": [
-            "Unity",
-            "XR",
-            "C++",
-            "ROS"
-        ],
-        "mdFile": "projects/ncnr.md",
-        "showOnFrontpage": false,
-        "headerImage": "blueprint.png",
-        "gallery": [
-            {
-                "image": "coffee.png",
-                "title": "Americano",
-                "desc": "A coffee"
-            }
-        ]
-    },
 
     {
         "name": "Offer Holder Day Activity: Staffs Uni",
@@ -56,64 +34,55 @@
     },
 
     {
-        "name": "RHIB Training Simulator",
-        "description": "A VR-based RHIB training simulator",
-        "date": "2018",
-        "slug": "rhib-sim",
+        "name": "AR/VR Robotics Teleoperation Demo",
+        "description": "A something",
+        "date": "2021",
+        "slug": "ncnr",
         "tags": [
             "Unity",
             "XR",
-            "Simulation",
-            "Games"
+            "C++",
+            "ROS"
         ],
-        "mdFile": "projects/rhib.md",
-        "showOnFrontpage": true,
-        "headerImage": "img/rhib-sim/sea.gif",
+        "mdFile": "projects/ncnr.md",
+        "showOnFrontpage": false,
+        "headerImage": "blueprint.png",
         "gallery": [
             {
-                "image": "img/rhib-sim/rhib1.png",
-                "title": "RHIB Screenshot",
-                "desc": "A screenshot in-game"
-            },
-            {
-                "image": "img/rhib-sim/rhib2.png",
-                "title": "RHIB Screenshot",
-                "desc": "A screenshot in-game"
-            },
-            {
-                "image": "img/rhib-sim/sea.gif",
-                "title": "RHIB Screenshot",
-                "desc": "A screenshot in-game"
+                "image": "coffee.png",
+                "title": "Americano",
+                "desc": "A coffee"
             }
         ]
     },
 
     {
-        "name": "PCG Galaxy Generator",
-        "description": "A procedurally generation approach for galaxies",
-        "date": "2018",
-        "slug": "galaxy-gen",
+        "name": "PCG Model Generator",
+        "description": "An online low-poly asset generator in Three.js",
+        "date": "2019",
+        "slug": "asset-gen",
         "tags": [
-            "Unity",
+            "Web",
+            "Tools",
             "Games",
             "PCG"
         ],
-        "mdFile": "projects/galaxy-gen.md",
+        "mdFile": "projects/asset-gen.md",
         "showOnFrontpage": false,
-        "headerImage": "img/galaxies/galaxy1.png",
+        "headerImage": "img/web/pine.png",
         "gallery": [
             {
-                "image": "img/galaxies/galaxy1.png",
+                "image": "img/web/pine.png",
                 "title": "A Screenshot",
                 "desc": "A screenshot in-game"
             },
             {
-                "image": "img/galaxies/galaxy2.png",
+                "image": "img/web/rock.png",
                 "title": "A Screenshot",
                 "desc": "A screenshot in-game"
             },
             {
-                "image": "img/galaxies/galaxy3.png",
+                "image": "img/web/bush.png",
                 "title": "A Screenshot",
                 "desc": "A screenshot in-game"
             }
@@ -169,36 +138,33 @@
     },
 
     {
-        "name": "Elemental Assault: The Boulder Wars",
-        "description": "A low-poly VR tower defence game",
-        "date": "2017",
-        "slug": "elemental",
+        "name": "RHIB Training Simulator",
+        "description": "A VR-based RHIB training simulator",
+        "date": "2018",
+        "slug": "rhib-sim",
         "tags": [
             "Unity",
+            "XR",
+            "Simulation",
             "Games"
         ],
-        "mdFile": "projects/elemental.md",
-        "showOnFrontpage": false,
-        "headerImage": "img/elemental/elemental1.png",
+        "mdFile": "projects/rhib.md",
+        "showOnFrontpage": true,
+        "headerImage": "img/rhib-sim/sea.gif",
         "gallery": [
             {
-                "image": "img/elemental/elemental1.png",
-                "title": "A Screenshot",
+                "image": "img/rhib-sim/rhib1.png",
+                "title": "RHIB Screenshot",
                 "desc": "A screenshot in-game"
             },
             {
-                "image": "img/elemental/elemental2.png",
-                "title": "A Screenshot",
+                "image": "img/rhib-sim/rhib2.png",
+                "title": "RHIB Screenshot",
                 "desc": "A screenshot in-game"
             },
             {
-                "image": "img/elemental/elemental3.png",
-                "title": "A Screenshot",
-                "desc": "A screenshot in-game"
-            },
-            {
-                "image": "img/elemental/elemental4.png",
-                "title": "A Screenshot",
+                "image": "img/rhib-sim/sea.gif",
+                "title": "RHIB Screenshot",
                 "desc": "A screenshot in-game"
             }
         ]
@@ -240,7 +206,7 @@
             }
         ]
     },
-
+    
     {
         "name": "Adi's Maze Unlimited",
         "description": "A retro 2D 8-bit pacman-like puzzle game",
@@ -316,32 +282,31 @@
     },
 
     {
-        "name": "PCG Model Generator",
-        "description": "An online low-poly asset generator in Three.js",
-        "date": "2019",
-        "slug": "asset-gen",
+        "name": "PCG Galaxy Generator",
+        "description": "A procedurally generation approach for galaxies",
+        "date": "2018",
+        "slug": "galaxy-gen",
         "tags": [
-            "Web",
-            "Tools",
+            "Unity",
             "Games",
             "PCG"
         ],
-        "mdFile": "projects/asset-gen.md",
+        "mdFile": "projects/galaxy-gen.md",
         "showOnFrontpage": false,
-        "headerImage": "img/web/pine.png",
+        "headerImage": "img/galaxies/galaxy1.png",
         "gallery": [
             {
-                "image": "img/web/pine.png",
+                "image": "img/galaxies/galaxy1.png",
                 "title": "A Screenshot",
                 "desc": "A screenshot in-game"
             },
             {
-                "image": "img/web/rock.png",
+                "image": "img/galaxies/galaxy2.png",
                 "title": "A Screenshot",
                 "desc": "A screenshot in-game"
             },
             {
-                "image": "img/web/bush.png",
+                "image": "img/galaxies/galaxy3.png",
                 "title": "A Screenshot",
                 "desc": "A screenshot in-game"
             }
@@ -370,6 +335,42 @@
             },
             {
                 "image": "img/web/login.jpg",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
+    },
+
+    {
+        "name": "Elemental Assault: The Boulder Wars",
+        "description": "A low-poly VR tower defence game",
+        "date": "2017",
+        "slug": "elemental",
+        "tags": [
+            "Unity",
+            "Games"
+        ],
+        "mdFile": "projects/elemental.md",
+        "showOnFrontpage": false,
+        "headerImage": "img/elemental/elemental1.png",
+        "gallery": [
+            {
+                "image": "img/elemental/elemental1.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/elemental/elemental2.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/elemental/elemental3.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/elemental/elemental4.png",
                 "title": "A Screenshot",
                 "desc": "A screenshot in-game"
             }
