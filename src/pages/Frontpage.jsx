@@ -18,7 +18,8 @@ export class Frontpage extends Page
             ...this.state,
             projects: [],
             publications: [],
-            posts: []
+            posts: [],
+            bgs: []
         }
     }
     
@@ -27,6 +28,17 @@ export class Frontpage extends Page
         this.getJson("projects", "projects/projects.json");
         this.getJson("publications", "publications.json");
         this.getJson("posts", "posts/posts.json");
+        this.getJson("bgs", "gif-bgs/bgs.json");
+    }
+
+    getBannerStyle()
+    {
+        const cssUrlWrap = x => `url("${x}")`;
+        console.log(this.bgIndex);
+
+        return {
+            backgroundImage: cssUrlWrap("gif-bgs/trippysea.webp")
+        }
     }
 
     getPictureGrid(data, path)
@@ -85,10 +97,44 @@ export class Frontpage extends Page
         return elements;
     }
 
+    getBanner()
+    {
+        if(!this.state.bgs.length)
+            return null;
+
+        const urlWrap = x => `url("${x}")`;
+        const randItem = this.state.bgs[Math.floor(Math.random() * this.state.bgs.length)];
+
+        return { 
+            item: randItem,
+            style: {
+                backgroundImage: urlWrap(randItem.url)
+            }
+        }
+    }
+
+    getBannerInfo(banner)
+    {
+        if(!banner)
+            return null;
+
+        const bannerUser = banner?.item?.user;
+        const bannerLink = banner?.item?.link;
+
+        return <div className="banner-info">
+            <div className="content">
+                Background by <a href={bannerLink} title={`Background by ${bannerUser} on GIPHY`} target="_blank">{bannerUser}</a>
+            </div>
+        </div>;
+    }
+
     getHeader()
     {
-        return <header>
-            <div className="banner"></div>
+        let banner = this.getBanner();
+
+        return <><header>
+            <div className="banner" style={banner?.style}></div>
+            
             <aside>
                 <h1 className="title-font">Hi there, I'm Ben</h1>
                 <p>I'm a Senior Lecturer at <a href="https://staffs.ac.uk/">Staffordshire University</a>, interested in Full-Stack Applications, Node, Unity, Games Development and Virtual Reality.
@@ -105,13 +151,16 @@ export class Frontpage extends Page
                 <img className="bio-img" src="ben.png" />
             </figure>
         </header>
+        {this.getBannerInfo(banner)}
+        </>
     }
 
     render()
     {
         const data = {
             projects: this.state.projects,
-            publications: this.state.publications
+            publications: this.state.publications,
+            bgs: this.state.bgs
         };
 
         return <DataContext.Provider value={data}>

@@ -1,11 +1,11 @@
 [  
     {
-        "name": "About me",
-        "description": "A little bit",
-        "date": " ",
+        "name": "Benjamin Williams",
+        "description": " ",
+        "date": "About me",
         "slug": "ben",
         "tags": [],
-        "headerImage": "img/ecs-forests/forests.webp",
+        "headerImage": "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExamh4dnM4Y3VsaXIwOWVmaXRzajQ1NDk5enU2OTVxcTU3ZWw5N3E4bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/8WheeZUkUShoDab9QS/giphy.webp",
         "gallery": [],
         "mdFile": "posts/ben.md",
         "showOnFrontpage": false,
