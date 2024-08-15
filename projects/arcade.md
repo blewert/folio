@@ -1,0 +1,5 @@
+The Research Arcade Project is an ongoing research project at the University of Lincoln, using student-developed arcade games, at the University of Lincoln. The project currently involves two custom-built arcade machines situated within the university campus. Students and guests of the university are welcome to interact with the machines, and play games.
+
+As I no longer work at the University of Lincoln, I no longer maintain the cabinets and software on them.
+                    
+My roles within the project involved the design & development of the information site, associated tools, games, blog and the software which resides on the arcade machines themselves. This software included a joypad to keyboard mapping executable, batch scripts for booting in kiosk mode, and a html-based interface. The interface follows a retro 8-bit aesthetic. The background of the interface is a video clip containing advertisements for various events around the university campus, and student work.

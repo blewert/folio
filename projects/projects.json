@@ -1,0 +1,379 @@
+[
+
+    {
+        "name": "Offer Holder Day Activity: Staffs Uni",
+        "description": "An online web-based activity for applicants",
+        "date": "2023",
+        "slug": "ohd-staffs",
+        "tags": [
+            "React",
+            "Web"
+        ],
+        "mdFile": "projects/ohd.md",
+        "showOnFrontpage": true,
+        "headerImage": "img/ohd/header.gif",
+        "gallery": [
+            {
+                "image": "img/ohd/1.png",
+                "title": "The onboarding process",
+                "desc": " "
+            },
+
+            {
+                "image": "img/ohd/2.png",
+                "title": "The web-based IDE",
+                "desc": " "
+            },
+
+            {
+                "image": "img/ohd/3.png",
+                "title": "The finishing up screen",
+                "desc": " "
+            }
+        ]
+    },
+
+    {
+        "name": "AR/VR Robotics Teleoperation Demo",
+        "description": "A something",
+        "date": "2021",
+        "slug": "ncnr",
+        "tags": [
+            "Unity",
+            "XR",
+            "C++",
+            "ROS"
+        ],
+        "mdFile": "projects/ncnr.md",
+        "showOnFrontpage": false,
+        "headerImage": "blueprint.png",
+        "gallery": [
+            {
+                "image": "coffee.png",
+                "title": "Americano",
+                "desc": "A coffee"
+            }
+        ]
+    },
+
+    {
+        "name": "PCG Model Generator",
+        "description": "An online low-poly asset generator in Three.js",
+        "date": "2019",
+        "slug": "asset-gen",
+        "tags": [
+            "Web",
+            "Tools",
+            "Games",
+            "PCG"
+        ],
+        "mdFile": "projects/asset-gen.md",
+        "showOnFrontpage": false,
+        "headerImage": "img/web/pine.png",
+        "gallery": [
+            {
+                "image": "img/web/pine.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/web/rock.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/web/bush.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
+    },
+
+    {
+        "name": "Procedural Settlement Generator",
+        "description": "A novel time-line based approach for settlement generation",
+        "date": "2019",
+        "slug": "settlement-gen",
+        "tags": [
+            "Unity",
+            "Games",
+            "PCG",
+            "Research"
+        ],
+        "mdFile": "projects/settlement-gen.md",
+        "showOnFrontpage": true,
+        "headerImage": "img/settlement-generator/sett1.jpg",
+        "gallery": [
+            {
+                "image": "img/settlement-generator/sett1.jpg",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/settlement-generator/sett2.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/settlement-generator/sett5.jpg",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/settlement-generator/sett6.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/settlement-generator/sett8.jpg",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/settlement-generator/sett9.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
+    },
+
+    {
+        "name": "RHIB Training Simulator",
+        "description": "A VR-based RHIB training simulator",
+        "date": "2018",
+        "slug": "rhib-sim",
+        "tags": [
+            "Unity",
+            "XR",
+            "Simulation",
+            "Games"
+        ],
+        "mdFile": "projects/rhib.md",
+        "showOnFrontpage": true,
+        "headerImage": "img/rhib-sim/sea.gif",
+        "gallery": [
+            {
+                "image": "img/rhib-sim/rhib1.png",
+                "title": "RHIB Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/rhib-sim/rhib2.png",
+                "title": "RHIB Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/rhib-sim/sea.gif",
+                "title": "RHIB Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
+    },
+
+    {
+        "name": "The Research Arcade",
+        "description": "An research project using student-developed WebGL games",
+        "date": "2018",
+        "slug": "research-arcade",
+        "tags": [
+            "Software",
+            "Games",
+            "Research"
+        ],
+        "mdFile": "projects/arcade.md",
+        "showOnFrontpage": false,
+        "headerImage": "img/research-arcade/arcade.png",
+        "gallery": [
+            {
+                "image": "img/research-arcade/arcade.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/research-arcade/arcade2.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/research-arcade/arcade3.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/research-arcade/arcade4.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
+    },
+    
+    {
+        "name": "Adi's Maze Unlimited",
+        "description": "A retro 2D 8-bit pacman-like puzzle game",
+        "date": "2018",
+        "slug": "adis-maze",
+        "tags": [
+            "Web",
+            "Games",
+            "2D"
+        ],
+        "mdFile": "projects/adis-maze.md",
+        "showOnFrontpage": false,
+        "headerImage": "img/adis-maze/adis-maze3.png",
+        "gallery": [
+            {
+                "image": "img/adis-maze/adis-maze1.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/adis-maze/adis-maze2.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/adis-maze/adis-maze3.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/adis-maze/adis-maze4.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
+    },
+
+    {
+        "name": "Qong",
+        "description": "A retro 2D one-player pong clone I whipped up in a night",
+        "date": "2018",
+        "slug": "qong",
+        "tags": [
+            "Unity",
+            "Games",
+            "2D"
+        ],
+        "mdFile": "projects/qong.md",
+        "showOnFrontpage": false,
+        "headerImage": "img/qong/qong3.png",
+        "gallery": [
+            {
+                "image": "img/qong/qong1.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/qong/qong2.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/qong/qong3.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/qong/qong4.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
+    },
+
+    {
+        "name": "PCG Galaxy Generator",
+        "description": "A procedurally generation approach for galaxies",
+        "date": "2018",
+        "slug": "galaxy-gen",
+        "tags": [
+            "Unity",
+            "Games",
+            "PCG"
+        ],
+        "mdFile": "projects/galaxy-gen.md",
+        "showOnFrontpage": false,
+        "headerImage": "img/galaxies/galaxy1.png",
+        "gallery": [
+            {
+                "image": "img/galaxies/galaxy1.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/galaxies/galaxy2.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/galaxies/galaxy3.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
+    },
+
+    {
+        "name": "Enki",
+        "description": "A virtual learning environment for students",
+        "date": "2018",
+        "slug": "enki",
+        "tags": [
+            "Web",
+            "Frontend",
+            "Backend",
+            "Tools"
+        ],
+        "mdFile": "projects/asset-gen.md",
+        "showOnFrontpage": false,
+        "headerImage": "img/web/login.jpg",
+        "gallery": [
+            {
+                "image": "img/web/enki.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/web/login.jpg",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
+    },
+
+    {
+        "name": "Elemental Assault: The Boulder Wars",
+        "description": "A low-poly VR tower defence game",
+        "date": "2017",
+        "slug": "elemental",
+        "tags": [
+            "Unity",
+            "Games"
+        ],
+        "mdFile": "projects/elemental.md",
+        "showOnFrontpage": false,
+        "headerImage": "img/elemental/elemental1.png",
+        "gallery": [
+            {
+                "image": "img/elemental/elemental1.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/elemental/elemental2.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/elemental/elemental3.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            },
+            {
+                "image": "img/elemental/elemental4.png",
+                "title": "A Screenshot",
+                "desc": "A screenshot in-game"
+            }
+        ]
+    }
+]

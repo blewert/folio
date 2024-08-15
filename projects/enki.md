@@ -1,0 +1,1 @@
+Enki is a virtual learning environment developed in part for the University of Lincoln. Enki allows learners to track their progress and complete challenges for virtual points. Enki is currently being used by the institution for a few uses, and is still being developed as part of an ongoing development process.

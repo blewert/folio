@@ -1,0 +1,1 @@
+The procedural galaxy generator is less of a video game, and more of a simulation which users can manually tweak and run. The approach uses Ringermacher's spiral galaxy equation with procedural parameterisation to distribute points (stars) in the shape of a galaxy. Each star is also given a name and metadata (such as the number of planets, and so forth).

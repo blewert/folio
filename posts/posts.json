@@ -1,0 +1,113 @@
+[  
+    {
+        "name": "Benjamin Williams",
+        "description": " ",
+        "date": "About me",
+        "slug": "ben",
+        "tags": [],
+        "headerImage": "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExamh4dnM4Y3VsaXIwOWVmaXRzajQ1NDk5enU2OTVxcTU3ZWw5N3E4bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/8WheeZUkUShoDab9QS/giphy.webp",
+        "gallery": [],
+        "mdFile": "posts/ben.md",
+        "showOnFrontpage": false,
+        "hide": true
+    },
+
+    {
+        "name": "Optimising virtual forestry algorithms",
+        "description": "Making forestry algorithms run in real-time for video games",
+        "date": "2024",
+        "slug": "optimising-forest-algs",
+        "tags": [
+            "Unity", "ECS", "Games", "PCG"
+        ],
+        "headerImage": "img/ecs-forests/forests.webp",
+        "gallery": [
+            {
+                "image": "img/ecs-forests/2-screen-1.jpg",
+                "title": "At t = 100",
+                "desc": " "
+            },
+
+            {
+                "image": "img/ecs-forests/2-screen-2.jpg",
+                "title": "At t = 200",
+                "desc": " "
+            },
+
+            {
+                "image": "img/ecs-forests/2-screen-3.jpg",
+                "title": "At t = 300",
+                "desc": " "
+            },
+
+            {
+                "image": "img/ecs-forests/screen-1.jpg",
+                "title": "A 3D forest",
+                "desc": "A visualised 3D forest using our approach."
+            }
+        ],
+        "mdFile": "posts/optimising-forest-algs.md",
+        "showOnFrontpage": true
+    },
+
+    {
+        "name": "Unity's obscure quaternion functions",
+        "description": "Some fairly unknown (but useful) things in the Quaternion class",
+        "date": "2024",
+        "slug": "unitys-obscure-quaternion-funcs",
+        "tags": [
+            "Unity",
+            "Games"
+        ],
+        "headerImage": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHg3aWRlNm1tcGNtMHl0NTRuNXZmNWliNDM5ajNqZTdnYWE5ejg5eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2CV88JdrUCOYT5Ec8j/giphy.webp",
+        "gallery": [],
+        "mdFile": "posts/unity-quaternions.md",
+        "showOnFrontpage": true
+    },
+
+    {
+        "name": "Breaking React Native apps for fun",
+        "description": "Or how I spent two weeks of my spare time for the promise of free coffee",
+        "date": "2023",
+        "slug": "patching-apks",
+        "tags": [
+            "Hacking", "React Native", "Low Level"
+        ],
+        "headerImage": "img/patching-apks/hack.webp",
+        "gallery": [
+            {
+                "image": "coffee.png",
+                "title": "Americano",
+                "desc": "A coffee"
+            },
+            {
+                "image": "json-codes.png",
+                "title": "Americano",
+                "desc": "A coffee"
+            },
+            {
+                "image": "img/patching-apks/result.gif",
+                "title": "Free coffee stamps!",
+                "desc": "The end result"
+            }
+        ],
+        "mdFile": "posts/patching-apks.md",
+        "showOnFrontpage": true
+    },
+
+    {
+        "name": "Enumerating desktop windows with the Windows API",
+        "description": "A quick guide on iterating desktop windows by z-order",
+        "date": "2021",
+        "slug": "enumerating-windows",
+        "tags": [
+            "C++",
+            "Windows"
+        ],
+        "headerImage": "img/windows/windows.webp",
+        "gallery": [
+        ],
+        "mdFile": "posts/enumerating-windows.md",
+        "showOnFrontpage": true
+    }
+]
