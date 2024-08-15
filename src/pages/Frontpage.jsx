@@ -206,7 +206,7 @@ export class Frontpage extends Page
                 <div className="picture-grid">
                     {this.getBlogPostItems()}
                 </div>
-                <Link to="/posts">
+                <Link to="/blog">
                     <button className="show-all">Show all posts <PiArrowRightBold /></button>
                 </Link>
             </article>
