@@ -184,7 +184,7 @@ export class Frontpage extends Page
                         I'm an academic interested in building software and games. I especially love anything involving computer graphics, full-stack frameworks or low level C++. Building software and fun experiences is my passion.
                     </aside>
                     <Link to="/posts/ben">
-                        <button className="more-button">More about me <PiArrowRightBold/> </button>
+                        <button className="more-button">More <PiArrowRightBold/> </button>
                     </Link>
                 </header>
             </article>
