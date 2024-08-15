@@ -1,5 +1,5 @@
 # Procedural Content Generation
-One area which remains a fascinating research topic to me concerns algorithms for Procedural Content Generation (PCG). PCG largely focuses on the automatic and algorithmic generation of content, for games, media, and much more. For example, the procedural generation of 3D buildings would concern how 3D buildings can be automatically generated, as opposed to a manual design approach. PCG has a number of benefits, but the primary motivator for its use in games regards the lack of a manual design approach -- development times are reduced, a large amount of content can be generated in an instant, etc. Lots of examples can be found on the [/r/proceduralgeneration](https://www.reddit.com/r/proceduralgeneration/?rdt=38901) subreddit if you are interested in some more concrete examples.
+One area which remains a fascinating research topic concerns algorithms for Procedural Content Generation (PCG). PCG largely focuses on the automatic generation of content for games, media, and much more. For example, the procedural generation of 3D buildings would consider how 3D buildings can be automatically generated, as opposed to a manual design approach. PCG has a number of benefits, but the primary motivator for its use in games regards the lack of a manual design approach -- development time is reduced, a large amount of content can be generated in an instant, etc. Lots of examples can be found on the [/r/proceduralgeneration](https://www.reddit.com/r/proceduralgeneration/?rdt=38901) subreddit if you are interested in some more concrete examples.
 
 A number of articles I have published throughout my career focus on novel procedural generation approaches. In fact, in my second year of my bachelor's degree, I started work on my first paper -- the procedural generation of virtual forests. Since then, it has remained an interesting topic to me.
 
@@ -72,24 +72,23 @@ Vector2 RandomPointInUnitSquare()
 
 We could use `RandomPointInUnitSquare()` to generate a number of pseudo-random points and then spawn trees at these sampled positions. This is perhaps the easiest and least-computational method of producing a virtual forest, with respect to the generative process. But does this produce nice, realistic looking forests?
 
-We previous considered this in [our paper](https://www.mdpi.com/2073-431X/9/1/20), and we found that actually it really depends on the perspective you're viewing the forest from. If you're situated within the virtual forest, it doesn't really matter -- pseudo-random uniform distributions produce forests which look believable. However, if you're viewing the distribution from above, it does matter. We found that (amongst other things):
+We previous considered this in [our paper](https://www.mdpi.com/2073-431X/9/1/20), and found that actually it really depends on the perspective you're viewing the forest from. If you're situated within the virtual forest, it doesn't really matter: pseudo-random uniform distributions produce forests which look believable. However, if you're viewing the distribution from above, it does matter. We found that (amongst other things):
 
 - Participants seem to like tightly-clustered distributions with equidistant spacing between tree instances. ($\chi^2 (2) = 10.25, p < 0.05$)
-- Participants favoured medium density distributions, regardless of image perspective -- whether that be first-person ($\chi^2 (2) = 10.92, p < 0.05$), 2D aerial ($\chi^2 (2) = 40.92, p < 0.05$) or 3D aerial ($\chi^2 (2) = 15.75, p < 0.05$).
+- Participants favoured medium density distributions, regardless of image perspective, whether that be first-person ($\chi^2 (2) = 10.92, p < 0.05$), 2D aerial ($\chi^2 (2) = 40.92, p < 0.05$) or 3D aerial ($\chi^2 (2) = 15.75, p < 0.05$).
 - Algorithms which are not pure pseudo-random distributions generally receive a higher degree of perceived believability when viewed from an aerial perspective. 
 
-In our paper, we compared three algorithms: a pseudo-random uniform distribution, a bio-inspired plant competition model and a hybrid approach. We found that generally, the plant competition model produced more believable forestry from a top-down perspective. We found these results by conducting user studies with a large and diverse sample of participants $(n = 86)$. So problem solved right? Plant competition models are the best? Unfortunately not.
+In our paper, we compared three algorithms. These were a pseudo-random uniform distribution, a bio-inspired plant competition model and a hybrid approach. We found that generally, the plant competition model produced more believable forestry from a top-down perspective. We found these results by conducting user studies with a large and diverse sample of participants $(n = 86)$. So problem solved right? Plant competition models are the best? Unfortunately not.
 
 ## Plant competition models and their problems
-A plant competition model essentially involves the individual simulation of each tree in the forest. Plants can grow, spread their seed, age and die within the forest. There is also a simulated level of competition between plants for resources. We find this in nature; plants in close proximity compete for soil moisture and sunlight. Plants which are larger can occlude sunlight to smaller plants, limiting their growth and potentially killing them off. Plant competition models embody this principle: trees in a forest are individual simulated, and compete for resources with each other.
+A plant competition model essentially involves the individual simulation of each tree in the forest. Plants can grow, spread their seed, age and die within the forest. There is also a simulated level of competition between plants for resources. We find this in nature, plants in close proximity compete for soil moisture and sunlight. Plants which are larger can occlude sunlight to smaller plants, limiting their growth and potentially killing them off. Plant competition models embody this principle -- trees in a forest are individually simulated and compete for resources with each other.
 
 The issue with this is the complexity of simulating forests with software:
 
 - Forests potentially have hundreds of thousands of trees in them. Individually simulating this many trees in real-time is a considerable task.
-- For a given tree T, it has to look up potentially every other tree to find trees local to it. This yields a naive time complexity of $\mathcal{O}(n^2)$; which is *painfully* slow.
+- For a given tree $\mathcal{T}_i$ within a set $\mathcal{T}$, it has to look up potentially every other tree $\mathcal{T}_j$, $\forall T_j \in T : j \neq i$ to find trees local to it. This yields a naive time complexity of $\mathcal{O}(n^2)$; which is *painfully* slow.
 
-Plant competition models are slow, but that is fine for ecologists and those interested in simulating them for predicting forest growth. They can press "Simulate" and come back after a few hours; offline simulation is fine in this regard. But what if we want to simulate this in real-time? What if we want to simulate forest growth in real-time, to add to immersive virtual worlds? What if we wanted to simulate forest development in games, which are by their design, real-time applications?
-
+Plant competition models are slow, but that is fine for ecologists and those interested in simulating them for predicting forest growth. They can press "Simulate" and come back after a few hours. Offline simulation is fine in this regard. But what if we want to simulate this in real-time? What if we want to simulate forest growth in real-time, to add to immersive virtual worlds? What if we wanted to simulate forest development in games, which are by their design, real-time applications?
 
 It is with this motivation in mind that my latest paper, submitted to CGVC'24, covers an optimisation strategy in a popular games engine to make this process blisteringly fast. We make the process of simulating forestry possible for real-time applications, which is much needed for not only games, but in ecology research. Gone are the days of waiting hours for a result: we can do it on-the-fly!
 
@@ -101,7 +100,7 @@ It is with this motivation in mind that my latest paper, submitted to CGVC'24, c
 In our recent paper, we looked at optimising an asymmetric plant competition model typically used in generating virtual forestry. Our optimisation strategy focused primarily on two things:
 
 - The utilisation of an Entity-Component System (ECS), a data-oriented approach for vectorising computation and parallelising it easily.
-- A uniform spatial hashing method, in tandem with the ECS.
+- A uniform spatial hashing method in tandem with the ECS.
 
 We chose the popular Unity games engine to implement our approach as it has a fully-fledged ECS built into it, and offers native unmanaged containers (like `NativeParallelMultiMashMap<T, U>` for easy spatial hashing.
 
@@ -192,9 +191,9 @@ These are the steps we took, and the order in which they are executed for each i
 - **Build entity queries & frame Entity-Command Buffer (ECB)**: Before any jobs are run, we build queries for calculating what tree entities are in the world. We also create an ECB to perform parallelised structural changes (such as adding/removing trees) at a later point. Here we also create the frame's `NativeParallelMultiHashMap<int, int>` which will be used in spatial hashing.
 - **AssignIndexToTreeJob**: Tree entities are iterated over via an `IJobEntity` job and assigned a spatial hash according to a uniform grid. Details on this later.
 - **CullDeadTreesJob**: Tree entities are iterated over in a similar fashion. The job removes dead trees if they were flagged as dead in the last frame.
-- **UpdateTreesJob**: Each tree is aged, and flagged for removal if their age > a certain value. 
-- **SpawnTreesJob**: Each tree in the simulation is considered for propogating new trees if their age > a certain value. If this condition is met, a random chance $p$ is considered as $c < t$. If true, the tree creates a new tree entity randomly around its position.
-- **FONCompetitionJob**: For each entity, uses the hashmap for neighbourhood lookups to see what trees are nearby this one. From this it then determines plant competition, thereby removing younger plants occluded from canopy cover.
+- **UpdateTreesJob**: Each tree is aged and flagged for removal if their age > a certain value. 
+- **SpawnTreesJob**: Each tree in the simulation is considered for propogating new trees if their age > a certain value. If this condition is met, a random chance $p$ is considered by a pseudo-random value in the interval $[0, 1]$. If $p < t$, where $t$ is a forest-wide propogation chance, then the a new tree entity is spawned randomly around its position.
+- **FONCompetitionJob**: Run for each entity. The job uses the hashmap for neighbourhood lookups to see what trees are nearby this one. From this, it then determines plant competition, thereby removing younger plants occluded from canopy cover.
 
 ## Spatial hashing
 We also leverage spatial hashing, which is an obvious choice for optimising any type of agent-oriented simulation. Spatial hashing reduces the number of entities considered when calculating some metric. A classic application of this is in the boids algorithm to simulate flocking behaviour. As part of this algorithm, every entity in a boids algorithm has to look at the average heading of other entities in its neighbourhood. For this, it potentially needs to look at every other entity in the simulation. This grows exponentially as more and more agents are considered, with a time complexity of $\mathcal{O}(n^2)$.
@@ -219,7 +218,7 @@ $$
     \mathcal{H}(\mathbf{p}) = I(\mathbf{p})_x + n \cdot I(\mathbf{p})_y
 $$
 
-Where $n$ is the number of grid subdivisions, as discussed earlier. 
+Where $n$ is the number of grid subdivisions as discussed earlier. 
 
 ### The code
 We assign spatial indices every frame, before any jobs run. Future work could perhaps look at optimising this further, as the task of generating a new spatial map every frame can be expensive. The 1D index, $\mathcal{H}(\mathbf{p})$ of a tree's position $\mathbf{p}$ is assigned to the `TreeComponent` attached to each tree entity. This can then be used later to access its local neighbourhood.
@@ -261,7 +260,7 @@ Each tree is simulated individually in our approach. There are a number of steps
 
 We break down the competition into three parts: culling, spawning and competition. There is another step too to spawn an initial amount of trees into the simulation.
 
-In culling, a separate job `CullDeadTreesJob` simply iterates over each tree entity and checks if it is dead. Each tree component has a `bool` member `m_needsCull` which is set to true if the tree dies. If it is true, the `CullDeadTreesJob` actually removes the entity from the simulation by writing to the ECB (Entity Command Buffer). The reason this is done in a separate job is because providing structural changes within ECS is not good: you're always trying to fight doing so. So, if we can play back structural changes at a well-defined point (e.g. removing all entities at a single point in time), then we can help reduce any weird race conditions. Remember, this code is parallelised; many threads are running versions of it all at the same time.
+In culling, a separate job `CullDeadTreesJob` simply iterates over each tree entity and checks if it is dead. Each tree component has a `bool` member `m_needsCull` which is set to true if the tree dies. If it is true, the `CullDeadTreesJob` actually removes the entity from the simulation by writing to the ECB (Entity Command Buffer). The reason this is done in a separate job is because providing structural changes within ECS is not good, you're always trying to fight doing so. So, if we can play back structural changes at a well-defined point (e.g. removing all entities at a single point in time), then we can help reduce any weird race conditions. Keep in mind that this code is parallelised; many threads are running versions of it all at the same time.
 
 Secondly, the `SpawnTreesJob` does a few things:
 
@@ -269,7 +268,7 @@ Secondly, the `SpawnTreesJob` does a few things:
 - It flags the tree for culling by `CullDeadTreesJob` if `tree.m_age > tree.m_deathAge`. This represents the natural death of trees by simply dying of old age.
 - Spawns sapling trees local to the tree in consideration, if `tree.m_age >= tree.m_matureAge`.
 
-For each iteration where a tree's age $a$, new sapling trees are added near the tree if $a > m$ where $m$ is the "mature" age of the tree and a random probability $p$ is satisfied (see earlier). The position of a new tree $\mathbf{p'}$ from the tree's position $\mathbf{p}$ is selected randomly as:
+For each iteration, where a tree's age is $a$, new sapling trees are added near the tree if $a > m$ where $m$ is the "mature" age of the tree and a random probability $p$ is satisfied (see earlier). The position of a new tree $\mathbf{p'}$ from the tree's position $\mathbf{p}$ is selected randomly as:
 
 $$
 \mathbf{p'} = \mathbf{p} + \mathbf{\hat{w}} \cdot d_s
