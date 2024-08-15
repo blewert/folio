@@ -126,6 +126,29 @@
         a:hover
             color: $fg-color
 
+        blockquote
+            margin: 0
+            padding: 0 2rem
+            position: relative
+            border-left: 10px solid $fg-color-2
+
+            &::before, &::after
+                position: absolute
+                font-feature-settings: "ss03"
+                font-size: 900%
+                opacity: 0.5
+
+            &::before
+                content: "\201C"
+                left: 0
+                transform: translate(-150%, 0%)
+
+            &::after
+                content: "\201D"
+                right: 0
+                bottom: 0
+                transform: translate(100%, 50%)
+
         p
             font-size: 14pt
             font-weight: 350
