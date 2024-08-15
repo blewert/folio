@@ -215,6 +215,8 @@ export class Frontpage extends Page
                 <header>
                     <h1 className="title-font">Pinned Projects</h1>
                     <aside>
+                    
+                    
 
                     </aside>
                     <Link to="/projects">
