@@ -51,8 +51,8 @@
     },
 
     {
-        "name": "Unity's obscure quaternion functions",
-        "description": "Some fairly unknown (but useful) things in the Quaternion class",
+        "name": "Unity & Quaternions Part 1: Obscure operators",
+        "description": "Some relatively unknown uses of Unity's quaternion operators, and how they are useful for games",
         "date": "2024",
         "slug": "unitys-obscure-quaternion-funcs",
         "tags": [

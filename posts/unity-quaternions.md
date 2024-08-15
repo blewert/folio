@@ -93,13 +93,13 @@ We can look at the [Unity C# reference repo](https://github.com/Unity-Technologi
 }
 ```
 
-This appears to perform the [standard method](https://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/transforms/index.htm) of multiplying a quaternion $\mathbf{q} \in \mathbb{H}$ against a vector $\mathbf{v} \in \mathbb{R}^3$ as what my professor used to call "a quaternion sandwich". The vector is multiplied by the quaternion $\mathbf{q}$ on the left-hand side, and its conjugate $\mathbf{q}^{-1}$ on the right:
+This appears to perform the [standard method](https://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/transforms/index.htm) of multiplying a quaternion $\mathbf{q} \in \mathbb{H}$ against a vector $\mathbf{v} \in \mathbb{R}^3$ as what my professor at-the-time used to call *"a quaternion sandwich"*. I have been teaching it this way ever since. The vector is multiplied by the quaternion $\mathbf{q}$ on the left-hand side, and its conjugate $\mathbf{q}^{-1}$ on the right:
 
 $$ 
     \Large \mathbf{v}' = \mathbf{q} \mathbf{v} \mathbf{q}^{-1}
 $$
 
-Unity seems to set the real part $w$ to $1$, i.e. $\mathbf{q} = (x, y, z, 1)$. They also seem to follow the way that [the .NET library](https://github.com/dotnet/runtime/blob/5535e31a712343a63f5d7d796cd874e563e5ac14/src/libraries/System.Private.CoreLib/src/System/Numerics/Vector3.cs#L519C13-L537C15) and [the XNA](https://gamedev.stackexchange.com/a/28418) framework compute the transformation, the reduce the number of operations.
+Unity seems to set the real part $w$ to $1$, i.e. $\mathbf{q} = (x, y, z, 1)$. They also seem to follow the way that [the .NET library](https://github.com/dotnet/runtime/blob/5535e31a712343a63f5d7d796cd874e563e5ac14/src/libraries/System.Private.CoreLib/src/System/Numerics/Vector3.cs#L519C13-L537C15) and [the XNA](https://gamedev.stackexchange.com/a/28418) framework compute the transformation, to reduce the number of operations performed.
 
 Put simply: it applies a rotation to the point that we multiply it by. You don't have to worry too much about the maths. This is useful for transforming points relative an object's rotation without the use of a `Transform` component. Also note that Unity will not allow you to multiply `Vector3 * Quaternion`, only `Quaternion * Vector3`. This is because the multiplication is non-commutative, the `Vector3` *must* be on the right-hand side. Normally, if you wanted to find the local `x` axis of an object, you'd use `transform.right` or the lengthier `transform.TransformDirection(Vector3.right)`. But what if you don't have access to a transform and only a rotation? This is where this operator would be pretty useful.
 
@@ -204,7 +204,7 @@ private void OnDrawGizmos()
 }
 ```
 
-When `originalVector` is set to `Vector.left`, for example, you can see the result changing the `angle` value:
+When `originalVector` is set to `Vector.left`, for example, you can see the result of changing the `angle` value:
 
 ![gif](img/quats/rotate-vec.gif)
 
@@ -260,7 +260,7 @@ private void Update()
 }
 ```
 
-There is something to note here, the fact that we combined two rotations into one with the `Quaternion * Quaternion` operator. We haven't yet discussed this, but it will be the next topic of discussion. Also note that we build a new quaternions for the perturbance on $x$ and $y$. These are rotated around the local axes of the gun's rotation; note that `gunRotation * Vector3.up` is used. If we used `Vector3.up` instead, this would apply the rotation in global space -- we want the perturbance to be local to the orientation of the gun, hence these lines.
+There is something to note here, the fact that we combined two rotations into one with the `Quaternion * Quaternion` operator. We haven't yet discussed this, but it will be the next thing to cover. Also note that we build a new quaternions for the perturbance on $x$ and $y$. These are rotated around the local axes of the gun's rotation; note that `gunRotation * Vector3.up` is used. If we used `Vector3.up` instead, this would apply the rotation in global space -- we want the perturbance to be local to the orientation of the gun, hence these lines.
 
 We then combine the two rotations by multiplying them together. These then rotate the vector representing the gun's direction by the perturbance rotation. Then, we draw various lines to visually show what is happening:
 
@@ -277,29 +277,3 @@ And now we have a gun with a variable level of inaccuracy, specified by an angul
 ## Quaternion == Quaternion
 Abc
 
-## Quaternion.Dot
-- Measuring correlates between two rotations
-- Manual equality test if $\mathbf{q} \cdot \mathbf{p} \leqslant 1.0$, which is what `q == p` does.
-- Note double cover and solution for co-terminality of rots. 
-
-## FromToRotation
-- Note use for rotational fixes, e.g. fbx exports where $z = y$
-
-## Quaternion.Normalize / .normalized
-Discuss alternative to Vector3. Show diagram showing non-unit Quaternions.
-- Note lack of Magnitude function but can be calc'd with ` float mag = Mathf.Sqrt(Dot(q, q));`
-
-## Orthonormal basis from quaternion
-Quaternion * Vector3 for u/d/r/f
-
-## Quaternion.LookRotation
-Building rotations looking through a Vector
-
-## Quaternion.RotateTowards
-Common confusion with Slerp()
-
-## Quaternion.Inverse
-World -> Local rotational conversion without transform. Good to gauge relative position of one point against another. Rotational inverse of another.
-
-## Vector3.ProjectOnPlane
-Not quaternion, but still incredibly useful.
