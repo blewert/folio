@@ -21,6 +21,24 @@ body
     to
         opacity: 0%    
 
+@keyframes moveup
+    0%
+        transform: translateY(0) rotate(-25deg)
+        opacity: 0.0
+
+    20%
+        opacity: 1.0
+
+    100%
+        transform: translateY(-500px) rotate(25deg)
+        opacity: 0.0
+
+.emoji
+    position: absolute
+    animation: moveup 5.0s linear
+    opacity: 0.0
+    font-size: 300%
+
 .more-button
     margin-left: 1rem
 main
@@ -94,6 +112,12 @@ main
         .bio-img
             filter: contrast(85%) hue-rotate(0deg) saturate(150%)
             width: 75%
+            transition: 0.2s
+            cursor: pointer
+
+            &:active
+                transform: scale(0.95)
+                box-shadow: 0 0 15px 0 $accent-color
 
 
     aside

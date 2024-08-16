@@ -134,6 +134,29 @@ export class Frontpage extends Page
         </div>;
     }
 
+    onAvatarClick()
+    {
+        const rndValue = "a" + Math.floor(Math.random() * 10000000);
+
+        const emojiElem = document.createElement("div");
+        emojiElem.id = rndValue;
+
+        const texts = ["👋"];
+
+        emojiElem.innerText = texts[Math.floor(Math.random() * texts.length)];
+        emojiElem.classList.add("emoji");
+
+        emojiElem.style.top = `${Math.random() * 80}vh`;
+        emojiElem.style.left = `${ 10 + Math.random() * 70 }vw`;
+        
+        document.body.appendChild(emojiElem);
+
+        window.setTimeout(function()
+        {
+            document.querySelector("#" + rndValue).remove();
+        }, 5000)
+    }
+    
     getHeader()
     {
         let banner = this.getBanner();
@@ -154,7 +177,7 @@ export class Frontpage extends Page
                 </div>
             </aside>
             <figure>
-                <img className="bio-img" src="ben.png" />
+                <img className="bio-img" src="ben.png" onClick={this.onAvatarClick.bind(this)} />
             </figure>
         </header>
         {this.getBannerInfo(banner)}
