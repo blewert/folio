@@ -61,7 +61,23 @@
             "Quaternions"
         ],
         "headerImage": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHg3aWRlNm1tcGNtMHl0NTRuNXZmNWliNDM5ajNqZTdnYWE5ejg5eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2CV88JdrUCOYT5Ec8j/giphy.webp",
-        "gallery": [],
+        "gallery": [
+            {
+                "image": "img/quats/ben-quats.png",
+                "title": "Me next to the plaque!",
+                "desc": " "
+            },
+            {
+                "image": "img/quats/canal.jpg",
+                "title": "The canal",
+                "desc": " "
+            },
+            {
+                "image": "img/quats/formula-in-floor.png",
+                "title": "The ijk formula",
+                "desc": " "
+            }
+        ],
         "mdFile": "posts/unity-quaternions.md",
         "showOnFrontpage": true
     },
