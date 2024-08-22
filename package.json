@@ -43,7 +43,7 @@
     "sass": "^1.57.1",
     "sass-loader": "^13.2.0",
     "style-loader": "^3.3.1",
-    "webpack": "^5.75.0",
+    "webpack": "^5.76.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1",
     "webpack-merge": "^5.8.0"
@@ -55,7 +55,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
     "react-markdown": "^9.0.1",
-    "react-router-dom": "^5.3.4",
+    "react-router-dom": "^6.26.1",
     "react-syntax-highlighter": "^15.5.0",
     "rehype-highlight": "^7.0.0",
     "rehype-katex": "^7.0.0",

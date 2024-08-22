@@ -8,7 +8,7 @@ import Project from "@/pages/Project.jsx";
 
 //Import react
 import React from 'react';
-import { HashRouter, Switch, Link, Route, Redirect } from 'react-router-dom';
+import { HashRouter, Routes, Link, Route } from 'react-router-dom';
 import { createRoot } from "react-dom/client";
 
 import { DataContext } from '@/js/DataContext.js';
@@ -40,26 +40,14 @@ async function main()
 
     root.render(
         <HashRouter>
-            <Switch>
-                <Route exact path="/projects">
-                    <Projects />
-                </Route>
-                <Route exact path="/blog">
-                    <Projects title="Posts" dataKey="posts" dataPath="posts/posts.json" />
-                </Route>
-                <Route path="/projects/:slug">
-                    <Project />
-                </Route>
-                <Route path="/posts/:slug">
-                    <Project dataKey="posts" dataPath="posts/posts.json" />
-                </Route>
-                <Route exact path="/">
-                    <Frontpage />
-                </Route>
-                <Route>
-                    {get404()}
-                </Route>
-            </Switch>
+            <Routes>
+                <Route exact path="/projects" element={<Projects title="Projects" dataKey="projects" dataPath="projects/projects.json" />} />
+                <Route exact path="/projects/:slug" element={<Project />} />
+                <Route exact path="/blog" element={<Projects title="Posts" dataKey="posts" dataPath="posts/posts.json" />} />
+                <Route exact path="/posts/:slug" element={<Project dataKey="posts" dataPath="posts/posts.json" />}/>
+                <Route exact path="/" element={<Frontpage />}/>
+                <Route path="*" element={get404()} />
+            </Routes>
         </HashRouter>);
 }
 

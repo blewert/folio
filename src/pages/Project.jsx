@@ -1,6 +1,6 @@
 import React from "react";
 import { Page } from "./Page.jsx";
-import { Link, withRouter } from "react-router-dom";
+import { Link, Route, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { PiArrowLeftBold } from "react-icons/pi";
 import Lightbox from "yet-another-react-lightbox";
@@ -60,7 +60,9 @@ class Project extends Page
         if(this.state.loadFailed)
             return null;
 
-        const slug = this.props.match?.params?.slug;
+        console.log(this.props);
+
+        const slug = this.props?.params?.slug;
         const data = this.state[this.dataKey].filter(x => x.slug == slug)?.[0];
 
         if(!slug || !data)
@@ -153,4 +155,9 @@ class Project extends Page
     }
 }
 
-export default withRouter(Project);
+export default function(props)
+{
+    let params = useParams();
+
+    return <Project {...props} params={params}/>
+}

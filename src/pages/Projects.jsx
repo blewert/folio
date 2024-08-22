@@ -1,7 +1,7 @@
 import React from "react"
 import { PiArrowLeftBold } from "react-icons/pi";
 const { Page } = require("./Page")
-import { Link } from "react-router-dom";
+import { Link, } from "react-router-dom";
 import { TagsControl } from "@/ui/TagsControl";
 import { DataContext } from "@/js/DataContext";
 
