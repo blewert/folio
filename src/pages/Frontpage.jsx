@@ -8,6 +8,8 @@ import { FaOrcid, FaEnvelope, FaLinkedin, FaGithub, FaThumbtack } from "react-ic
 import _ from "lodash";
 import { Link } from "react-router-dom";
 
+import { motion } from 'framer-motion'
+
 export class Frontpage extends Page
 {
     constructor(props)
@@ -49,18 +51,68 @@ export class Frontpage extends Page
         if(!this.state.loaded || !data.length)
             return <div className="loader"></div>
 
+        const variants = {
+            variants: {
+                hidden: {
+                    opacity: 0
+                },
+
+                show: {
+                    opacity: 1,
+                    transition: {
+                        type: "spring",
+                        staggerChildren: 0.1
+                    }
+                }
+            }
+        }
+
+        const imgVariant = {
+            variants: {
+                hidden: {
+                    opacity: 0,
+                    y: -50
+                },
+
+                show: {
+                    opacity: 1,
+                    y: 0
+                }
+            }
+        };
+
+        const textVariants = {
+            variants: {
+                hidden: {
+                    opacity: 0,
+                    x: -20
+                },
+
+                show: {
+                    opacity: 1,
+                    x: 0
+                }
+            }
+        }
+
+        const anims = {
+            initial: "hidden",
+            whileInView: "show"
+        }
+
+
         return data.filter(x => x.showOnFrontpage).map((x, i) =>
         {
             return <Link to={`/${path}/` + x.slug}>
-                <div className="cell" key={i}>
+                <motion.div {...anims} {...variants} className="cell" key={i}>
                     <div className="pin"><FaThumbtack/></div>
-                    <img src={x.headerImage} />
-                    <h1>{x.name}</h1>
-                    <p>{x.description}</p>
+                    <motion.img {...imgVariant} src={x.headerImage} />
+                    <motion.h1 {...textVariants}>{x.name}</motion.h1>
+                    <motion.p {...textVariants}>{x.description}</motion.p>
                     <div className="tags">
-                        {x.tags.map((y, j) => <span key={i + "-" + y}>{y}</span>)}
+                        {x.tags.map((y, j) => <motion.span {...textVariants} key={i + "-" + y}>{y}</motion.span>)}
                     </div>
-                </div>
+                </motion.div>
             </Link>
         })
     }
@@ -85,16 +137,51 @@ export class Frontpage extends Page
         const pubs = this.state.publications;
         const keys = Object.keys(pubs).sort().reverse();
 
+        const anims = {
+            initial: "hidden",
+            whileInView: "show"
+        };
+
+        const variants = {
+            variants: {
+                hidden: {
+                    opacity: 0
+                },
+
+                show: {
+                    opacity: 1,
+                    transition: {
+                        type: "spring",
+                        staggerChildren: 0.1
+                    }
+                }
+            }
+        }
+
+        const titleVariant = {
+            variants: {
+                hidden: {
+                    opacity: 0,
+                    x: -30
+                },
+
+                show: {
+                    opacity: 1,
+                    x: 0
+                }
+            }
+        }
+
         for(var key of keys)
         {
             const items = pubs[key];
 
-            elements.push(<div>
-                <h2>{key}</h2>
-                {items.map((x, i) => <div className="reference" key={key + "-" + i}>
+            elements.push(<motion.div {...anims} {...variants}>
+                <motion.h2 {...titleVariant}>{key}</motion.h2>
+                {items.map((x, i) => <motion.div {...titleVariant} className="reference" key={key + "-" + i}>
                     <PiBookBold/> {x}
-                </div>)}
-            </div>)
+                </motion.div>)}
+            </motion.div>)
         }
 
         return elements;
@@ -126,12 +213,17 @@ export class Frontpage extends Page
 
         const bannerUser = banner?.item?.user;
         const bannerLink = banner?.item?.link;
+    
+        const bannerAnim = {
+            y: [30, 0],
+            transition: { type: "spring" }
+        };
 
-        return <div className="banner-info">
+        return <motion.div animate={bannerAnim} className="banner-info">
             <div className="content">
                 Background by <a href={bannerLink} title={`Background by ${bannerUser} on GIPHY`} target="_blank">{bannerUser}</a>
             </div>
-        </div>;
+        </motion.div>;
     }
 
     onAvatarClick()
@@ -161,23 +253,71 @@ export class Frontpage extends Page
     {
         let banner = this.getBanner();
 
+        const container = {
+            hidden: { opacity: 0 },
+            show: {
+                opacity: 1,
+                transition: {
+                    staggerChildren: 0.2,
+                    type: "spring",
+                    staggerDirection: 1
+                }
+            }
+        }
+
+        const item = {
+            hidden: { opacity: 0, y: -30, rotate: -2 },
+            show: { opacity: 1, y: 0, rotate: 0 }
+        }
+
+        const socialItem = {
+            hidden: { opacity: 0, x: -30 },
+            show: { opacity: 1, x: 0 }
+        }
+
+        const text = "Hi there, I'm Ben";
+
+        const animProps = (x, i) => {
+            return {
+
+                variants: {
+                    hidden: { opacity: 0, y: -20 },
+                    show: { opacity: 1, y: 0 }
+                },
+
+                transition: {
+                    delay: Math.random() * 1.0,
+                    duration: 0.5
+                }
+            }
+        }
+
+        const spans = text.split("").map((x, i) => {
+            return <motion.span key={i} {...animProps(x, i)}>
+                {x}
+            </motion.span>
+        })
+
         return <><header>
-            <div className="banner" style={banner?.style}></div>
+            <motion.div initial="hidden" whileInView={{opacity: [0, 1]}} transition={{ type: "spring", duration: 4}} className="banner" style={banner?.style}></motion.div>
             
-            <aside>
-                <h1 className="title-font">Hi there, I'm Ben</h1>
-                <p>I'm a Senior Lecturer at <a href="https://staffs.ac.uk/">Staffordshire University</a>, interested in Full-Stack Applications, Node, Unity, Games Development and Virtual Reality.
-                </p>
-                <p className="small">I love low-level stuff, breaking things and other nerdy bits. Play guitar sometimes. Previously Senior Full-stack Dev at <a href="https://lincoln.ac.uk/">University of Lincoln</a>, Dev on <a href="https://ncnr.org.uk/">NCNR</a> projects and Senior Dev at Picselica. My research interests include Virtual Reality, Motion Simulation, Graphics and PCG. I also love UI/UX design and I'm a huge typography nerd.</p>
+            <motion.aside variants={container} initial="hidden" whileInView="show">
+                <motion.h1 variants={item} className="title-font">{spans}</motion.h1>
+                <motion.p variants={item}>
+                    I'm a Senior Lecturer at <a href="https://staffs.ac.uk/">Staffordshire University</a>, interested in Full-Stack Applications, Node, Unity, Games Development and Virtual Reality.
+                </motion.p>
+                <motion.p variants={item} className="small">
+                    I love low-level stuff, breaking things and other nerdy bits. Play guitar sometimes. Previously Senior Full-stack Dev at <a href="https://lincoln.ac.uk/">University of Lincoln</a>, Dev on <a href="https://ncnr.org.uk/">NCNR</a> projects and Senior Dev at Picselica. My research interests include Virtual Reality, Motion Simulation, Graphics and PCG. I also love UI/UX design and I'm a huge typography nerd.
+                </motion.p>
                 <div className="socials">
-                    <a href="https://github.com/blewert/" alt="Github"><FaGithub /></a>
-                    <a href="https://linkedin/in/benjibus/" alt="Linkedin"><FaLinkedin /></a>
-                    <a href="mailto:b.williams@staffs.ac.uk" alt="Email"><FaEnvelope /></a>
-                    <a href="https://orcid.org/0000-0003-4766-9337" alt="OrcID"><FaOrcid /></a>
+                    <motion.a variants={socialItem} href="https://github.com/blewert/" alt="Github"><FaGithub /></motion.a>
+                    <motion.a variants={socialItem} href="https://linkedin/in/benjibus/" alt="Linkedin"><FaLinkedin /></motion.a>
+                    <motion.a variants={socialItem} href="mailto:b.williams@staffs.ac.uk" alt="Email"><FaEnvelope /></motion.a>
+                    <motion.a variants={socialItem} href="https://orcid.org/0000-0003-4766-9337" alt="OrcID"><FaOrcid /></motion.a>
                 </div>
-            </aside>
+            </motion.aside>
             <figure>
-                <img className="bio-img" src="ben.png" onClick={this.onAvatarClick.bind(this)} />
+                <motion.img initial="hidden" whileInView={{ opacity: [0, 1], y: [50, 0] }} transition={{ type: "spring", duration: 0.5 }} className="bio-img" src="ben.png" onClick={this.onAvatarClick.bind(this)} />
             </figure>
         </header>
         {this.getBannerInfo(banner)}
@@ -192,6 +332,21 @@ export class Frontpage extends Page
             bgs: this.state.bgs
         };
 
+        const variants = {
+            hidden: {
+                opacity: 0,
+                x: -20
+            },
+
+            show: {
+                opacity: 1,
+                x: 0,
+                transition: {
+                    staggerChildren: 0.2
+                }
+            }
+        }
+
         return <DataContext.Provider value={data}>
             <main>
                 {/* <div className="upper">
@@ -201,32 +356,32 @@ export class Frontpage extends Page
             {this.getHeader()}
 
             <article>
-                <header className="f-start">
-                    <h1 className="title-font">Bio</h1>
-                    <aside>
+                <motion.header variants={variants} initial="hidden" whileInView="show" className="f-start">
+                    <motion.h1 variants={variants} className="title-font">Bio</motion.h1>
+                        <motion.aside variants={variants}>
                         I'm an academic interested in building software and games. I especially love anything involving computer graphics, full-stack frameworks or low level C++. Building software and fun experiences is my passion.
-                    </aside>
+                    </motion.aside>
                     <Link to="/posts/ben">
-                        <button className="more-button">More <PiArrowRightBold/> </button>
+                        <motion.button variants={variants} className="more-button">More <PiArrowRightBold/> </motion.button>
                     </Link>
-                </header>
+                </motion.header>
             </article>
 
             <hr/>
 
             <article>
-                <header>
-                    <h1 className="title-font">Pinned Posts</h1>
+                <motion.header variants={variants} initial="hidden" whileInView="show">
+                    <motion.h1 variants={variants} className="title-font">Pinned Posts</motion.h1>
                     <aside>
 
                     </aside>
                     <Link to="/blog">
-                        <button>
+                        <motion.button variants={variants}>
                             Show all {this.state.posts.filter(x => !x?.hide).length} posts <PiArrowRightBold />
-                        </button>
+                        </motion.button>
                     </Link>
-                </header>
-                <div className="picture-grid">
+                </motion.header>
+                <div variants={variants} initial="hidden" whileInView="show" className="picture-grid">
                     {this.getBlogPostItems()}
                 </div>
                 <Link to="/blog">
@@ -235,22 +390,21 @@ export class Frontpage extends Page
             </article>
 
             <article>
-                <header>
-                    <h1 className="title-font">Pinned Projects</h1>
+                <motion.header variants={variants} initial="hidden" whileInView="show">
+                    <motion.h1 variants={variants} className="title-font">Pinned Projects</motion.h1>
                     <aside>
                     
                     
 
                     </aside>
                     <Link to="/projects">
-                        <button>
+                        <motion.button variants={variants}>
                             Show all {this.state.projects.length} projects <PiArrowRightBold />
-                        </button>
+                        </motion.button>
                     </Link>
-                </header>
-                <div className="picture-grid">
-                    {this.getProjectGridItems()}
-
+                </motion.header>
+                <div variants={variants} initial="hidden" whileInView="show" className="picture-grid">
+                   {this.getProjectGridItems()}
                 </div>
                 <Link to="/projects">
                     <button className="show-all">Show all projects<PiArrowRightBold/></button>
@@ -260,22 +414,22 @@ export class Frontpage extends Page
                 <hr />
 
             <article>
-                <header>
-                    <h1 className="title-font">Publications</h1>
+                <motion.header variants={variants} initial="hidden" whileInView="show">
+                    <motion.h1 variants={variants} className="title-font">Publications</motion.h1>
                     <aside>
                     </aside>
                         <a href="https://orcid.org/0000-0003-4766-9337" target="_blank">
-                        <button>
+                        <motion.button variants={variants}>
                             ORCID <PiArrowRightBold />
-                        </button>
+                        </motion.button>
                     </a>
 
                     <a href="https://scholar.google.com/citations?user=o9LBoXQAAAAJ&hl=en" target="_blank">
-                        <button>
+                        <motion.button variants={variants}>
                             Scholar profile <PiArrowRightBold />
-                        </button>
+                        </motion.button>
                     </a>
-                </header>
+                </motion.header>
                 <div className="references">
                     {this.getPublicationsList()}
                 </div>
