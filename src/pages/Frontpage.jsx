@@ -8,7 +8,7 @@ import { FaOrcid, FaEnvelope, FaLinkedin, FaGithub, FaThumbtack } from "react-ic
 import _ from "lodash";
 import { Link } from "react-router-dom";
 
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 
 export class Frontpage extends Page
 {
@@ -298,8 +298,15 @@ export class Frontpage extends Page
             </motion.span>
         })
 
+        const style = {
+            ...banner?.style,
+            opacity: this.props.bannerParams.scaleY,
+            scaleX: this.props.bannerParams.offsetY,
+            scaleY: this.props.bannerParams.offsetY
+        };
+
         return <><header>
-            <motion.div initial="hidden" whileInView={{opacity: [0, 1]}} transition={{ type: "spring", duration: 4}} className="banner" style={banner?.style}></motion.div>
+            <motion.div initial="hidden"  className="banner" style={style}></motion.div>
             
             <motion.aside variants={container} initial="hidden" whileInView="show">
                 <motion.h1 variants={item} className="title-font">{spans}</motion.h1>
@@ -454,3 +461,24 @@ export class Frontpage extends Page
         </DataContext.Provider>
     }
 }
+
+
+export function withScroll(Component)
+{
+    return function WrappedComponent(props) {
+        const scroll = useScroll();
+
+        const value = (x, y) => (y - x) / y;
+        const offsetValue = (x, y) => x * y;
+
+        const bannerScaleY = useTransform(scroll.scrollY, latest => Math.max(value(latest, window.innerHeight * 1.25), 0) * 0.5);
+        const bannerOffsetY = useTransform(scroll.scrollY, latest => 1 + Math.min(latest / (window.innerHeight), 1) );
+        
+        return <Component {...props} scroll={scroll} bannerParams={{
+            scaleY: bannerScaleY,
+            offsetY: bannerOffsetY
+        }}/>
+    }
+}
+
+export default withScroll(Frontpage);

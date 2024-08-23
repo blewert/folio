@@ -2,7 +2,7 @@
 import '@/styles/index.sass'
 
 //Import components
-import { Frontpage } from "@/pages/Frontpage.jsx";
+import Frontpage from "@/pages/Frontpage.jsx";
 import { Projects } from "@/pages/Projects.jsx";
 import Project from "@/pages/Project.jsx";
 
