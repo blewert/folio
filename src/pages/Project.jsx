@@ -118,7 +118,9 @@ class Project extends Page
                     <img src={data.headerImage}/>
                     <div className="top">
                         <span>
-                            <button onClick={() => window.history.back()}><PiArrowLeftBold/></button>
+                            <Link to="/">
+                                <button><PiArrowLeftBold/></button>
+                            </Link>
                         </span>
                         <h1>{data.name}</h1>
                         <h2>{data.date}</h2>

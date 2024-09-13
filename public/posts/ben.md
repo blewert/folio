@@ -33,4 +33,4 @@ I enjoy skating, especially on hot days along the North Welsh coast. Had a nasty
 I love music and I'm a big fan of surf rock, bedroom pop, country, shoegaze and indie. Check out my [playlists](https://open.spotify.com/user/31nczj25g7qu4jy4zmdmvszuspvi) if you want to. I love getting involved in reviewing papers for venues I'm fond of, or helping out with organisational efforts. I have a rabbit called Churchill whose favourite food is cabbage. I also love heading out to the US to see my family and consume my own body weight in beef jerky. 🥓
 
 ## Getting in touch
-If you want to talk further, please drop me an message somewhere, I'd love to hear from you. You can click [here](/) to go back to the homepage and 
+If you want to talk further, please drop me an message somewhere, I'd love to hear from you. You can click [here](/) to go back to the homepage and see my contact details. Keep in mind that this portfolio is still being made, so stay tuned! 😀

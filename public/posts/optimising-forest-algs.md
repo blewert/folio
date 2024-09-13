@@ -102,10 +102,10 @@ In our recent paper, we looked at optimising an asymmetric plant competition mod
 - The utilisation of an Entity-Component System (ECS), a data-oriented approach for vectorising computation and parallelising it easily.
 - A uniform spatial hashing method in tandem with the ECS.
 
-We chose the popular Unity games engine to implement our approach as it has a fully-fledged ECS built into it, and offers native unmanaged containers (like `NativeParallelMultiMashMap<T, U>` for easy spatial hashing.
+We chose the popular Unity games engine to implement our approach as it has a fully-fledged ECS built into it, and offers native unmanaged containers (like `NativeParallelMultiHashMap<T, U>` for easy spatial hashing.
 
 ## Burstifying everything
-Unity's ECS works well with Burst, and the Unity C# job scheduling system. Burst is a way of compiling C# down to native instructions, rather than Intermediary Language (IL) bytecode. Why? Put simple, native instructions are *quick*. IL bytecode in comparison requires a run-time or service which interpret the IL code down to native instructions for your particular platform. For example, if your C# code is:
+Unity's ECS works well with Burst, and the Unity C# job scheduling system. Burst is a way of compiling C# down to native instructions, rather than Intermediary Language (IL) bytecode. Why? Put simply, native instructions are *quick*. IL bytecode in comparison requires a run-time or service which interpret the IL code down to native instructions for your particular platform. For example, if your C# code is:
 
 ```cs
 int result = add(10, 15);
@@ -192,13 +192,13 @@ These are the steps we took, and the order in which they are executed for each i
 - **AssignIndexToTreeJob**: Tree entities are iterated over via an `IJobEntity` job and assigned a spatial hash according to a uniform grid. Details on this later.
 - **CullDeadTreesJob**: Tree entities are iterated over in a similar fashion. The job removes dead trees if they were flagged as dead in the last frame.
 - **UpdateTreesJob**: Each tree is aged and flagged for removal if their age > a certain value. 
-- **SpawnTreesJob**: Each tree in the simulation is considered for propogating new trees if their age > a certain value. If this condition is met, a random chance $p$ is considered by a pseudo-random value in the interval $[0, 1]$. If $p < t$, where $t$ is a forest-wide propogation chance, then the a new tree entity is spawned randomly around its position.
+- **SpawnTreesJob**: Each tree in the simulation is considered for propagating new trees if their age > a certain value. If this condition is met, a random chance $p$ is considered by a pseudo-random value in the interval $[0, 1]$. If $p < t$, where $t$ is a forest-wide propagation chance, then the a new tree entity is spawned randomly around its position.
 - **FONCompetitionJob**: Run for each entity. The job uses the hashmap for neighbourhood lookups to see what trees are nearby this one. From this, it then determines plant competition, thereby removing younger plants occluded from canopy cover.
 
 ## Spatial hashing
 We also leverage spatial hashing, which is an obvious choice for optimising any type of agent-oriented simulation. Spatial hashing reduces the number of entities considered when calculating some metric. A classic application of this is in the boids algorithm to simulate flocking behaviour. As part of this algorithm, every entity in a boids algorithm has to look at the average heading of other entities in its neighbourhood. For this, it potentially needs to look at every other entity in the simulation. This grows exponentially as more and more agents are considered, with a time complexity of $\mathcal{O}(n^2)$.
 
-We can reduce this though, by only considering entities which are *approximate* to the entity in consideration. One way of doing this is cutting the world up into grid cells, and assigning each entity an cell index. They can then use this cell index to look up which other entities are in the same cell. This can be done with $\mathcal{O}(1)$ access time with a hashmap, with the hash being the assigned grid cell. This method of quantising a space into grid cells of the same size is known as *uniform* spatial hashing, as subdivision results in grid cells of a uniform length. 
+We can reduce this though, by only considering entities which are *approximate* to the entity in consideration. One way of doing this is cutting the world up into grid cells, and assigning each entity an cell index. They can then use this cell index to look up which other entities are in the same cell. This can be done with $\mathcal{O}(1)$ access time with a hashmap, with the hash being the assigned grid cell. This method of quantising a space into grid cells of the same size is known as *uniform* spatial hashing, as subdivision results in grid cells of a uniform size. 
 
 We hash an entity's position $\mathbf{p} \in \mathbb{R}^2$ (trees are simulated on the $xy$ plane) by firstly computing the grid delta value $\mathbf{g}$ as $\mathbf{g} = \mathbf{w} / n$ where $\mathbf{w}$ is a 2D vector containing the world boundaries. For example, you may have the vector $\mathbf{w} = \left[ 100, 100 \right]^T$ which defines a world size of $100 \times 100$ in-game units. Here $n$ is the number of subdivisions of the uniform grid. For example, in this case, $\mathbf{w} / n$ when $n = 20$ would result in the vector $\mathbf{g} = \left[ 5, 5 \right]^T$ defining the uniform cell size as $5 \times 5$ in-game units.
 
@@ -223,7 +223,7 @@ Where $n$ is the number of grid subdivisions as discussed earlier.
 ### The code
 We assign spatial indices every frame, before any jobs run. Future work could perhaps look at optimising this further, as the task of generating a new spatial map every frame can be expensive. The 1D index, $\mathcal{H}(\mathbf{p})$ of a tree's position $\mathbf{p}$ is assigned to the `TreeComponent` attached to each tree entity. This can then be used later to access its local neighbourhood.
 
-The assigning of spatial indexing is done in a separate job prior to the simulation of an individual tree. The `AssignIndexToTreeJob` job can be seen below.
+Spatial indexing is carried out via a separate job, prior to the simulation of an individual tree. The `AssignIndexToTreeJob` job can be seen below.
 
 ```cs
 
