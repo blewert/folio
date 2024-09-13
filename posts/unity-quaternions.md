@@ -1,5 +1,5 @@
 # Introduction
-Every year, I end up being wheeled out by the university to talk about quaternions. They know that it's one of those concepts that I could about at length with anyone. I love talking about their uniqueness as a mathematical concept, their history, and of course, their application in representing rotations in 3D space. 
+Every year, I end up being wheeled out by the university to talk about quaternions. They know that it's one of those concepts that I could talk about at length with anyone. I love talking about their uniqueness as a mathematical concept, their history, and of course, their application in representing rotations in 3D space. 
 
 ## History
 Any article about quaternions worth its salt simply has to mention the interesting story of their discovery. The history of these four component structures (hence *quat*) is fascinating. For years, Sir William Rowan Hamilton struggled with the task of extending complex numbers up to higher spatial dimensions. How to work with complex numbers in $\mathbb{R}^2$ was well understood at the time, though it wasn't clear if they could generalised to $\mathbb{R}^n$. Complex numbers found utility in describing points on the unit circle in 2D space. But what if we wanted to apply the same principle to 3D? 
@@ -168,19 +168,19 @@ private void OnDrawGizmos()
 //...
 ```
 
-Notices how the local $-x$ (left), $y$ (up) and $z$ (forward) axes are found without using `m_Cube`'s transform at all. Normally you'd expect to see `m_Cube.up` or `m_Cube.TransformDirection(Vector3.up)`. However, this achieves the same result, as can be seen below:
+Notice how the local $-x$ (left), $y$ (up) and $z$ (forward) axes are found without using `m_Cube`'s transform at all. Normally you'd expect to see `m_Cube.up` or `m_Cube.TransformDirection(Vector3.up)`. However, this achieves the same result, as can be seen below:
 
 ![gif](img/quats/quat-vec3.gif)
 
 Remember, the dashed lines are the original untransformed axes and the solid lines are the transformed ones. As you can see, the transformed vectors align with the local axes of the object. 
 
-This is also useful when you want to apply a rotation locally to a vector, perturbing the vector slightly by some angle. You can imagine this as quite literally taking the vector and rotating it about its origin, along some axis. One example of where this might be useful is representing inaccuracy/recoil of bullets when firing. Normally, a raycast is shot directly from the gun outwards. But sometimes, you want to make the gun a little inaccurate and have a "cone" of bullets. This is normally done by:
+This is also useful when you want to apply a rotation locally to a vector, perturbing the vector slightly by some angle. You can imagine this as quite literally taking the vector and rotating it about the origin, along some axis. One example of where this might be useful is representing inaccuracy/recoil of bullets when firing. Normally, a raycast is shot directly from the gun outwards. But sometimes, you want to make the gun a little inaccurate and have a "cone" of bullets. This is normally done by:
 
 - Adding slightly more force upwards/left/right to the bullet upon exit, if physics-based.
 - Adding a random global $x$ amount or $y$ amount to the vector.
 - Or even more accurate, adding local displacement perturbances with `vec + gun.up * Random.Range(-perturbAmount, perturbAmount)` and similar for `gun.right`.
 
-But what if you specifically wanted to restrict the perturbance based on a cone angle? You'd have to use some trigonometry to figure out how much to perturb on $x$ or $y$ on the local axis of the gun such that an cone angle $\theta$ is satisfied. It's not the hardest thing to do, but it can get ugly quickly. Is there a more elegant solution by using quaternions?
+But what if you specifically wanted to restrict the perturbance based on a cone angle? You'd have to use some trigonometry to figure out how much to perturb on $x$ or $y$ on the local axis of the gun such that an cone angle $\theta$ is satisfied. It's not the hardest thing to do, but it can become difficult quickly. Is there a more elegant solution by using quaternions?
 
 Luckily, this can be done fairly easily with `Quaternion * Vector3`. Here is a little example showing what I mean:
 
@@ -264,7 +264,7 @@ private void Update()
 }
 ```
 
-There is something to note here, the fact that we combined two rotations into one with the `Quaternion * Quaternion` operator. We haven't yet discussed this, but it will be the next thing to cover. Also note that we build a new quaternions for the perturbance on $x$ and $y$. These are rotated around the local axes of the gun's rotation; note that `gunRotation * Vector3.up` is used. If we used `Vector3.up` instead, this would apply the rotation in global space -- we want the perturbance to be local to the orientation of the gun, hence these lines.
+There is something to note here, the fact that we combined two rotations into one with the `Quaternion * Quaternion` operator. We haven't yet discussed this, but it will be the next thing to cover. Also note that we build a new quaternion for the perturbance on $x$ and $y$. These are rotated around the local axes of the gun's rotation; note that `gunRotation * Vector3.up` is used. If we used `Vector3.up` instead, this would apply the rotation in global space -- we want the perturbance to be local to the orientation of the gun, hence these lines.
 
 We then combine the two rotations by multiplying them together. These then rotate the vector representing the gun's direction by the perturbance rotation. Then, we draw various lines to visually show what is happening:
 
@@ -339,7 +339,7 @@ This method works well if there is no local translation or scale; after all, the
 ## Manual multiplication
 Although Unity performs the multiplication for us, we can do it ourselves. There ordinarily would be no reason to (and Unity in fact, advises against playing around with the `xyzw` components themselves), but it can be useful to understand what is happening. Unity quaternions are just a 4-tuple, like any ordinary quaternion. These values represent coefficients on the imaginary axes, and its real value $w$. Therefore, computing the multiplication of two quaternions $\mathbf{a}$ and $\mathbf{b}$ into a resultant $\mathbf{a}'$ is as straight-forward as following the multiplicative formulas closely.
 
-The expanded multiplication of two quaternions can get ugly quickly, due to the multiplicative laws associated with quaternions and the number of products you have to compute. Unity uses the following formulas for calculating multiplication of two quaternions $\mathbf{a}$ and $\mathbf{b}$, whose product $\mathbf{a}' = \mathbf{ab}$:
+The expanded multiplication of two quaternions can get ugly quickly, due to the multiplicative laws associated with quaternions and the number of products you have to compute. Unity uses the following formulas for calculating multiplication of two quaternions $\mathbf{a}$ and $\mathbf{b}$, whose product $\mathbf{a}'$ is $\mathbf{a}' = \mathbf{ab}$:
 
 $$
     \mathbf{a}'_x = \mathbf{a}_w \mathbf{b}_x + \mathbf{a}_x  \mathbf{b}_w + \mathbf{a}_y  \mathbf{b}_z - \mathbf{a}_z  \mathbf{b}_y \\

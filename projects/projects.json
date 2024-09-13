@@ -48,11 +48,7 @@
         "showOnFrontpage": false,
         "headerImage": "blueprint.png",
         "gallery": [
-            {
-                "image": "coffee.png",
-                "title": "Americano",
-                "desc": "A coffee"
-            }
+            
         ]
     },
 
